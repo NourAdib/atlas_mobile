@@ -16,6 +16,6 @@ class SplashScreenController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 3000), () {});
 
     //Navigate to the registration page and do not allow the user to return to the splash screen
-    Get.offNamed('/registration');
+    Get.offNamed('/registrationOrLogin');
   }
 }
