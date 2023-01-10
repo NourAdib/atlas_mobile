@@ -200,6 +200,7 @@ class RegistrationScreenController extends GetxController {
           .then((value) {
         SnackBarService.showSuccessSnackbar(
             'Success', 'Registration successful');
+        sendToLoginScreen();
       }).catchError((error) {
         errorHandler(error);
       });
@@ -207,9 +208,11 @@ class RegistrationScreenController extends GetxController {
 
     if ((avatar?.path.toString() ?? '') == '') {
       authServiceRepo.registerWithoutImage(signUpRequest).then((value) {
-        log(value.toString());
+        SnackBarService.showSuccessSnackbar(
+            'Success', 'Registration successful');
+        sendToLoginScreen();
       }).catchError((error) {
-        log(error.toString());
+        errorHandler(error);
       });
     }
   }
@@ -220,5 +223,9 @@ class RegistrationScreenController extends GetxController {
         ? errorResponse['message'][0]
         : errorResponse['message'];
     SnackBarService.showErrorSnackbar('Error', errorMessage);
+  }
+
+  sendToLoginScreen() {
+    Get.offNamed('/login');
   }
 }

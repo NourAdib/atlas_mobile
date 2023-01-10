@@ -1,13 +1,14 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class Shared {
-  static final Shared _singleton = Shared._internal();
+class SharedPreferencesService {
+  static final SharedPreferencesService _singleton =
+      SharedPreferencesService._internal();
 
-  factory Shared() {
+  factory SharedPreferencesService() {
     return _singleton;
   }
 
-  Shared._internal();
+  SharedPreferencesService._internal();
 
   static Future<String> getFromShared(String key) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -17,6 +18,18 @@ class Shared {
   static void setInShared(String key, String value) async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     await storage.write(key: key, value: value);
+  }
+
+  static Future<bool> getIsLoggedIn() {
+    return getFromShared("accessToken").then((value) {
+      return value != "";
+    });
+  }
+
+  static Future<bool> getIsOnboardingDone() {
+    return getFromShared("onboarding").then((value) {
+      return value == "done";
+    });
   }
 
   static void emptMemmory() async {

@@ -1,3 +1,4 @@
+import 'package:atlas_mobile/utility/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class SplashScreenController extends GetxController {
@@ -11,9 +12,19 @@ class SplashScreenController extends GetxController {
     _navigateToHome();
   }
 
-  //Wait for 3 seconds and then navigate to the registration page
+  //Wait for 3 seconds and then navigate to the registration 1page
   _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 3000), () {});
+
+    if (!(await SharedPreferencesService.getIsOnboardingDone())) {
+      Get.offNamed('/onboarding');
+      return;
+    }
+
+    if (await SharedPreferencesService.getIsLoggedIn()) {
+      Get.offNamed('/home');
+      return;
+    }
 
     //Navigate to the registration page and do not allow the user to return to the splash screen
     Get.offNamed('/registrationOrLogin');

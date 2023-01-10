@@ -40,7 +40,8 @@ class LoginScreenController extends GetxController {
     loginRequest.password = passwordTextFieldController.text;
 
     authServiceRepo.login(loginRequest).then((response) {
-      Shared.setInShared('accessToken', response.accessToken.toString());
+      SharedPreferencesService.setInShared(
+          'accessToken', response.accessToken.toString());
       SnackBarService.showSuccessSnackbar('Success', 'Login successful');
     }).catchError((error) {
       switch (error.response.statusCode) {

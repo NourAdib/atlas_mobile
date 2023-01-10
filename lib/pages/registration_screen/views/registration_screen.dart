@@ -107,7 +107,7 @@ class RegistrationScreen extends StatelessWidget {
                   NonFilledFormField(
                     screenWidth: c.width,
                     controller: c.addressTextFieldController,
-                    labelText: 'Address',
+                    labelText: 'Address (Optional)',
                     keyboardType: TextInputType.streetAddress,
                   ),
                   SizedBox(height: c.height * 0.02),
