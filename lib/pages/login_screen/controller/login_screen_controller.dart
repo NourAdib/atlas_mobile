@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:atlas_mobile/services/auth/auth.service.dart';
 import 'package:atlas_mobile/utility/shared_preferences.dart';
+import 'package:atlas_mobile/utility/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -16,6 +17,22 @@ class LoginScreenController extends GetxController {
   TextEditingController passwordTextFieldController = TextEditingController();
 
   login() {
+    if (emailTextFieldController.text.isEmpty) {
+      SnackBarService.showErrorSnackbar('Error', 'Email field cannot be empty');
+      return;
+    }
+
+    if (!emailTextFieldController.text.isEmail) {
+      SnackBarService.showErrorSnackbar('Error', 'Invalid email');
+      return;
+    }
+
+    if (passwordTextFieldController.text.isEmpty) {
+      SnackBarService.showErrorSnackbar(
+          'Error', 'Password field cannot be empty');
+      return;
+    }
+
     final dio = Dio(); // Provide a dio instance
     final authServiceRepo = AuthService(dio);
     final LoginRequest loginRequest = LoginRequest();
@@ -23,51 +40,21 @@ class LoginScreenController extends GetxController {
     loginRequest.password = passwordTextFieldController.text;
 
     authServiceRepo.login(loginRequest).then((response) {
-      log(response.accessToken.toString());
       Shared.setInShared('accessToken', response.accessToken.toString());
-      showSuccessSnackbar('Success', 'Login successful');
+      SnackBarService.showSuccessSnackbar('Success', 'Login successful');
     }).catchError((error) {
       switch (error.response.statusCode) {
         case 401:
-          showErrorSnackbar('Error', 'Invalid email or password');
+          SnackBarService.showErrorSnackbar(
+              'Error', 'Invalid email or password');
           break;
         case 500:
-          showErrorSnackbar('Error', 'Internal server error');
+          SnackBarService.showErrorSnackbar('Error', 'Internal server error');
           break;
         default:
-          showErrorSnackbar('Error', 'Unknown error');
+          SnackBarService.showErrorSnackbar('Error', 'Unknown error');
           break;
       }
     });
-  }
-
-  showErrorSnackbar(String title, String message) {
-    Get.snackbar(
-      title,
-      message,
-      backgroundColor: Colors.red[600],
-      colorText: Colors.white,
-      icon: const Icon(
-        Icons.cancel_outlined,
-        color: Colors.white,
-      ),
-      shouldIconPulse: false,
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  showSuccessSnackbar(String title, String message) {
-    Get.snackbar(
-      title,
-      message,
-      backgroundColor: Colors.greenAccent[400],
-      colorText: Colors.white,
-      icon: const Icon(
-        Icons.check_circle_outline,
-        color: Colors.white,
-      ),
-      shouldIconPulse: false,
-      snackPosition: SnackPosition.BOTTOM,
-    );
   }
 }
