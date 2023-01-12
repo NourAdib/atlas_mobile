@@ -1,9 +1,12 @@
-import 'package:atlas_mobile/pages/home_screen/views/home_screen.dart';
-import 'package:atlas_mobile/pages/login_screen/views/login_screen.dart';
-import 'package:atlas_mobile/pages/onboarding_screen/view/onboarding_screen.dart';
-import 'package:atlas_mobile/pages/registration_or_login_screen/views/registration_or_login_screen.dart';
-import 'package:atlas_mobile/pages/registration_screen/views/registration_screen.dart';
-import 'package:atlas_mobile/pages/splash_screen/views/splash_screen.dart';
+import 'package:atlas_mobile/app/pages/home_screen/views/home_screen.dart';
+import 'package:atlas_mobile/app/pages/login_screen/views/login_screen.dart';
+import 'package:atlas_mobile/app/pages/maps_screen/views/maps_screen.dart';
+import 'package:atlas_mobile/app/pages/new_post_screen/views/new_post_screen.dart';
+import 'package:atlas_mobile/app/pages/onboarding_screen/view/onboarding_screen.dart';
+import 'package:atlas_mobile/app/pages/profile_screen/views/profile_screen.dart';
+import 'package:atlas_mobile/app/pages/registration_or_login_screen/views/registration_or_login_screen.dart';
+import 'package:atlas_mobile/app/pages/registration_screen/views/registration_screen.dart';
+import 'package:atlas_mobile/app/pages/splash_screen/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,9 +42,20 @@ void main() => runApp(
             transition: Transition.rightToLeft,
           ),
           GetPage(
+            name: '/maps',
+            page: () => const MapsScreenScreen(),
+          ),
+          GetPage(
+            name: '/new_post',
+            page: () => const NewPostScreen(),
+          ),
+          GetPage(
+            name: '/profile',
+            page: () => const ProfileScreen(),
+          ),
+          GetPage(
             name: '/home',
             page: () => const HomeScreen(),
-            transition: Transition.zoom,
           ),
         ],
       ),
