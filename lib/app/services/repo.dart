@@ -6,6 +6,8 @@ class Repo {
 
   static const String loginPath = "/auth/login";
   static const String registerPath = "/auth/signup";
+  static const String notificationRegisterationPath = "/notification/signup";
+  static const String feedPath = "/feed";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

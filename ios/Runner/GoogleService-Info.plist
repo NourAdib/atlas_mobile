@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>593317499996-00q83qlo6c4mi6dvjq0d7t7871desoce.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.593317499996-00q83qlo6c4mi6dvjq0d7t7871desoce</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDfnahs2bFup1EtUgIy4AyZdOmdFRWz4P4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>593317499996</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.atlasMobile</string>
+	<key>PROJECT_ID</key>
+	<string>atlas-6183a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>atlas-6183a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:593317499996:ios:a56176c8f8d5f99a690299</string>
+</dict>
+</plist>

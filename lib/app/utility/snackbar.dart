@@ -31,4 +31,19 @@ class SnackBarService {
       snackPosition: SnackPosition.BOTTOM,
     );
   }
+
+  static showNotificationSnackbar(String title, String message) {
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: Colors.blueAccent[400],
+      colorText: Colors.white,
+      icon: const Icon(
+        Icons.notifications_active_outlined,
+        color: Colors.white,
+      ),
+      shouldIconPulse: false,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
 }

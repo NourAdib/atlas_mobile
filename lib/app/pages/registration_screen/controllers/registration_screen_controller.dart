@@ -71,8 +71,6 @@ class RegistrationScreenController extends GetxController {
   }
 
   register() async {
-    log(dobTextFieldController.text);
-    log(avatar?.path.toString() ?? 'No avatar selected');
     if (firstNameTextFieldController.text.isEmpty) {
       SnackBarService.showErrorSnackbar(
           'Error', 'First Name field cannot be empty');
@@ -144,6 +142,7 @@ class RegistrationScreenController extends GetxController {
     DateTime date;
     try {
       date = DateTime.parse(dobTextFieldController.text);
+      log(date.toString());
     } catch (e) {
       SnackBarService.showErrorSnackbar('Error', 'Invalid date');
       return;
@@ -161,16 +160,10 @@ class RegistrationScreenController extends GetxController {
       return;
     }
 
-    if (addressTextFieldController.text.isEmpty) {
-      SnackBarService.showErrorSnackbar(
-          'Error', 'Address field cannot be empty');
-      return;
-    }
-
-    sendRegistrationRequest();
+    sendRegistrationRequest(date);
   }
 
-  sendRegistrationRequest() {
+  sendRegistrationRequest(DateTime date) {
     final dio = Dio(); // Provide a dio instance
     final authServiceRepo = AuthService(dio);
     final SignUpRequest signUpRequest = SignUpRequest();
@@ -178,7 +171,7 @@ class RegistrationScreenController extends GetxController {
     signUpRequest.lastName = lastNameTextFieldController.text;
     signUpRequest.username = usernameTextFieldController.text;
     signUpRequest.email = emailTextFieldController.text;
-    signUpRequest.dateOfBirth = dobTextFieldController.text;
+    signUpRequest.dateOfBirth = date.toString();
     signUpRequest.phoneNumber = phoneNumberTextFieldController.text;
     signUpRequest.password = passwordTextFieldController.text;
     signUpRequest.confirmPassword = confirmPasswordTextFieldController.text;

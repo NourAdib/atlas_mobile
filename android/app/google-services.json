@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "593317499996",
+    "project_id": "atlas-6183a",
+    "storage_bucket": "atlas-6183a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593317499996:android:826efa3bdb85d7f8690299",
+        "android_client_info": {
+          "package_name": "com.example.atlas_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593317499996-i8d53i35c6rp8epu8smdee4d2i9emsv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT5X94MI86rpaeSvDx4v_WI6wsjWyoFQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593317499996-i8d53i35c6rp8epu8smdee4d2i9emsv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
