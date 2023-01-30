@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:atlas_mobile/app/pages/home_screen/controller/home_screen_controller.dart';
+import 'package:atlas_mobile/app/widgets/loading_indicator.dart';
+import 'package:atlas_mobile/app/widgets/topBar/topbar.dart';
 import 'package:atlas_mobile/app/widgets/navbar.dart';
 import 'package:atlas_mobile/main/controller/navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'post_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,6 +19,9 @@ class HomeScreen extends StatelessWidget {
     final NavigationController navigationController =
         Get.put(NavigationController());
     return Scaffold(
+      appBar: const TopBar(
+        pageTile: 'Home',
+      ),
       bottomNavigationBar: Obx(
         () => Navbar(
           currentIndex: navigationController.selectedIndex.value,
@@ -20,18 +29,23 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              const Text('Home Screen'),
-              ElevatedButton(
-                onPressed: () {
-                  c.logout();
-                },
-                child: const Text('Logout'),
-              ),
-            ],
-          ),
+        child: Obx(
+          (() => Center(
+                child: c.isLoading.value
+                    ? const LoadingIndicator()
+                    : RefreshIndicator(
+                        onRefresh: () => c.getFeed(),
+                        child: ListView.builder(
+                          controller: c.scrollController,
+                          itemCount: c.feedPosts.value.length,
+                          itemBuilder: (context, index) {
+                            return PostView(
+                              post: c.feedPosts.value[index],
+                            );
+                          },
+                        ),
+                      ),
+              )),
         ),
       ),
     );

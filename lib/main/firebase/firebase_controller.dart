@@ -42,6 +42,5 @@ class FirebaseController extends GetxController {
         log('Message also contained a notification: ${message.notification?.title}');
       }
     });
-    log('FCM Token $fcmToken');
   }
 }

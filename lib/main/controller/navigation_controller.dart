@@ -8,7 +8,7 @@ class NavigationController extends GetxController {
   //Get the height of the screen
   var height = Get.height;
 
-  var selectedIndex = 0.obs;
+  var selectedIndex = 2.obs;
 
   onItemTap(int index) {
     selectedIndex.value = index;

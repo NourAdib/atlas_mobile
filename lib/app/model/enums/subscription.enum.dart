@@ -1,1 +1,1 @@
-enum SubscriptionPlan { basic, premium }
+enum SubscriptionPlan { Basic, Premium }

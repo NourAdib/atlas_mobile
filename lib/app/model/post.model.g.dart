@@ -11,8 +11,12 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       imageUrl: json['imageUrl'] as String?,
       imageId: json['imageId'] as String?,
       likesCount: json['likesCount'] as int?,
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String?,
       caption: json['caption'] as String?,
       tag: json['tag'] as String?,
@@ -36,8 +40,8 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'imageId': instance.imageId,
       'likesCount': instance.likesCount,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'caption': instance.caption,
       'tag': instance.tag,

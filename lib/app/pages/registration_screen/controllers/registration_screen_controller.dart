@@ -46,7 +46,6 @@ class RegistrationScreenController extends GetxController {
               avatar = await ImagePickerService.pickImageFromCamera();
               noImageSelected.value = false;
               imagePath.value = avatar!.path;
-              log(avatar!.path);
             },
           ),
           ListTile(
@@ -56,7 +55,6 @@ class RegistrationScreenController extends GetxController {
               avatar = await ImagePickerService.pickImageFromGallery();
               noImageSelected.value = false;
               imagePath.value = avatar!.path;
-              log(avatar!.path);
             },
           ),
         ],
@@ -142,7 +140,6 @@ class RegistrationScreenController extends GetxController {
     DateTime date;
     try {
       date = DateTime.parse(dobTextFieldController.text);
-      log(date.toString());
     } catch (e) {
       SnackBarService.showErrorSnackbar('Error', 'Invalid date');
       return;

@@ -16,7 +16,7 @@ part 'user.model.g.dart';
 @JsonSerializable()
 class User {
   @JsonKey(name: 'address')
-  bool? address;
+  String? address;
   @JsonKey(name: 'profilePictureUrl')
   String? profilePictureUrl;
   @JsonKey(name: 'profilePictureId')
@@ -36,9 +36,9 @@ class User {
   @JsonKey(name: 'subscriptionPlan')
   SubscriptionPlan? subscriptionPlan;
   @JsonKey(name: 'createdAt')
-  String? createdAt;
+  DateTime? createdAt;
   @JsonKey(name: 'updatedAt')
-  Visibility? updatedAt;
+  DateTime? updatedAt;
   @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'firstName')

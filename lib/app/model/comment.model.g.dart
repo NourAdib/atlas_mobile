@@ -7,8 +7,12 @@ part of 'comment.model.dart';
 // **************************************************************************
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String?,
       author: json['author'] == null
           ? null
@@ -16,8 +20,8 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
     )..text = json['text'] as String?;
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'text': instance.text,
       'author': instance.author,

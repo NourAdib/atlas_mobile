@@ -7,7 +7,7 @@ part of 'user.model.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      address: json['address'] as bool?,
+      address: json['address'] as String?,
       profilePictureUrl: json['profilePictureUrl'] as String?,
       profilePictureId: json['profilePictureId'] as String?,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
@@ -19,8 +19,12 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       stripeCustomerId: json['stripeCustomerId'] as String?,
       subscriptionPlan: $enumDecodeNullable(
           _$SubscriptionPlanEnumMap, json['subscriptionPlan']),
-      createdAt: json['createdAt'] as String?,
-      updatedAt: $enumDecodeNullable(_$VisibilityEnumMap, json['updatedAt']),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String?,
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
@@ -44,8 +48,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'hasStripAccount': instance.hasStripAccount,
       'stripeCustomerId': instance.stripeCustomerId,
       'subscriptionPlan': _$SubscriptionPlanEnumMap[instance.subscriptionPlan],
-      'createdAt': instance.createdAt,
-      'updatedAt': _$VisibilityEnumMap[instance.updatedAt],
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
@@ -72,13 +76,8 @@ const _$NotificationPreferenceEnumMap = {
 };
 
 const _$SubscriptionPlanEnumMap = {
-  SubscriptionPlan.basic: 'basic',
-  SubscriptionPlan.premium: 'premium',
-};
-
-const _$VisibilityEnumMap = {
-  Visibility.public: 'public',
-  Visibility.private: 'private',
+  SubscriptionPlan.Basic: 'Basic',
+  SubscriptionPlan.Premium: 'Premium',
 };
 
 const _$RoleEnumMap = {

@@ -24,9 +24,9 @@ class Post {
   @JsonKey(name: 'likesCount')
   int? likesCount;
   @JsonKey(name: 'createdAt')
-  String? createdAt;
+  DateTime? createdAt;
   @JsonKey(name: 'updatedAt')
-  String? updatedAt;
+  DateTime? updatedAt;
   @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'caption')

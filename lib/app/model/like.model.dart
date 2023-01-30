@@ -12,9 +12,9 @@ part 'like.model.g.dart';
 @JsonSerializable()
 class Like {
   @JsonKey(name: 'createdAt')
-  String? createdAt;
+  DateTime? createdAt;
   @JsonKey(name: 'updatedAt')
-  String? updatedAt;
+  DateTime? updatedAt;
   @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'likedBy')
