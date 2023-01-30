@@ -23,8 +23,9 @@ class PostImage extends StatelessWidget {
             ),
             child: CachedNetworkImage(
               imageUrl: imageUrl,
+              fadeInDuration: const Duration(milliseconds: 0),
               placeholder: (context, url) => const LoadingIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           )
         : SizedBox(
