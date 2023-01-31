@@ -29,7 +29,7 @@ class _NotificationService implements NotificationService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.0.10:3000';
+    baseUrl ??= 'http://192.168.0.158:3000';
   }
 
   final Dio _dio;
