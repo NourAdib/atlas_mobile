@@ -57,6 +57,12 @@ class User {
   Role? role;
   @JsonKey(name: 'profilePictureExpiryDate')
   String? profilePictureExpiryDate;
+  @JsonKey(name: 'followersCount')
+  int? followersCount;
+  @JsonKey(name: 'followingCount')
+  int? followingCount;
+  @JsonKey(name: 'bio')
+  String? bio;
 
   User({
     this.address,

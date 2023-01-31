@@ -12,16 +12,16 @@ class HomeScreenController extends GetxController {
   double width = Get.width;
   double height = Get.height;
   ScrollController scrollController = ScrollController();
-
   var feedPosts = [].obs;
-
   var isLoading = false.obs;
+  var hasNextPage = false.obs;
+  int page = 1;
 
   @override
   void onInit() {
     super.onInit();
     scrollController.addListener(_scrollListener);
-    getFeed();
+    getFeed(1);
   }
 
   @override
@@ -54,7 +54,7 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  getFeed() async {
+  getFeed(int pageToLoad) async {
     toggleLoading();
     final dio = Dio(); // Provide a dio instance
     final feedService = FeedService(dio);
@@ -62,8 +62,13 @@ class HomeScreenController extends GetxController {
     final accessToken =
         await SharedPreferencesService.getFromShared('accessToken');
 
-    feedService.getFeed('Bearer $accessToken').then((response) {
+    feedService.getFeed('Bearer $accessToken', pageToLoad).then((response) {
       feedPosts.value = response.posts!;
+      hasNextPage.value = response.meta!.hasNextPage!;
+      if (hasNextPage.value) {
+        page++;
+      }
+
       toggleLoading();
     }).catchError((error) {
       log(error.toString());
@@ -77,7 +82,39 @@ class HomeScreenController extends GetxController {
   void _scrollListener() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      log('End of the list');
+      getMorePosts();
+    }
+  }
+
+  reloadFeed() async {
+    page = 1;
+    await getFeed(1);
+  }
+
+  getMorePosts() async {
+    if (hasNextPage.value) {
+      //toggleLoading();
+      final dio = Dio(); // Provide a dio instance
+      final feedService = FeedService(dio);
+
+      final accessToken =
+          await SharedPreferencesService.getFromShared('accessToken');
+
+      feedService.getFeed('Bearer $accessToken', page).then((response) {
+        feedPosts.value.addAll(response.posts!);
+        hasNextPage.value = response.meta!.hasNextPage!;
+        log(feedPosts.value.length.toString());
+        log(feedPosts.value.toString());
+        if (hasNextPage.value) {
+          page++;
+        }
+        if (scrollController.hasClients) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        }
+        //toggleLoading();
+      }).catchError((error) {
+        log(error.toString());
+      });
     }
   }
 }

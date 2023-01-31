@@ -34,7 +34,10 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       dateOfBirth: json['dateOfBirth'] as String?,
       role: $enumDecodeNullable(_$RoleEnumMap, json['role']),
       profilePictureExpiryDate: json['profilePictureExpiryDate'] as String?,
-    );
+    )
+      ..followersCount = json['followersCount'] as int?
+      ..followingCount = json['followingCount'] as int?
+      ..bio = json['bio'] as String?;
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'address': instance.address,
@@ -59,6 +62,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'dateOfBirth': instance.dateOfBirth,
       'role': _$RoleEnumMap[instance.role],
       'profilePictureExpiryDate': instance.profilePictureExpiryDate,
+      'followersCount': instance.followersCount,
+      'followingCount': instance.followingCount,
+      'bio': instance.bio,
     };
 
 const _$GenderEnumMap = {

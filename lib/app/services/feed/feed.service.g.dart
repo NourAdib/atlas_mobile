@@ -50,7 +50,7 @@ class _FeedService implements FeedService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.175:3000';
+    baseUrl ??= 'http://10.0.0.10:3000';
   }
 
   final Dio _dio;
@@ -58,9 +58,12 @@ class _FeedService implements FeedService {
   String? baseUrl;
 
   @override
-  Future<FeedResponse> getFeed(token) async {
+  Future<FeedResponse> getFeed(
+    token,
+    page,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};

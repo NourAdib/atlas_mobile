@@ -1,22 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'notification.service.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-NotificationResponse _$NotificationResponseFromJson(
-        Map<String, dynamic> json) =>
-    NotificationResponse(
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$NotificationResponseToJson(
-        NotificationResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-    };
+part of 'user.service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -24,8 +8,8 @@ Map<String, dynamic> _$NotificationResponseToJson(
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _NotificationService implements NotificationService {
-  _NotificationService(
+class _UserService implements UserService {
+  _UserService(
     this._dio, {
     this.baseUrl,
   }) {
@@ -37,29 +21,26 @@ class _NotificationService implements NotificationService {
   String? baseUrl;
 
   @override
-  Future<NotificationResponse> signupToNotifications(
-    token,
-    fcmToken,
-  ) async {
+  Future<User> getUserProfile(token) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<NotificationResponse>(Options(
-      method: 'POST',
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/notification/signup/${fcmToken}',
+              '/user/profile',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = NotificationResponse.fromJson(_result.data!);
+    final value = User.fromJson(_result.data!);
     return value;
   }
 

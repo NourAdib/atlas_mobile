@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                 child: c.isLoading.value
                     ? const LoadingIndicator()
                     : RefreshIndicator(
-                        onRefresh: () => c.getFeed(),
+                        onRefresh: () => c.reloadFeed(),
                         child: ListView.builder(
                           controller: c.scrollController,
                           itemCount: c.feedPosts.value.length,
