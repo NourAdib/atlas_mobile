@@ -5,10 +5,12 @@ class UserAvatar extends StatelessWidget {
   final String profilePuictureUrl;
   final double height;
   final double width;
-  const UserAvatar(
+  double minRadius = 20;
+  UserAvatar(
       {required this.profilePuictureUrl,
       required this.width,
       required this.height,
+      this.minRadius = 20,
       Key? key})
       : super(key: key);
 
@@ -19,6 +21,7 @@ class UserAvatar extends StatelessWidget {
             backgroundImage: NetworkImage(
               profilePuictureUrl,
             ),
+            minRadius: minRadius,
           )
         : Container(
             width: width,

@@ -21,7 +21,6 @@ class ProfileScreen extends StatelessWidget {
         Get.find<NavigationController>();
 
     final ProfileScreenController c = Get.put(ProfileScreenController());
-
     return Scaffold(
       bottomNavigationBar: Obx(
         () => Navbar(
@@ -92,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
                           height: Get.height * 0.06,
                           width: Get.width * 0.22,
                           decoration: BoxDecoration(
-                            color: Color(0xffFFF6E9),
+                            color: const Color(0xffFFF6E9),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.black, width: 3),
                             // color: isThisOneSelected
@@ -129,15 +128,18 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: GridView.builder(
-                      itemCount: 20,
+                      itemCount: c.postsList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 2,
                         mainAxisSpacing: 2,
                       ),
+                      padding: const EdgeInsets.all(10),
                       itemBuilder: ((context, index) {
-                        return PostPreview();
+                        return PostPreview(
+                          post: c.postsList[index],
+                        );
                       }),
                     ),
                   ),
