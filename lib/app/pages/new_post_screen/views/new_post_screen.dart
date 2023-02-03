@@ -42,7 +42,9 @@ class NewPostScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Color(0xffFFF6E9),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black, width: 3),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black, blurRadius: 2.5)
+                    ],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -74,7 +76,9 @@ class NewPostScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Color(0xffFFF6E9),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black, width: 3),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black, blurRadius: 2.5)
+                    ],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,7 +110,9 @@ class NewPostScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Color(0xffFFF6E9),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black, width: 3),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black, blurRadius: 2.5)
+                    ],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -138,7 +144,9 @@ class NewPostScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Color(0xffFFF6E9),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black, width: 3),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black, blurRadius: 2.5)
+                    ],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
