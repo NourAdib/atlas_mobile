@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:atlas_mobile/app/pages/new_post_screen/controller/new_post_controller.dart';
 import 'package:atlas_mobile/app/widgets/navbar.dart';
 import 'package:atlas_mobile/main/controller/navigation_controller.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class NewPostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final NewPostController c = Get.put(NewPostController());
     final NavigationController navigationController =
         Get.find<NavigationController>();
     return Scaffold(
@@ -33,8 +35,8 @@ class NewPostScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () {
-                  log("Scraps");
+                onTap: () async {
+                  await c.pickImage();
                 },
                 child: Container(
                   width: Get.width * 0.94,
