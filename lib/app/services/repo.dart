@@ -2,7 +2,7 @@
 import 'package:atlas_mobile/app/utility/global.dart';
 
 class Repo {
-  static const String url = "http://10.6.152.189:3000";
+  static const String url = "http://192.168.0.198:3000";
 
   static const String loginPath = "/auth/login";
   static const String registerPath = "/auth/signup";
