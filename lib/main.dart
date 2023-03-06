@@ -14,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  final FirebaseController firebaseControlller = Get.put(FirebaseController());
-  await firebaseControlller.initFirebase().then((value) {
+  final FirebaseController firebaseController = Get.put(FirebaseController());
+  await firebaseController.initFirebase().then((value) {
     log('Firebase Initialized');
   });
   runApp(

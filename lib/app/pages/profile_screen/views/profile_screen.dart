@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'post_preview.dart';
+import 'scrapbook_preview.dart';
 import 'user_details.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -46,79 +47,90 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          log("1");
+                          c.displayUserPosts();
                         },
                         child: Container(
                           height: Get.height * 0.06,
                           width: Get.width * 0.22,
                           decoration: BoxDecoration(
-                            color: const Color(0xffFFF6E9),
+                            color: c.isDisplayingPosts.value
+                                ? const Color(0xffEF694D)
+                                : const Color(0xffFFF6E9),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.black, width: 3),
-
-                            // color: isThisOneSelected
-                            //   ? Color(0xffEF694D)
-                            // : Color(0xffFFF6E9),
-                          ),
-                          child:
-                              SvgPicture.asset('assets/images/scraps_icon.svg'),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          log("2");
-                        },
-                        child: Container(
-                          height: Get.height * 0.06,
-                          width: Get.width * 0.22,
-                          decoration: BoxDecoration(
-                            color: Color(0xffFFF6E9),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.black, width: 3),
-                            // color: isThisOneSelected
-                            //   ? Color(0xffEF694D)
-                            // : Color(0xffFFF6E9),
                           ),
                           child: SvgPicture.asset(
-                              'assets/images/memories_icon.svg'),
+                            'assets/images/scraps_icon.svg',
+                            color: c.isDisplayingPosts.value
+                                ? const Color(0xffffffff)
+                                : const Color(0xff000000),
+                          ),
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                          log("3");
+                          c.displayUserMemories();
                         },
                         child: Container(
                           height: Get.height * 0.06,
                           width: Get.width * 0.22,
                           decoration: BoxDecoration(
-                            color: const Color(0xffFFF6E9),
+                            color: c.isDisplayingMemories.value
+                                ? const Color(0xffEF694D)
+                                : const Color(0xffFFF6E9),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.black, width: 3),
-                            // color: isThisOneSelected
-                            //   ? Color(0xffEF694D)
-                            // : Color(0xffFFF6E9),
                           ),
                           child: SvgPicture.asset(
-                              'assets/images/scrapbooks_icon.svg'),
+                            'assets/images/memories_icon.svg',
+                            color: c.isDisplayingMemories.value
+                                ? const Color(0xffffffff)
+                                : const Color(0xff000000),
+                          ),
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                          log("4");
+                          c.displayUserScrapbooks();
+                        },
+                        child: Container(
+                          height: Get.height * 0.06,
+                          width: Get.width * 0.22,
+                          decoration: BoxDecoration(
+                            color: c.isDisplayingScrapbooks.value
+                                ? const Color(0xffEF694D)
+                                : const Color(0xffFFF6E9),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.black, width: 3),
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images/scrapbooks_icon.svg',
+                            color: c.isDisplayingScrapbooks.value
+                                ? const Color(0xffffffff)
+                                : const Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          c.displayUserEvents();
                         },
                         child: Container(
                           height: Get.height * 0.06,
                           width: Get.width * 0.22,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0xffFFF6E9),
+                            color: c.isDisplayingEvents.value
+                                ? const Color(0xffEF694D)
+                                : const Color(0xffFFF6E9),
                             border: Border.all(color: Colors.black, width: 3),
-                            // color: isThisOneSelected
-                            //   ? Color(0xffEF694D)
-                            // : Color(0xffFFF6E9),
                           ),
-                          child:
-                              SvgPicture.asset('assets/images/events_icon.svg'),
+                          child: SvgPicture.asset(
+                            'assets/images/events_icon.svg',
+                            color: c.isDisplayingEvents.value
+                                ? const Color(0xffffffff)
+                                : const Color(0xff000000),
+                          ),
                         ),
                       ),
                     ],
@@ -126,23 +138,46 @@ class ProfileScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(top: 10),
                   ),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: c.postsList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 2,
-                        mainAxisSpacing: 2,
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      itemBuilder: ((context, index) {
-                        return PostPreview(
-                          post: c.postsList[index],
-                        );
-                      }),
-                    ),
-                  ),
+                  c.isDisplayingPosts.value
+                      ? Expanded(
+                          child: GridView.builder(
+                            itemCount: c.postsList.length,
+                            controller: c.postsScrollController,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 2,
+                              mainAxisSpacing: 2,
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            itemBuilder: ((context, index) {
+                              return PostPreview(
+                                post: c.postsList[index],
+                              );
+                            }),
+                          ),
+                        )
+                      : const SizedBox(),
+                  c.isDisplayingScrapbooks.value
+                      ? Expanded(
+                          child: GridView.builder(
+                            itemCount: c.scrapbooksList.length,
+                            controller: c.scrapbookScrollController,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              crossAxisSpacing: 2,
+                              mainAxisSpacing: 2,
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            itemBuilder: ((context, index) {
+                              return ScrapbookPreview(
+                                scrapbook: c.scrapbooksList[index],
+                              );
+                            }),
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
       )),
