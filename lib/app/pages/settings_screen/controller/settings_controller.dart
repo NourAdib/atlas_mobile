@@ -1,11 +1,14 @@
 import 'dart:developer';
 
 import 'package:atlas_mobile/app/pages/settings_screen/views/FAQs/faqs_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/contact_us/contact_us_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/notificaions/notification_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/privacy_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/subscription/subscription_screen.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsController extends GetxController {
   //Get the width of the screen
@@ -41,14 +44,16 @@ class SettingsController extends GetxController {
   }
 
   goToContactUs() {
-    log('contact us');
+    Get.to(() => const ContactUsScreen());
   }
 
   goToSubscriptionSettings() {
-    log('subscription settings');
+    Get.to(() => const SubscriptionScreen());
   }
 
-  test() {
-    log('test');
+  launchURL(String uri) async {
+    if (!await launchUrl(Uri.parse(uri))) {
+      throw Exception('Could not launch $uri');
+    }
   }
 }

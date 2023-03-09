@@ -17,6 +17,8 @@ class Repo {
   static const String reportPost = "/report/report-post";
   static const String postById = "/post";
   static const String notificationPreference = "/user/notification-preferences";
+  static const String subscribe = "/payment/subscribe";
+  static const String unsubscribe = "/payment/unsubscribe";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',
