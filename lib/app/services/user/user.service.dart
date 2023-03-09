@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -16,4 +13,9 @@ abstract class UserService {
 
   @GET(Repo.userProfile)
   Future<User> getUserProfile(@Header('Authorization') String token);
+
+  @PATCH(Repo.notificationPreference)
+  Future<User> updateNotificationPreference(
+      @Header('Authorization') String token,
+      @Query('preference') String preference);
 }

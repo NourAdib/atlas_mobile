@@ -40,6 +40,15 @@ Map<String, dynamic> _$UserScrapbookResponseToJson(
       'meta': instance.meta,
     };
 
+CommentDto _$CommentDtoFromJson(Map<String, dynamic> json) => CommentDto(
+      text: json['text'] as String?,
+    );
+
+Map<String, dynamic> _$CommentDtoToJson(CommentDto instance) =>
+    <String, dynamic>{
+      'text': instance.text,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -86,6 +95,33 @@ class _PostService implements PostService {
   }
 
   @override
+  Future<Post> getPostById(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Post.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<UserScrapbookResponse> getUserScrapbooks(
     token,
     page,
@@ -109,6 +145,89 @@ class _PostService implements PostService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UserScrapbookResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Like> likePost(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Like>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/like/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Like.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Like> unlikePost(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Like>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/unlike/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Like.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Post> commentPost(
+    token,
+    postId,
+    commentDto,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(commentDto.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/comment/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Post.fromJson(_result.data!);
     return value;
   }
 

@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/services/post/post.service.dart';
 import 'package:atlas_mobile/app/services/user/user.service.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
+import 'package:atlas_mobile/app/widgets/post_details/post_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -224,5 +226,29 @@ class ProfileScreenController extends GetxController {
         log(error.toString());
       });
     }
+  }
+
+  getCurrentPost(String postId) async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    return postService
+        .getPostById('Bearer $accessToken', postId)
+        .then((response) {
+      toggleLoading();
+      return response;
+    }).catchError((error) {
+      log(error.toString());
+    });
+  }
+
+  openPostDetails(String postId) async {
+    Post detailedPost = await getCurrentPost(postId);
+    Get.to(() =>
+        PostDetailsScreen(post: detailedPost, height: height, width: width));
   }
 }

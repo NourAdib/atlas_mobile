@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/pages/home_screen/controller/home_screen_controller.dart';
+import 'package:atlas_mobile/app/widgets/post_details/post_details.dart';
 import 'package:atlas_mobile/app/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +20,8 @@ class PostView extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        log('PostView: onTap');
+        Get.to(() =>
+            PostDetailsScreen(post: post, height: c.height, width: c.width));
       },
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -53,8 +55,7 @@ class PostView extends StatelessWidget {
                 Row(
                   children: [
                     UserAvatar(
-                      profilePuictureUrl:
-                          post.postedBy?.profilePictureUrl ?? '',
+                      profilePictureUrl: post.postedBy?.profilePictureUrl ?? '',
                       width: c.width * 0.1,
                       height: c.height * 0.1,
                     ),

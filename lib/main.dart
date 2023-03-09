@@ -8,6 +8,7 @@ import 'package:atlas_mobile/app/pages/onboarding_screen/view/onboarding_screen.
 import 'package:atlas_mobile/app/pages/profile_screen/views/profile_screen.dart';
 import 'package:atlas_mobile/app/pages/registration_or_login_screen/views/registration_or_login_screen.dart';
 import 'package:atlas_mobile/app/pages/registration_screen/views/registration_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/settings_screen.dart';
 import 'package:atlas_mobile/app/pages/splash_screen/views/splash_screen.dart';
 import 'package:atlas_mobile/main/firebase/firebase_controller.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,10 @@ void main() async {
         GetPage(
           name: '/home',
           page: () => const HomeScreen(),
+        ),
+        GetPage(
+          name: '/settings',
+          page: () => const SettingsScreen(),
         ),
       ],
     ),

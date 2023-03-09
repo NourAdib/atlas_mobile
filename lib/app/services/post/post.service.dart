@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:atlas_mobile/app/model/like.model.dart';
 import 'package:atlas_mobile/app/model/meta.model.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/scrapbook.model.dart';
@@ -20,9 +21,25 @@ abstract class PostService {
   Future<UserPostsResponse> getUserPosts(
       @Header('Authorization') String token, @Query('page') int page);
 
+  @GET('${Repo.postById}/{postId}')
+  Future<Post> getPostById(
+      @Header('Authorization') String token, @Path('postId') String postId);
+
   @GET(Repo.userScrapbooks)
   Future<UserScrapbookResponse> getUserScrapbooks(
       @Header('Authorization') String token, @Query('page') int page);
+
+  @POST('${Repo.like}/{postId}')
+  Future<Like> likePost(
+      @Header('Authorization') String token, @Path('postId') String postId);
+
+  @DELETE('${Repo.unlike}/{postId}')
+  Future<Like> unlikePost(
+      @Header('Authorization') String token, @Path('postId') String postId);
+
+  @POST('${Repo.comment}/{postId}')
+  Future<Post> commentPost(@Header('Authorization') String token,
+      @Path('postId') String postId, @Body() CommentDto commentDto);
 }
 
 @JsonSerializable()
@@ -53,4 +70,16 @@ class UserScrapbookResponse {
   factory UserScrapbookResponse.fromJson(Map<String, dynamic> json) =>
       _$UserScrapbookResponseFromJson(json);
   Map<String, dynamic> toJson() => _$UserScrapbookResponseToJson(this);
+}
+
+@JsonSerializable()
+class CommentDto {
+  @JsonKey(name: 'text')
+  String? text;
+
+  CommentDto({this.text});
+
+  factory CommentDto.fromJson(Map<String, dynamic> json) =>
+      _$CommentDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$CommentDtoToJson(this);
 }

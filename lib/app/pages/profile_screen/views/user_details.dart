@@ -39,7 +39,7 @@ class UserDetails extends StatelessWidget {
                 UserAvatar(
                   height: Get.height * 0.1,
                   width: Get.height * 0.1,
-                  profilePuictureUrl: user.profilePictureUrl ?? '',
+                  profilePictureUrl: user.profilePictureUrl ?? '',
                   minRadius: 35,
                 ),
                 Container(

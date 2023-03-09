@@ -11,6 +11,12 @@ class Repo {
   static const String userProfile = "/user/profile";
   static const String userPosts = "/post/user-posts";
   static const String userScrapbooks = "/post/scrapbook/user-scrapbooks";
+  static const String like = "/post/like";
+  static const String unlike = "/post/unlike";
+  static const String comment = "/post/comment";
+  static const String reportPost = "/report/report-post";
+  static const String postById = "/post";
+  static const String notificationPreference = "/user/notification-preferences";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

@@ -8,6 +8,9 @@ class NonFilledFormField extends StatelessWidget {
     required this.labelText,
     this.obscureText = false,
     this.hintText = '',
+    this.height = 0,
+    this.maxLine = 1,
+    this.maxLength = 100,
     this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
@@ -17,43 +20,83 @@ class NonFilledFormField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final TextInputType keyboardType;
+  final double height;
+  final int maxLine;
+  final int maxLength;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: screenWidth * 0.8,
-      child: TextFormField(
-        keyboardType: keyboardType,
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
+    return maxLine == 1
+        ? SizedBox(
+            width: screenWidth * 0.8,
+            child: TextFormField(
+              keyboardType: keyboardType,
+              controller: controller,
+              obscureText: obscureText,
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 3.0,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 3.0,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                labelText: labelText,
+                hintText: hintText,
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ))
+        : SizedBox(
+            width: screenWidth * 0.8,
+            child: TextFormField(
+              keyboardType: keyboardType,
+              controller: controller,
+              obscureText: obscureText,
+              maxLines: maxLine,
+              maxLength: maxLength,
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 3.0,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 3.0,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                labelText: labelText,
+                hintText: hintText,
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
-            borderSide: BorderSide(
-              color: Colors.black,
-              width: 3.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: Colors.black,
-              width: 3.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-          labelText: labelText,
-          hintText: hintText,
-          labelStyle: const TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

@@ -1,6 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.service.dart';
+part of 'report.service.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ReportPostDto _$ReportPostDtoFromJson(Map<String, dynamic> json) =>
+    ReportPostDto(
+      postId: json['id'] as String?,
+      reason: json['reason'] as String?,
+    );
+
+Map<String, dynamic> _$ReportPostDtoToJson(ReportPostDto instance) =>
+    <String, dynamic>{
+      'id': instance.postId,
+      'reason': instance.reason,
+    };
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +24,8 @@ part of 'user.service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UserService implements UserService {
-  _UserService(
+class _ReportService implements ReportService {
+  _ReportService(
     this._dio, {
     this.baseUrl,
   }) {
@@ -21,53 +37,30 @@ class _UserService implements UserService {
   String? baseUrl;
 
   @override
-  Future<User> getUserProfile(token) async {
+  Future<PostReport> reportPost(
+    token,
+    reportPostDto,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
-      method: 'GET',
+    _data.addAll(reportPostDto.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PostReport>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/user/profile',
+              '/report/report-post',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = User.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<User> updateNotificationPreference(
-    token,
-    preference,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'preference': preference};
-    final _headers = <String, dynamic>{r'Authorization': token};
-    _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
-      method: 'PATCH',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/user/notification-preferences',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = User.fromJson(_result.data!);
+    final value = PostReport.fromJson(_result.data!);
     return value;
   }
 
