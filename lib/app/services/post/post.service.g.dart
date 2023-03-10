@@ -60,7 +60,7 @@ class _PostService implements PostService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.6.130.39:3000';
+    baseUrl ??= 'http://192.168.1.175:3000';
   }
 
   final Dio _dio;
@@ -76,7 +76,7 @@ class _PostService implements PostService {
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<UserPostsResponse>(Options(
       method: 'GET',
@@ -103,7 +103,7 @@ class _PostService implements PostService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
       method: 'GET',
@@ -130,7 +130,7 @@ class _PostService implements PostService {
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UserScrapbookResponse>(Options(
       method: 'GET',
@@ -157,7 +157,7 @@ class _PostService implements PostService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<Like>(Options(
       method: 'POST',
@@ -184,7 +184,7 @@ class _PostService implements PostService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<Like>(Options(
       method: 'DELETE',

@@ -42,7 +42,7 @@ class _SubscriptionService implements SubscriptionService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.6.130.39:3000';
+    baseUrl ??= 'http://192.168.1.175:3000';
   }
 
   final Dio _dio;
@@ -55,7 +55,7 @@ class _SubscriptionService implements SubscriptionService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<SubscriptionResponse>(Options(
       method: 'POST',
@@ -79,7 +79,7 @@ class _SubscriptionService implements SubscriptionService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UnsubscribeResponse>(Options(
       method: 'POST',

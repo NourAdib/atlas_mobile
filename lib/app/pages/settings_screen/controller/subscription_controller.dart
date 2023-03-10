@@ -47,11 +47,14 @@ class SubscriptionController extends GetxController {
 
     subscriptionService.subscribe('Bearer $accessToken').then((response) {
       subscriptionResponse = response;
+      getUserProfile();
       launchURL(subscriptionResponse.url!);
       toggleLoading();
     }).catchError((error) {
       log(error.toString());
     });
+
+    SnackBarService.showSuccessSnackbar('Success', 'You have subscribed');
   }
 
   unsubscribe() async {
@@ -64,10 +67,13 @@ class SubscriptionController extends GetxController {
 
     subscriptionService.unsubscribe('Bearer $accessToken').then((response) {
       setIsPremium();
+      getUserProfile();
       toggleLoading();
     }).catchError((error) {
       log(error.toString());
     });
+
+    SnackBarService.showSuccessSnackbar('Success', 'You have unsubscribed');
   }
 
   toggleLoading() {

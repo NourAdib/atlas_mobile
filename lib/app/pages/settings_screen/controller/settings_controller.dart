@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:atlas_mobile/app/pages/settings_screen/views/FAQs/faqs_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/account_settings/account_settings.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/contact_us/contact_us_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/notificaions/notification_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/privacy_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/security/security_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/subscription/subscription_screen.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/utility/snackbar.dart';
@@ -24,11 +26,11 @@ class SettingsController extends GetxController {
   }
 
   goToAccountSettings() {
-    log('account settings');
+    Get.to(() => const AccountSettings());
   }
 
   goToSecuritySettings() {
-    log('security settings');
+    Get.to(() => const SecurityScreen());
   }
 
   goToPrivacySettings() {
