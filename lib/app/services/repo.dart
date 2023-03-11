@@ -10,6 +10,7 @@ class Repo {
   static const String feedPath = "/feed";
   static const String userProfile = "/user/profile";
   static const String userPosts = "/post/user-posts";
+  static const String memoriesPath = "/memory/proximity-memories";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

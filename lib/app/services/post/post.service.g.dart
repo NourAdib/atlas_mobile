@@ -33,7 +33,7 @@ class _PostService implements PostService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.6.152.189:3000';
+    baseUrl ??= 'http://192.168.0.198:3000';
   }
 
   final Dio _dio;

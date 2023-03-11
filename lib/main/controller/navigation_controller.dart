@@ -1,7 +1,11 @@
 import 'dart:developer';
+import 'package:atlas_mobile/app/pages/maps_screen/controller/ar_screen_controller.dart';
 import 'package:get/get.dart';
 
 class NavigationController extends GetxController {
+  //Get controller for AR screen
+  final ArScreenController arC = Get.put(ArScreenController());
+
   //Get the width of the screen
   var width = Get.width;
 
@@ -11,6 +15,7 @@ class NavigationController extends GetxController {
   var selectedIndex = 2.obs;
 
   onItemTap(int index) {
+    arC.exitAR();
     selectedIndex.value = index;
     switch (index) {
       case 0:
