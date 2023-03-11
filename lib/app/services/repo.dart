@@ -25,6 +25,22 @@ class Repo {
   static const String updateGender = "/user/gender";
   static const String updateRole = "/user/role";
   static const String deleteUser = "/user/delete";
+  static const String searchUser = "/user/search";
+  static const String userById = "/user/profile";
+  static const String followingsPosts = "/post/following-scraps";
+  static const String followingsScrapbooks = "/post/following-scrapbooks";
+  static const String requestFollow = "/follow/request-follow";
+  static const String acceptFollow = "/follow/accept-follow";
+  static const String rejectFollow = "/follow/reject-follow";
+  static const String unfollow = "/follow/unfollow";
+  static const String getFollowers = "/follow/followers";
+  static const String getFollowing = "/follow/following";
+  static const String getFollowRequestsReceived =
+      "/follow/follow-requests-received";
+  static const String getFollowRequestsSent = "/follow/follow-requests-sent";
+  static const String reportUser = "/report/report-user";
+  static const String blockUser = "/block/block-user";
+  static const String unblockUser = "/block/unblock-user";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

@@ -118,6 +118,22 @@ Map<String, dynamic> _$DeleteUserResponseToJson(DeleteUserResponse instance) =>
       'message': instance.message,
     };
 
+UserSearchResponse _$UserSearchResponseFromJson(Map<String, dynamic> json) =>
+    UserSearchResponse(
+      users: (json['data'] as List<dynamic>?)
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      meta: json['meta'] == null
+          ? null
+          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UserSearchResponseToJson(UserSearchResponse instance) =>
+    <String, dynamic>{
+      'data': instance.users,
+      'meta': instance.meta,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -346,6 +362,60 @@ class _UserService implements UserService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = DeleteUserResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserSearchResponse> searchUser(
+    token,
+    searchTerm,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'searchTerm': searchTerm};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserSearchResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/search',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserSearchResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<User> getPostById(
+    token,
+    userId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/profile/${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = User.fromJson(_result.data!);
     return value;
   }
 

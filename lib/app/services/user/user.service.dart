@@ -5,6 +5,8 @@ import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
+import '../../model/meta.model.dart';
+
 part 'user.service.g.dart';
 
 @RestApi(baseUrl: Repo.url)
@@ -43,6 +45,14 @@ abstract class UserService {
 
   @DELETE(Repo.deleteUser)
   Future<DeleteUserResponse> deleteUser(@Header('Authorization') String token);
+
+  @GET(Repo.searchUser)
+  Future<UserSearchResponse> searchUser(@Header('Authorization') String token,
+      @Query('searchTerm') String searchTerm);
+
+  @GET('${Repo.userById}/{userId}')
+  Future<User> getPostById(
+      @Header('Authorization') String token, @Path('userId') String userId);
 }
 
 @JsonSerializable()
@@ -156,4 +166,19 @@ class DeleteUserResponse {
   factory DeleteUserResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteUserResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DeleteUserResponseToJson(this);
+}
+
+@JsonSerializable()
+class UserSearchResponse {
+  @JsonKey(name: 'data')
+  List<User>? users;
+
+  @JsonKey(name: 'meta')
+  Meta? meta;
+
+  UserSearchResponse({this.users, this.meta});
+
+  factory UserSearchResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserSearchResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$UserSearchResponseToJson(this);
 }

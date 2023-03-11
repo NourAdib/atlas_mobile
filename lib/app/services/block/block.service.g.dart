@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'report.service.dart';
+part of 'block.service.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReportDto _$ReportDtoFromJson(Map<String, dynamic> json) => ReportDto(
-      id: json['id'] as String?,
-      reason: json['reason'] as String?,
+UnblockUserResponse _$UnblockUserResponseFromJson(Map<String, dynamic> json) =>
+    UnblockUserResponse(
+      message: json['message'] as String?,
     );
 
-Map<String, dynamic> _$ReportDtoToJson(ReportDto instance) => <String, dynamic>{
-      'id': instance.id,
-      'reason': instance.reason,
+Map<String, dynamic> _$UnblockUserResponseToJson(
+        UnblockUserResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
     };
 
 // **************************************************************************
@@ -22,8 +23,8 @@ Map<String, dynamic> _$ReportDtoToJson(ReportDto instance) => <String, dynamic>{
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _ReportService implements ReportService {
-  _ReportService(
+class _BlockService implements BlockService {
+  _BlockService(
     this._dio, {
     this.baseUrl,
   }) {
@@ -35,58 +36,56 @@ class _ReportService implements ReportService {
   String? baseUrl;
 
   @override
-  Future<PostReport> reportPost(
+  Future<Block> blockUser(
     token,
-    reportPostDto,
+    userId,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    _data.addAll(reportPostDto.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<PostReport>(Options(
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Block>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/report/report-post',
+              '/block/block-user/${userId}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = PostReport.fromJson(_result.data!);
+    final value = Block.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<PostReport> reportUser(
+  Future<UnblockUserResponse> unblockUser(
     token,
-    reportPostDto,
+    userId,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    _data.addAll(reportPostDto.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<PostReport>(Options(
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UnblockUserResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/report/report-user',
+              '/block/unblock-user/${userId}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = PostReport.fromJson(_result.data!);
+    final value = UnblockUserResponse.fromJson(_result.data!);
     return value;
   }
 

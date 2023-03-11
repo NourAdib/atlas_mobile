@@ -13,7 +13,7 @@ class PostPreview extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final ProfileScreenController c = Get.find<ProfileScreenController>();
+  final ProfileScreenController c = Get.put(ProfileScreenController());
 
   @override
   Widget build(BuildContext context) {

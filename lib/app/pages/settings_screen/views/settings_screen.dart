@@ -41,6 +41,8 @@ class SettingsScreen extends StatelessWidget {
               SettingsOption(
                   title: 'Notification Settings',
                   onTap: c.goToNotificationSettings),
+              SettingsOption(
+                  title: 'Follow Requests', onTap: c.goToFollowRequests),
               SettingsOption(title: 'FAQs', onTap: c.goToFAQs),
               SettingsOption(title: 'Contact Us', onTap: c.goToContactUs),
               SettingsOption(

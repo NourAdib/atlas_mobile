@@ -10,6 +10,7 @@ import 'package:atlas_mobile/app/pages/registration_or_login_screen/views/regist
 import 'package:atlas_mobile/app/pages/registration_screen/views/registration_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/settings_screen.dart';
 import 'package:atlas_mobile/app/pages/splash_screen/views/splash_screen.dart';
+import 'package:atlas_mobile/app/pages/user_search_screen/views/user_search_screen.dart';
 import 'package:atlas_mobile/main/firebase/firebase_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,6 +70,10 @@ void main() async {
         GetPage(
           name: '/settings',
           page: () => const SettingsScreen(),
+        ),
+        GetPage(
+          name: '/userSearch',
+          page: () => const UserSearchScreen(),
         ),
       ],
     ),

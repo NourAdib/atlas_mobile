@@ -37,7 +37,13 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
     )
       ..followersCount = json['followersCount'] as int?
       ..followingCount = json['followingCount'] as int?
-      ..bio = json['bio'] as String?;
+      ..bio = json['bio'] as String?
+      ..followers = (json['followers'] as List<dynamic>?)
+          ?.map((e) => Follow.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..blockedBy = (json['blockedBy'] as List<dynamic>?)
+          ?.map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'address': instance.address,
@@ -65,6 +71,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'followersCount': instance.followersCount,
       'followingCount': instance.followingCount,
       'bio': instance.bio,
+      'followers': instance.followers,
+      'blockedBy': instance.blockedBy,
     };
 
 const _$GenderEnumMap = {

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:atlas_mobile/app/pages/settings_screen/views/FAQs/faqs_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/account_settings/account_settings.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/contact_us/contact_us_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/follow_requests/follow_requests_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/notificaions/notification_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/privacy_screen.dart';
 import 'package:atlas_mobile/app/pages/settings_screen/views/security/security_screen.dart';
@@ -51,6 +52,10 @@ class SettingsController extends GetxController {
 
   goToSubscriptionSettings() {
     Get.to(() => const SubscriptionScreen());
+  }
+
+  goToFollowRequests() {
+    Get.to(() => const FollowRequestsScreen());
   }
 
   launchURL(String uri) async {

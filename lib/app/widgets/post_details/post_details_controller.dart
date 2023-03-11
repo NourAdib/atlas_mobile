@@ -311,9 +311,9 @@ class PostDetailsScreenController extends GetxController {
     final accessToken =
         await SharedPreferencesService.getFromShared('accessToken');
 
-    ReportPostDto reportPostDto = ReportPostDto();
-    reportPostDto.postId = post.id;
-    reportPostDto.reason = reportReason;
+    ReportDto reportPostDto = ReportDto();
+    reportPostDto.id = post.id;
+    reportPostDto.reason = reportReason.split('.').last;
 
     reportService
         .reportPost('Bearer $accessToken', reportPostDto)

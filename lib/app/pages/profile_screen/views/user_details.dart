@@ -8,8 +8,20 @@ import 'package:get/get.dart';
 
 class UserDetails extends StatelessWidget {
   final User user;
+  final bool isLocked;
+  final bool sentFollowRequest;
+  final bool isLoggedInUser;
+  final String followRequestStatus;
+  final Function()? onLockTap;
+  final Function()? moreUserOptionsTap;
   const UserDetails({
     required this.user,
+    this.isLocked = false,
+    this.sentFollowRequest = false,
+    this.isLoggedInUser = true,
+    this.followRequestStatus = '',
+    this.onLockTap,
+    this.moreUserOptionsTap,
     Key? key,
   }) : super(key: key);
 
@@ -69,7 +81,41 @@ class UserDetails extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                Text("${user.firstName ?? ''} ${user.lastName ?? ''}"),
+                isLocked
+                    ? InkWell(
+                        onTap: () {
+                          onLockTap!();
+                        },
+                        child: Container(
+                          width: Get.width * 0.22,
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: const Color(0xffEF694D),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 3,
+                            ),
+                          ),
+                          child: sentFollowRequest
+                              ? Text(
+                                  followRequestStatus.capitalizeFirst ?? '',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text(
+                                  'Follow',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                        ),
+                      )
+                    : Text("${user.firstName ?? ''} ${user.lastName ?? ''}"),
                 const SizedBox(
                   height: 15,
                 ),
@@ -116,12 +162,16 @@ class UserDetails extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      user.bio ?? '',
-                      maxLines: 4,
-                      style: const TextStyle(
-                        fontSize: 12,
+                    SizedBox(
+                      height: Get.height * 0.04,
+                      child: Text(
+                        user.bio ?? '',
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                   ],
@@ -129,25 +179,55 @@ class UserDetails extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: const Color(0xffEF694D),
-                    radius: Get.height * 0.02,
-                    child: SvgPicture.asset(
-                      width: Get.width * 0.07,
-                      'assets/images/edit_icon.svg',
+          !isLoggedInUser
+              ? InkWell(
+                  onTap: () {
+                    moreUserOptionsTap!();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: const Color(0xffEF694D),
+                            radius: Get.height * 0.02,
+                            child: SvgPicture.asset(
+                              width: Get.width * 0.07,
+                              'assets/images/report_user_icon.svg',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                )
+              : InkWell(
+                  onTap: () {
+                    //Get.to(() => EditProfileScreen());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: const Color(0xffEF694D),
+                            radius: Get.height * 0.02,
+                            child: SvgPicture.asset(
+                              width: Get.width * 0.07,
+                              'assets/images/edit_icon.svg',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
         ],
       ),
     );

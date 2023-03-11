@@ -40,6 +40,18 @@ abstract class PostService {
   @POST('${Repo.comment}/{postId}')
   Future<Post> commentPost(@Header('Authorization') String token,
       @Path('postId') String postId, @Body() CommentDto commentDto);
+
+  @GET('${Repo.followingsPosts}/{userId}')
+  Future<UserPostsResponse> getFollowingsPosts(
+      @Header('Authorization') String token,
+      @Path('userId') String userId,
+      @Query('page') int page);
+
+  @GET('${Repo.followingsScrapbooks}/{userId}')
+  Future<UserScrapbookResponse> getFollowingsScrapbooks(
+      @Header('Authorization') String token,
+      @Path('userId') String userId,
+      @Query('page') int page);
 }
 
 @JsonSerializable()
