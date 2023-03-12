@@ -1,5 +1,12 @@
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
+
+import '../../../utility/get_location.dart';
 
 class MapsScreenController extends GetxController {
   //Get the width of the screen
@@ -7,30 +14,29 @@ class MapsScreenController extends GetxController {
 
   //Get the height of the screen
   var height = Get.height;
+  Position? currentPosition;
+  var markers = <Marker>[];
+  final mapController = MapController();
 
-  var selectedIndex = 0.obs;
-
-  onItemTap(int index) {
-    selectedIndex.value = index;
-    switch (index) {
-      case 0:
-        log('Maps Screen');
-        Get.toNamed('/maps');
-        break;
-      case 1:
-        log('Search Screen');
-        break;
-      case 2:
-        log('Home Screen');
-        break;
-      case 3:
-        log('New Post Screen');
-        break;
-      case 4:
-        log('Profile Screen');
-        break;
-      default:
-        log('Home Screen');
+  getMemories(isLoading) async {
+    toggleLoading(isLoading);
+    if (markers.isNotEmpty) {
+      markers.clear();
     }
+    currentPosition = await LocationService.getCurrentLocation();
+    markers.add(Marker(
+      width: 80,
+      height: 80,
+      point: LatLng(currentPosition!.latitude, currentPosition!.longitude),
+      builder: (ctx) => Container(
+        key: const Key('blue'),
+        child: const FlutterLogo(),
+      ),
+    ));
+    toggleLoading(isLoading);
+  }
+
+  void toggleLoading(isLoading) {
+    isLoading.value = !isLoading.value;
   }
 }

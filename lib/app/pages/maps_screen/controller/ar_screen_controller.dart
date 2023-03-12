@@ -7,8 +7,8 @@ import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
-import 'package:atlas_mobile/app/model/memory.model.dart';
 import 'package:atlas_mobile/app/services/memories/memories.service.dart';
+import 'package:atlas_mobile/app/utility/get_location.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:atlas_mobile/app/widgets/memory_details/memory_details.dart';
@@ -39,29 +39,7 @@ class ArScreenController extends GetxController {
   }
 
   Future<void> getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = await LocationService.getCurrentLocation();
   }
 
   Future<void> createNodes() async {

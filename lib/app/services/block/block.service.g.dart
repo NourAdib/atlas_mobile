@@ -28,7 +28,7 @@ class _BlockService implements BlockService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.175:3000';
+    baseUrl ??= 'http://192.168.0.198:3000';
   }
 
   final Dio _dio;
