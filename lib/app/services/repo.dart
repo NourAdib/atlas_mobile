@@ -2,6 +2,7 @@
 import 'package:atlas_mobile/app/utility/global.dart';
 
 class Repo {
+
   static const String url = "http://192.168.1.175:3000";
 
   static const String loginPath = "/auth/login";
@@ -10,6 +11,7 @@ class Repo {
   static const String feedPath = "/feed";
   static const String userProfile = "/user/profile";
   static const String userPosts = "/post/user-posts";
+  static const String memoriesPath = "/memory/proximity-memories";
   static const String userScrapbooks = "/post/scrapbook/user-scrapbooks";
   static const String like = "/post/like";
   static const String unlike = "/post/unlike";
