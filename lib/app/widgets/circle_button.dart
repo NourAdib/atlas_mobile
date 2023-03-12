@@ -28,7 +28,7 @@ class CircleButton extends StatelessWidget {
         onPressed();
       },
       style: ButtonStyle(
-        shape: MaterialStateProperty.all(CircleBorder()),
+        shape: MaterialStateProperty.all(const CircleBorder()),
         backgroundColor: MaterialStateProperty.all<Color>(
           color,
         ),

@@ -326,14 +326,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_3d_obj:
-    dependency: "direct main"
-    description:
-      name: flutter_3d_obj
-      sha256: "6553727f37cccb1bc80b30ffa5f937d89a5d803843991b852683af8593a4f39d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   flutter_blurhash:
     dependency: transitive
     description:

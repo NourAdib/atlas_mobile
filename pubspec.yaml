@@ -28,7 +28,6 @@ dependencies:
   ar_flutter_plugin: ^0.7.3
   geolocator: ^9.0.2
   vector_math: ^2.1.4
-  flutter_3d_obj: ^0.0.6
 
 dev_dependencies:
   flutter_test:

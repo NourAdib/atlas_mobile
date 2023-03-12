@@ -4,7 +4,6 @@ import 'package:atlas_mobile/app/pages/home_screen/views/home_screen.dart';
 import 'package:atlas_mobile/app/pages/login_screen/views/login_screen.dart';
 import 'package:atlas_mobile/app/pages/maps_screen/views/ar_screen.dart';
 import 'package:atlas_mobile/app/pages/maps_screen/views/maps_screen.dart';
-import 'package:atlas_mobile/app/pages/memory_screen/views/memory_screen.dart';
 import 'package:atlas_mobile/app/pages/new_post_screen/views/new_post_screen.dart';
 import 'package:atlas_mobile/app/pages/onboarding_screen/view/onboarding_screen.dart';
 import 'package:atlas_mobile/app/pages/profile_screen/views/profile_screen.dart';
@@ -68,7 +67,6 @@ void main() async {
           name: '/home',
           page: () => const HomeScreen(),
         ),
-        GetPage(name: '/memory', page: () => const MemoryScreen()),
       ],
     ),
   );

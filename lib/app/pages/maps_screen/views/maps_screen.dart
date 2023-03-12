@@ -1,5 +1,5 @@
 import 'package:atlas_mobile/app/pages/maps_screen/views/ar_screen.dart';
-import 'package:atlas_mobile/app/pages/maps_screen/views/switch_button.dart';
+import 'package:atlas_mobile/app/widgets/circle_button.dart';
 import 'package:atlas_mobile/app/widgets/navbar.dart';
 import 'package:atlas_mobile/app/widgets/topBar/topbar.dart';
 import 'package:atlas_mobile/main/controller/navigation_controller.dart';

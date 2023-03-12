@@ -7,8 +7,11 @@ import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
+import 'package:atlas_mobile/app/model/memory.model.dart';
 import 'package:atlas_mobile/app/services/memories/memories.service.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
+import 'package:atlas_mobile/app/utility/snackbar.dart';
+import 'package:atlas_mobile/app/widgets/memory_details/memory_details.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -33,7 +36,6 @@ class ArScreenController extends GetxController {
 
   void exitAR() {
     arSessionManager?.dispose();
-    if (memories.isNotEmpty) memories.clear();
   }
 
   Future<void> getCurrentLocation() async {
@@ -66,7 +68,7 @@ class ArScreenController extends GetxController {
     for (var i = 0; i < memories.length; i++) {
       ARNode newNode = ARNode(
         type: NodeType.webGLB,
-        name: memories[i].id,
+        name: i.toString(),
         uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
         scale: Vector3(0.1, 0.1, 0.1),
         rotation: Vector4(1.0, 0.0, 0.0, 0.0),
@@ -108,7 +110,10 @@ class ArScreenController extends GetxController {
         .then((response) {
       memories.value.addAll(response.memories!);
       toggleLoading(isLoading);
-      dev.log("memories: ${memories.length}");
+      if (memories.isEmpty) {
+        SnackBarService.showErrorSnackbar(
+            "Memories not found", "No nearby memories found");
+      }
     }).catchError((error) {
       dev.log(error.response.toString());
     });
@@ -136,7 +141,7 @@ class ArScreenController extends GetxController {
 
     this.arObjectManager!.onNodeTap = (nodes) {
       exitAR();
-      Get.toNamed("/memory", arguments: nodes.first);
+      Get.to(() => MemoryDetailsScreen(memory: memories[int.parse(nodes[0])]));
     };
 
     createNodes();

@@ -19,10 +19,6 @@ abstract class MemoriesService {
   Future<MemoriesResponse> getMemories(
       @Header('Authorization') String token, @Body() MemoriesRequest request);
 
-  @GET('/memory/{id}')
-  Future<Memory> getMemoryById(
-      @Header('Authorization') String token, @Path('id') String id);
-
   @DELETE('/memory/{id}')
   Future<void> deleteMemory(
       @Header('Authorization') String token, @Path('id') String id);

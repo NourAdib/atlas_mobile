@@ -1,6 +1,5 @@
-import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:atlas_mobile/app/pages/maps_screen/controller/ar_screen_controller.dart';
-import 'package:atlas_mobile/app/pages/maps_screen/views/switch_button.dart';
+import 'package:atlas_mobile/app/widgets/circle_button.dart';
 import 'package:atlas_mobile/app/widgets/loading_indicator.dart';
 import 'package:atlas_mobile/app/widgets/navbar.dart';
 import 'package:atlas_mobile/app/widgets/topBar/topbar.dart';
