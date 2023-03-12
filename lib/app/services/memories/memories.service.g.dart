@@ -44,7 +44,7 @@ class _MemoriesService implements MemoriesService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.198:3000';
+    baseUrl ??= 'http://192.168.1.175:3000';
   }
 
   final Dio _dio;
@@ -88,7 +88,7 @@ class _MemoriesService implements MemoriesService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'DELETE',
       headers: _headers,
@@ -101,7 +101,6 @@ class _MemoriesService implements MemoriesService {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

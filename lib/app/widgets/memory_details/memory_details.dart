@@ -62,7 +62,7 @@ class MemoryDetailsScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           UserAvatar(
-                              profilePuictureUrl:
+                              profilePictureUrl:
                                   memory.user?.profilePictureUrl ?? '',
                               width: c.width * 0.1,
                               height: c.height * 0.1),
