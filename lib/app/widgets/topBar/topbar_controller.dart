@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'package:atlas_mobile/app/utility/shared_preferences.dart';
-import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:get/get.dart';
 
 class TopBarController extends GetxController {
@@ -11,9 +8,9 @@ class TopBarController extends GetxController {
   var height = Get.height;
 
   goToSettingsPage() {
-    SharedPreferencesService.setInShared('accessToken', '');
+    /* SharedPreferencesService.setInShared('accessToken', '');
     SnackBarService.showSuccessSnackbar('Success', 'Logout successful');
-    Get.offNamed('/registrationOrLogin');
-    //Get.to("/settings");
+    Get.offNamed('/registrationOrLogin'); */
+    Get.toNamed("/settings");
   }
 }

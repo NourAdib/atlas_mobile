@@ -6,10 +6,13 @@ import 'package:get/get.dart';
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String pageTile;
+  final bool hasBackButton;
 
   const TopBar({
+    super.key,
     required this.pageTile,
     this.height = kToolbarHeight,
+    this.hasBackButton = false,
   });
 
   @override
@@ -25,11 +28,31 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SvgPicture.asset(
-              'assets/images/logo.svg',
-              semanticsLabel: 'Atlas Logo',
-              width: c.width * 0.15,
-            ),
+            hasBackButton
+                ? InkWell(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      width: c.width * 0.15,
+                      height: c.width * 0.15,
+                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF182335),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/images/back_icon.svg',
+                        color: const Color(0xFFF5F5F5),
+                        width: 35,
+                        height: 35,
+                      ),
+                    ),
+                  )
+                : SvgPicture.asset(
+                    'assets/images/logo.svg',
+                    semanticsLabel: 'Atlas Logo',
+                    width: c.width * 0.15,
+                  ),
             Expanded(
               child: Container(
                 alignment: Alignment.center,
@@ -48,25 +71,31 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () => c.goToSettingsPage(),
-              child: Container(
-                width: c.width * 0.15,
-                height: c.width * 0.15,
-                margin: const EdgeInsets.symmetric(horizontal: 3),
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF182335),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: SvgPicture.asset(
-                  'assets/images/settings_icon.svg',
-                  color: const Color(0xFFF5F5F5),
-                  width: 35,
-                  height: 35,
-                ),
-              ),
-            ),
+            hasBackButton
+                ? SvgPicture.asset(
+                    'assets/images/logo.svg',
+                    semanticsLabel: 'Atlas Logo',
+                    width: c.width * 0.15,
+                  )
+                : InkWell(
+                    onTap: () => c.goToSettingsPage(),
+                    child: Container(
+                      width: c.width * 0.15,
+                      height: c.width * 0.15,
+                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF182335),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/images/settings_icon.svg',
+                        color: const Color(0xFFF5F5F5),
+                        width: 35,
+                        height: 35,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

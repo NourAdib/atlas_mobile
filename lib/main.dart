@@ -9,14 +9,16 @@ import 'package:atlas_mobile/app/pages/onboarding_screen/view/onboarding_screen.
 import 'package:atlas_mobile/app/pages/profile_screen/views/profile_screen.dart';
 import 'package:atlas_mobile/app/pages/registration_or_login_screen/views/registration_or_login_screen.dart';
 import 'package:atlas_mobile/app/pages/registration_screen/views/registration_screen.dart';
+import 'package:atlas_mobile/app/pages/settings_screen/views/settings_screen.dart';
 import 'package:atlas_mobile/app/pages/splash_screen/views/splash_screen.dart';
+import 'package:atlas_mobile/app/pages/user_search_screen/views/user_search_screen.dart';
 import 'package:atlas_mobile/main/firebase/firebase_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  final FirebaseController firebaseControlller = Get.put(FirebaseController());
-  await firebaseControlller.initFirebase().then((value) {
+  final FirebaseController firebaseController = Get.put(FirebaseController());
+  await firebaseController.initFirebase().then((value) {
     log('Firebase Initialized');
   });
   runApp(
@@ -66,6 +68,14 @@ void main() async {
         GetPage(
           name: '/home',
           page: () => const HomeScreen(),
+        ),
+        GetPage(
+          name: '/settings',
+          page: () => const SettingsScreen(),
+        ),
+        GetPage(
+          name: '/userSearch',
+          page: () => const UserSearchScreen(),
         ),
       ],
     ),

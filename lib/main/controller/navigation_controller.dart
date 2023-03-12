@@ -22,8 +22,7 @@ class NavigationController extends GetxController {
         Get.toNamed('/maps');
         break;
       case 1:
-        log('Search Screen');
-        Get.toNamed('home');
+        Get.toNamed('/userSearch');
         break;
       case 2:
         Get.toNamed('/home');

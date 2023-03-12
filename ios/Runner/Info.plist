@@ -51,5 +51,10 @@
 		<string>Upload image from camera for user avatar</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Post videos</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>mailto</string>
+			<string>tel</string>
+		</array>
 	</dict>
 </plist>

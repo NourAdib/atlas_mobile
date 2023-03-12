@@ -22,6 +22,33 @@ Map<String, dynamic> _$UserPostsResponseToJson(UserPostsResponse instance) =>
       'meta': instance.meta,
     };
 
+UserScrapbookResponse _$UserScrapbookResponseFromJson(
+        Map<String, dynamic> json) =>
+    UserScrapbookResponse(
+      scrapbooks: (json['data'] as List<dynamic>?)
+          ?.map((e) => Scrapbook.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      meta: json['meta'] == null
+          ? null
+          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UserScrapbookResponseToJson(
+        UserScrapbookResponse instance) =>
+    <String, dynamic>{
+      'data': instance.scrapbooks,
+      'meta': instance.meta,
+    };
+
+CommentDto _$CommentDtoFromJson(Map<String, dynamic> json) => CommentDto(
+      text: json['text'] as String?,
+    );
+
+Map<String, dynamic> _$CommentDtoToJson(CommentDto instance) =>
+    <String, dynamic>{
+      'text': instance.text,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -33,7 +60,8 @@ class _PostService implements PostService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.0.198:3000';
+
+    baseUrl ??= 'http://192.168.1.175:3000';
   }
 
   final Dio _dio;
@@ -41,12 +69,15 @@ class _PostService implements PostService {
   String? baseUrl;
 
   @override
-  Future<UserPostsResponse> getUserPosts(token) async {
+  Future<UserPostsResponse> getUserPosts(
+    token,
+    page,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<UserPostsResponse>(Options(
       method: 'GET',
@@ -61,6 +92,199 @@ class _PostService implements PostService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UserPostsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Post> getPostById(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Post.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserScrapbookResponse> getUserScrapbooks(
+    token,
+    page,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UserScrapbookResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/scrapbook/user-scrapbooks',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserScrapbookResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Like> likePost(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Like>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/like/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Like.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Like> unlikePost(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Like>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/unlike/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Like.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Post> commentPost(
+    token,
+    postId,
+    commentDto,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(commentDto.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/comment/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Post.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserPostsResponse> getFollowingsPosts(
+    token,
+    userId,
+    page,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserPostsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/following-scraps/${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserPostsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserScrapbookResponse> getFollowingsScrapbooks(
+    token,
+    userId,
+    page,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UserScrapbookResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/following-scrapbooks/${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserScrapbookResponse.fromJson(_result.data!);
     return value;
   }
 
