@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -22,29 +24,52 @@ abstract class UserService {
       @Query('preference') String preference);
 
   @PATCH(Repo.updatePassword)
-  Future<UpdateUserPasswordResponse> updatePassword(
-      @Header('Authorization') String token,
+  Future<UpdateResponse> updatePassword(@Header('Authorization') String token,
       @Body() UpdateUserPasswordRequest request);
 
   @PATCH(Repo.updateEmail)
-  Future<UpdateUserEmailResponse> updateEmail(
-      @Header('Authorization') String token,
+  Future<UpdateResponse> updateEmail(@Header('Authorization') String token,
       @Body() UpdateUserEmailRequest request);
 
   @PATCH(Repo.updateDOB)
-  Future<UpdateUserDOBResponse> updateDOB(@Header('Authorization') String token,
+  Future<UpdateResponse> updateDOB(@Header('Authorization') String token,
       @Body() UpdateUserDOBRequest request);
 
   @PATCH(Repo.updateGender)
-  Future<UpdateUserGenderResponse> updateGender(
+  Future<UpdateResponse> updateGender(
       @Header('Authorization') String token, @Query('gender') String gender);
 
   @PATCH(Repo.updateRole)
-  Future<UpdateUserRoleResponse> updateRole(
+  Future<UpdateResponse> updateRole(
       @Header('Authorization') String token, @Query('role') String role);
 
+  @PATCH(Repo.updateBio)
+  Future<UpdateResponse> updateBio(@Header('Authorization') String token,
+      @Body() UpdateUserBioRequest request);
+
+  @PATCH(Repo.updateUsername)
+  Future<UpdateResponse> updateUsername(@Header('Authorization') String token,
+      @Query('username') String username);
+
+  @PATCH(Repo.updateAvatar)
+  @MultiPart()
+  Future<UpdateResponse> updateAvatar(
+    @Header('Authorization') String token,
+    @Part() File avatar,
+  );
+
+  @POST(Repo.postAvatar)
+  @MultiPart()
+  Future<UpdateResponse> uploadAvatar(
+    @Header('Authorization') String token,
+    @Part() File avatar,
+  );
+
+  @DELETE(Repo.deleteAvatar)
+  Future<UpdateResponse> deleteAvatar(@Header('Authorization') String token);
+
   @DELETE(Repo.deleteUser)
-  Future<DeleteUserResponse> deleteUser(@Header('Authorization') String token);
+  Future<UpdateResponse> deleteUser(@Header('Authorization') String token);
 
   @GET(Repo.searchUser)
   Future<UserSearchResponse> searchUser(@Header('Authorization') String token,
@@ -73,15 +98,15 @@ class UpdateUserPasswordRequest {
 }
 
 @JsonSerializable()
-class UpdateUserPasswordResponse {
+class UpdateResponse {
   @JsonKey(name: 'message')
   String? message;
 
-  UpdateUserPasswordResponse({this.message});
+  UpdateResponse({this.message});
 
-  factory UpdateUserPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserPasswordResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$UpdateUserPasswordResponseToJson(this);
+  factory UpdateResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$UpdateResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -97,18 +122,6 @@ class UpdateUserEmailRequest {
 }
 
 @JsonSerializable()
-class UpdateUserEmailResponse {
-  @JsonKey(name: 'message')
-  String? message;
-
-  UpdateUserEmailResponse({this.message});
-
-  factory UpdateUserEmailResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserEmailResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$UpdateUserEmailResponseToJson(this);
-}
-
-@JsonSerializable()
 class UpdateUserDOBRequest {
   @JsonKey(name: 'dateOfBirth')
   DateTime? dateOfBirth;
@@ -118,54 +131,6 @@ class UpdateUserDOBRequest {
   factory UpdateUserDOBRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserDOBRequestFromJson(json);
   Map<String, dynamic> toJson() => _$UpdateUserDOBRequestToJson(this);
-}
-
-@JsonSerializable()
-class UpdateUserDOBResponse {
-  @JsonKey(name: 'message')
-  String? message;
-
-  UpdateUserDOBResponse({this.message});
-
-  factory UpdateUserDOBResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserDOBResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$UpdateUserDOBResponseToJson(this);
-}
-
-@JsonSerializable()
-class UpdateUserGenderResponse {
-  @JsonKey(name: 'message')
-  String? message;
-
-  UpdateUserGenderResponse({this.message});
-
-  factory UpdateUserGenderResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserGenderResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$UpdateUserGenderResponseToJson(this);
-}
-
-@JsonSerializable()
-class UpdateUserRoleResponse {
-  @JsonKey(name: 'message')
-  String? message;
-
-  UpdateUserRoleResponse({this.message});
-
-  factory UpdateUserRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserRoleResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$UpdateUserRoleResponseToJson(this);
-}
-
-@JsonSerializable()
-class DeleteUserResponse {
-  @JsonKey(name: 'message')
-  String? message;
-
-  DeleteUserResponse({this.message});
-
-  factory DeleteUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$DeleteUserResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -181,4 +146,16 @@ class UserSearchResponse {
   factory UserSearchResponse.fromJson(Map<String, dynamic> json) =>
       _$UserSearchResponseFromJson(json);
   Map<String, dynamic> toJson() => _$UserSearchResponseToJson(this);
+}
+
+@JsonSerializable()
+class UpdateUserBioRequest {
+  @JsonKey(name: 'bio')
+  String? bio;
+
+  UpdateUserBioRequest({this.bio});
+
+  factory UpdateUserBioRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserBioRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$UpdateUserBioRequestToJson(this);
 }

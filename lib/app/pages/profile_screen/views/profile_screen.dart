@@ -22,6 +22,11 @@ class ProfileScreen extends StatelessWidget {
         Get.find<NavigationController>();
 
     final ProfileScreenController c = Get.put(ProfileScreenController());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.loadData();
+    });
+
     return Scaffold(
       bottomNavigationBar: Obx(
         () => Navbar(

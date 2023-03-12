@@ -22,14 +22,12 @@ Map<String, dynamic> _$UpdateUserPasswordRequestToJson(
       'confirmPassword': instance.confirmNewPassword,
     };
 
-UpdateUserPasswordResponse _$UpdateUserPasswordResponseFromJson(
-        Map<String, dynamic> json) =>
-    UpdateUserPasswordResponse(
+UpdateResponse _$UpdateResponseFromJson(Map<String, dynamic> json) =>
+    UpdateResponse(
       message: json['message'] as String?,
     );
 
-Map<String, dynamic> _$UpdateUserPasswordResponseToJson(
-        UpdateUserPasswordResponse instance) =>
+Map<String, dynamic> _$UpdateResponseToJson(UpdateResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
     };
@@ -46,18 +44,6 @@ Map<String, dynamic> _$UpdateUserEmailRequestToJson(
       'email': instance.email,
     };
 
-UpdateUserEmailResponse _$UpdateUserEmailResponseFromJson(
-        Map<String, dynamic> json) =>
-    UpdateUserEmailResponse(
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$UpdateUserEmailResponseToJson(
-        UpdateUserEmailResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-    };
-
 UpdateUserDOBRequest _$UpdateUserDOBRequestFromJson(
         Map<String, dynamic> json) =>
     UpdateUserDOBRequest(
@@ -70,52 +56,6 @@ Map<String, dynamic> _$UpdateUserDOBRequestToJson(
         UpdateUserDOBRequest instance) =>
     <String, dynamic>{
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
-    };
-
-UpdateUserDOBResponse _$UpdateUserDOBResponseFromJson(
-        Map<String, dynamic> json) =>
-    UpdateUserDOBResponse(
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$UpdateUserDOBResponseToJson(
-        UpdateUserDOBResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-    };
-
-UpdateUserGenderResponse _$UpdateUserGenderResponseFromJson(
-        Map<String, dynamic> json) =>
-    UpdateUserGenderResponse(
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$UpdateUserGenderResponseToJson(
-        UpdateUserGenderResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-    };
-
-UpdateUserRoleResponse _$UpdateUserRoleResponseFromJson(
-        Map<String, dynamic> json) =>
-    UpdateUserRoleResponse(
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$UpdateUserRoleResponseToJson(
-        UpdateUserRoleResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-    };
-
-DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) =>
-    DeleteUserResponse(
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$DeleteUserResponseToJson(DeleteUserResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
     };
 
 UserSearchResponse _$UserSearchResponseFromJson(Map<String, dynamic> json) =>
@@ -132,6 +72,18 @@ Map<String, dynamic> _$UserSearchResponseToJson(UserSearchResponse instance) =>
     <String, dynamic>{
       'data': instance.users,
       'meta': instance.meta,
+    };
+
+UpdateUserBioRequest _$UpdateUserBioRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserBioRequest(
+      bio: json['bio'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateUserBioRequestToJson(
+        UpdateUserBioRequest instance) =>
+    <String, dynamic>{
+      'bio': instance.bio,
     };
 
 // **************************************************************************
@@ -204,7 +156,7 @@ class _UserService implements UserService {
   }
 
   @override
-  Future<UpdateUserPasswordResponse> updatePassword(
+  Future<UpdateResponse> updatePassword(
     token,
     request,
   ) async {
@@ -214,8 +166,8 @@ class _UserService implements UserService {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UpdateUserPasswordResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -227,12 +179,12 @@ class _UserService implements UserService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UpdateUserPasswordResponse.fromJson(_result.data!);
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<UpdateUserEmailResponse> updateEmail(
+  Future<UpdateResponse> updateEmail(
     token,
     request,
   ) async {
@@ -242,8 +194,8 @@ class _UserService implements UserService {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UpdateUserEmailResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -255,12 +207,12 @@ class _UserService implements UserService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UpdateUserEmailResponse.fromJson(_result.data!);
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<UpdateUserDOBResponse> updateDOB(
+  Future<UpdateResponse> updateDOB(
     token,
     request,
   ) async {
@@ -270,8 +222,8 @@ class _UserService implements UserService {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UpdateUserDOBResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -283,12 +235,12 @@ class _UserService implements UserService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UpdateUserDOBResponse.fromJson(_result.data!);
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<UpdateUserGenderResponse> updateGender(
+  Future<UpdateResponse> updateGender(
     token,
     gender,
   ) async {
@@ -297,8 +249,8 @@ class _UserService implements UserService {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UpdateUserGenderResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -310,12 +262,12 @@ class _UserService implements UserService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UpdateUserGenderResponse.fromJson(_result.data!);
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<UpdateUserRoleResponse> updateRole(
+  Future<UpdateResponse> updateRole(
     token,
     role,
   ) async {
@@ -324,8 +276,8 @@ class _UserService implements UserService {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UpdateUserRoleResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -337,19 +289,168 @@ class _UserService implements UserService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UpdateUserRoleResponse.fromJson(_result.data!);
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DeleteUserResponse> deleteUser(token) async {
+  Future<UpdateResponse> updateBio(
+    token,
+    request,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/bio',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UpdateResponse> updateUsername(
+    token,
+    username,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'username': username};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/username',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UpdateResponse> updateAvatar(
+    token,
+    avatar,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'avatar',
+      MultipartFile.fromFileSync(
+        avatar.path,
+        filename: avatar.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/user/avatar',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UpdateResponse> uploadAvatar(
+    token,
+    avatar,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'avatar',
+      MultipartFile.fromFileSync(
+        avatar.path,
+        filename: avatar.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/user/avatar',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UpdateResponse> deleteAvatar(token) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<DeleteUserResponse>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/avatar',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UpdateResponse> deleteUser(token) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UpdateResponse>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -361,7 +462,7 @@ class _UserService implements UserService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = DeleteUserResponse.fromJson(_result.data!);
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -41,6 +41,11 @@ class Repo {
   static const String reportUser = "/report/report-user";
   static const String blockUser = "/block/block-user";
   static const String unblockUser = "/block/unblock-user";
+  static const String updateBio = "/user/bio";
+  static const String updateUsername = "/user/username";
+  static const String updateAvatar = "/user/avatar";
+  static const String deleteAvatar = "/user/avatar";
+  static const String postAvatar = "/user/avatar";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

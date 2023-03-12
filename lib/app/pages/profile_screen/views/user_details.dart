@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:atlas_mobile/app/model/user.model.dart';
+import 'package:atlas_mobile/app/pages/edit_profile_screen/views/edit_profile_screen.dart';
 import 'package:atlas_mobile/app/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -206,7 +207,7 @@ class UserDetails extends StatelessWidget {
                 )
               : InkWell(
                   onTap: () {
-                    //Get.to(() => EditProfileScreen());
+                    Get.to(() => const EditProfileScreen());
                   },
                   child: Container(
                     margin: const EdgeInsets.only(top: 10),

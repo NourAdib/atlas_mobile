@@ -32,7 +32,6 @@ class ProfileScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadData();
     postsScrollController.addListener(_postsScrollListener);
     scrapbookScrollController.addListener(_scrapbookScrollListener);
   }
