@@ -71,7 +71,7 @@ class ArScreenController extends GetxController {
         name: i.toString(),
         uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
         scale: Vector3(0.1, 0.1, 0.1),
-        rotation: Vector4(1.0, 0.0, 0.0, 0.0),
+        // rotation: Vector4(0.0, 0.0, 0.0, 0.0),
         position: getPosition(double.parse(memories[i].latitude),
             double.parse(memories[i].longitude)),
       );
