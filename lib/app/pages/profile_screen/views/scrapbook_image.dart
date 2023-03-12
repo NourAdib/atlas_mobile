@@ -6,10 +6,12 @@ class ScrapbookImage extends StatelessWidget {
   final String imageUrl;
   final String caption;
   final double height;
+  final BoxFit fit;
   const ScrapbookImage(
       {required this.imageUrl,
       required this.caption,
       required this.height,
+      this.fit = BoxFit.cover,
       Key? key})
       : super(key: key);
 
@@ -30,7 +32,7 @@ class ScrapbookImage extends StatelessWidget {
                     ),
                     child: CachedNetworkImage(
                       imageUrl: imageUrl,
-                      fit: BoxFit.cover,
+                      fit: fit,
                       fadeInDuration: const Duration(milliseconds: 0),
                       placeholder: (context, url) => const LoadingIndicator(),
                       errorWidget: (context, url, error) =>

@@ -10,6 +10,7 @@ import 'package:atlas_mobile/app/services/user/user.service.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:atlas_mobile/app/widgets/non_filled_form_field.dart';
+import 'package:atlas_mobile/app/widgets/scrapbook_details/scrapbooks_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -112,15 +113,27 @@ class PostDetailsScreenController extends GetxController {
               openCommentModal();
             },
           ),
-          isOwner.value
+          isOwner.value && post.scrapbook == null
               ? ListTile(
                   leading: const Icon(
-                    Icons.report_outlined,
+                    Icons.add_circle_outline,
                     color: Color(0xFF9AA0A6),
                   ),
                   title: const Text('Add To Scrapbook'),
                   onTap: () async {
-                    log('Add To Scrapbook');
+                    addPostToScrapbook(post);
+                  },
+                )
+              : const SizedBox(),
+          isOwner.value && post.scrapbook != null
+              ? ListTile(
+                  leading: const Icon(
+                    Icons.remove_circle_outline,
+                    color: Color(0xFF9AA0A6),
+                  ),
+                  title: const Text('Remove from Scrapbook'),
+                  onTap: () async {
+                    removePostFromScrapbook(post.id ?? '', post.scrapbook!.id!);
                   },
                 )
               : const SizedBox(),
@@ -329,5 +342,29 @@ class PostDetailsScreenController extends GetxController {
     Get.toNamed('/home');
     SnackBarService.showSuccessSnackbar(
         'Success', 'Post Reported Successfully');
+  }
+
+  removePostFromScrapbook(String postId, String scrapbookId) async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    postService
+        .removePostFromScrapbook('Bearer $accessToken', scrapbookId, postId)
+        .then((response) {
+      SnackBarService.showSuccessSnackbar(
+          'Success', 'Post removed from scrapbook');
+      toggleLoading();
+      Get.back();
+    }).catchError((error) {
+      log(error.toString());
+    });
+  }
+
+  addPostToScrapbook(Post post) {
+    Get.to(() => ScrapbooksSelectionScreen(post: post));
   }
 }

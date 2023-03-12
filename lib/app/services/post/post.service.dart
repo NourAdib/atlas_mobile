@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:atlas_mobile/app/model/like.model.dart';
 import 'package:atlas_mobile/app/model/meta.model.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/scrapbook.model.dart';
-import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/http.dart';
@@ -24,6 +21,20 @@ abstract class PostService {
   @GET('${Repo.postById}/{postId}')
   Future<Post> getPostById(
       @Header('Authorization') String token, @Path('postId') String postId);
+
+  @GET('${Repo.scrapbook}/{scrapbookId}')
+  Future<Scrapbook> getScrapbookById(@Header('Authorization') String token,
+      @Path('scrapbookId') String scrapbookId);
+
+  @POST('${Repo.scrapbook}/{scrapbookId}/add-post/{postId}')
+  Future<Scrapbook> addPostToScrapbook(@Header('Authorization') String token,
+      @Path('scrapbookId') String scrapbookId, @Path('postId') String postId);
+
+  @PATCH('${Repo.scrapbook}/{scrapbookId}/remove-post/{postId}')
+  Future<Scrapbook> removePostFromScrapbook(
+      @Header('Authorization') String token,
+      @Path('scrapbookId') String scrapbookId,
+      @Path('postId') String postId);
 
   @GET(Repo.userScrapbooks)
   Future<UserScrapbookResponse> getUserScrapbooks(

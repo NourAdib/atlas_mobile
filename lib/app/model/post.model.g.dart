@@ -33,7 +33,9 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       comments: (json['comments'] as List<dynamic>?)
           ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    )..scrapbook = json['scrapbook'] == null
+        ? null
+        : Scrapbook.fromJson(json['scrapbook'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'isTakenDown': instance.isTakenDown,
@@ -52,6 +54,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'postedBy': instance.postedBy,
       'likes': instance.likes,
       'comments': instance.comments,
+      'scrapbook': instance.scrapbook,
     };
 
 const _$VisibilityEnumMap = {

@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:atlas_mobile/app/model/post.model.dart';
+import 'package:atlas_mobile/app/model/scrapbook.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/services/post/post.service.dart';
 import 'package:atlas_mobile/app/services/user/user.service.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/widgets/post_details/post_details.dart';
+import 'package:atlas_mobile/app/widgets/scrapbook_details/scrapbook_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -245,9 +247,45 @@ class ProfileScreenController extends GetxController {
     });
   }
 
+  getCurrentScrapbook(String scrapbookId) async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    return postService
+        .getScrapbookById('Bearer $accessToken', scrapbookId)
+        .then((response) {
+      toggleLoading();
+      return response;
+    }).catchError((error) {
+      log(error.toString());
+    });
+  }
+
   openPostDetails(String postId) async {
     Post detailedPost = await getCurrentPost(postId);
     Get.to(() =>
         PostDetailsScreen(post: detailedPost, height: height, width: width));
+  }
+
+  openScrapbookDetails(String scrapbookId) async {
+    Scrapbook detailedScrapbook = await getCurrentScrapbook(scrapbookId);
+    Get.to(() => ScrapbookDetailsScreen(
+        scrapbook: detailedScrapbook, height: height, width: width));
+  }
+
+  getScrapbookThumbnail(List<Post> posts) {
+    if (posts.isNotEmpty) {
+      for (var post in posts) {
+        if (post.imageUrl?.isNotEmpty ?? false) {
+          return post.imageUrl ?? '';
+        }
+      }
+    } else {
+      return '';
+    }
   }
 }
