@@ -93,7 +93,6 @@ class RegistrationScreen extends StatelessWidget {
                     controller: c.dobTextFieldController,
                     labelText: 'DOB',
                     hintText: 'yyyy-mm-dd',
-                    keyboardType: TextInputType.datetime,
                   ),
                   SizedBox(height: c.height * 0.02),
                   NonFilledFormField(

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:atlas_mobile/app/model/enums/subscription.enum.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/pages/edit_profile_screen/views/edit_profile_screen.dart';
 import 'package:atlas_mobile/app/widgets/user_avatar.dart';
@@ -116,7 +117,8 @@ class UserDetails extends StatelessWidget {
                                 ),
                         ),
                       )
-                    : Text("${user.firstName ?? ''} ${user.lastName ?? ''}"),
+                    : Text(
+                        "${user.firstName ?? ''} ${user.lastName ?? ''} ${user.subscriptionPlan == SubscriptionPlan.Premium ? '👑' : ''}"),
                 const SizedBox(
                   height: 15,
                 ),
