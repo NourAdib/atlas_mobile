@@ -328,6 +328,101 @@ class PostDetailsScreen extends StatelessWidget {
                               ),
                             )
                           : const SizedBox(),
+                      c.isDisplayingAnalytics.value
+                          ? Flexible(
+                              child: Container(
+                                margin: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFFF6E9),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.black, width: 3),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Created At: ${c.getParsedDate(c.postAnalytics.createdAt!)}',
+                                            style: const TextStyle(
+                                              color: Color(0xFF182335),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            'Total Interactions: ${c.postAnalytics.interactionCount}',
+                                            style: const TextStyle(
+                                              color: Color(0xFF182335),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${c.postAnalytics.likeCount} Likes',
+                                            style: const TextStyle(
+                                              color: Color(0xFF182335),
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${c.postAnalytics.commentCount} Comments',
+                                            style: const TextStyle(
+                                              color: Color(0xFF182335),
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            'Total Reports: ${c.postAnalytics.reportCount}',
+                                            style: const TextStyle(
+                                              color: Color(0xFF182335),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Total Appeals: ${c.postAnalytics.appealCount}',
+                                            style: const TextStyle(
+                                              color: Color(0xFF182335),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          c.postAnalytics.isPartOfScrapbook ??
+                                                  false
+                                              ? const Text(
+                                                  'Is Part of a Scrapbook',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF182335),
+                                                    fontSize: 15,
+                                                  ),
+                                                )
+                                              : const Text(
+                                                  'Is Not Part of a Scrapbook',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF182335),
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ),

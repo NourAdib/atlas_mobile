@@ -51,6 +51,7 @@ class Repo {
   static const String postReports = "/report/post-reports";
   static const String appealPost = "/appeals/appeal-post";
   static const String getUserAppeals = "/appeals/user-appeals";
+  static const String analytics = "/analytics/post";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

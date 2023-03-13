@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:atlas_mobile/app/model/analytics.model.dart';
 import 'package:atlas_mobile/app/model/enums/reportReasons.enum.dart';
 import 'package:atlas_mobile/app/model/enums/subscription.enum.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/pages/view_post_reports_screen/views/view_post_reports_screen.dart';
+import 'package:atlas_mobile/app/services/analytics/analytics.service.dart';
 import 'package:atlas_mobile/app/services/post/post.service.dart';
 import 'package:atlas_mobile/app/services/report/report.service.dart';
 import 'package:atlas_mobile/app/services/user/user.service.dart';
@@ -35,6 +37,7 @@ class PostDetailsScreenController extends GetxController {
   var post = Post();
 
   User user = User();
+  PostAnalytics postAnalytics = PostAnalytics();
 
   @override
   void onInit() {
@@ -54,7 +57,7 @@ class PostDetailsScreenController extends GetxController {
       user = response;
       setIsLiked();
       setOwnership(post.postedBy!.id!);
-
+      setIsPremium();
       toggleLoading();
     }).catchError((error) {
       log(error.toString());
@@ -84,12 +87,13 @@ class PostDetailsScreenController extends GetxController {
   }
 
   displayAnalytics() {
-    if (isDisplayingLikes.value == false) {
+    if (isDisplayingAnalytics.value == false) {
       isDisplayingComments.value = false;
       isDisplayingAnalytics.value = true;
       isDisplayingLikes.value = false;
       isDisplayingMoreOptions.value = false;
     }
+    getAnalytics();
   }
 
   displayMoreOptions() {
@@ -384,5 +388,28 @@ class PostDetailsScreenController extends GetxController {
 
   viewPostReports() {
     Get.to(() => ViewPostReportsScreen(postId: post.id!));
+  }
+
+  getAnalytics() async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final analyticsService = AnalyticsService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    analyticsService
+        .getPostAnalytics('Bearer $accessToken', post.id!)
+        .then((response) {
+      postAnalytics = response;
+      toggleLoading();
+    }).catchError((error) {
+      log(error.toString());
+      log(error.response.toString());
+    });
+  }
+
+  getParsedDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
   }
 }
