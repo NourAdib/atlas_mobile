@@ -81,7 +81,6 @@ class _AuthService implements AuthService {
     this.baseUrl,
   }) {
     baseUrl ??= 'http://10.6.130.39:3000';
-
   }
 
   final Dio _dio;

@@ -97,9 +97,7 @@ class _UserService implements UserService {
     this._dio, {
     this.baseUrl,
   }) {
-
     baseUrl ??= 'http://10.6.130.39:3000';
-
   }
 
   final Dio _dio;

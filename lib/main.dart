@@ -75,7 +75,6 @@ void main() async {
           page: () => const HomeScreen(),
         ),
         GetPage(
-
           name: '/reviewScrap',
           page: () => const ReviewScrap(),
         ),
@@ -88,7 +87,7 @@ void main() async {
           page: () => const ReviewEvent(),
         ),
         GetPage(name: '/createScrapbook', page: () => const ReviewScarpbook()),
-
+        GetPage(
           name: '/settings',
           page: () => const SettingsScreen(),
         ),
@@ -96,7 +95,6 @@ void main() async {
           name: '/userSearch',
           page: () => const UserSearchScreen(),
         ),
-
       ],
     ),
   );
