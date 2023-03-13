@@ -36,7 +36,7 @@ class NewPostScreen extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () async {
-                  await c.pickImage();
+                  await c.pickImageScrap();
                 },
                 child: Container(
                   width: Get.width * 0.94,
@@ -69,8 +69,8 @@ class NewPostScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  log("memories");
+                onTap: () async {
+                  await c.pickImageMemory();
                 },
                 child: Container(
                   width: Get.width * 0.94,
@@ -103,8 +103,8 @@ class NewPostScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  log("scrapbook");
+                onTap: () async {
+                  await c.createScrapbook();
                 },
                 child: Container(
                   width: Get.width * 0.94,
@@ -137,8 +137,8 @@ class NewPostScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  log("event");
+                onTap: () async {
+                  await c.createEvent();
                 },
                 child: Container(
                   width: Get.width * 0.94,

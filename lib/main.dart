@@ -4,6 +4,9 @@ import 'package:atlas_mobile/app/pages/home_screen/views/home_screen.dart';
 import 'package:atlas_mobile/app/pages/login_screen/views/login_screen.dart';
 import 'package:atlas_mobile/app/pages/maps_screen/views/maps_screen.dart';
 import 'package:atlas_mobile/app/pages/new_post_screen/views/new_post_screen.dart';
+import 'package:atlas_mobile/app/pages/new_post_screen/views/review_new_event.dart';
+import 'package:atlas_mobile/app/pages/new_post_screen/views/review_new_memory.dart';
+import 'package:atlas_mobile/app/pages/new_post_screen/views/review_new_scrap.dart';
 import 'package:atlas_mobile/app/pages/onboarding_screen/view/onboarding_screen.dart';
 import 'package:atlas_mobile/app/pages/profile_screen/views/profile_screen.dart';
 import 'package:atlas_mobile/app/pages/registration_or_login_screen/views/registration_or_login_screen.dart';
@@ -12,6 +15,8 @@ import 'package:atlas_mobile/app/pages/splash_screen/views/splash_screen.dart';
 import 'package:atlas_mobile/main/firebase/firebase_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'app/pages/new_post_screen/views/review_new_scrapbook.dart';
 
 void main() async {
   final FirebaseController firebaseControlller = Get.put(FirebaseController());
@@ -65,6 +70,19 @@ void main() async {
           name: '/home',
           page: () => const HomeScreen(),
         ),
+        GetPage(
+          name: '/reviewScrap',
+          page: () => const ReviewScrap(),
+        ),
+        GetPage(
+          name: '/reviewMemory',
+          page: () => const ReviewMemory(),
+        ),
+        GetPage(
+          name: '/createEvent',
+          page: () => const ReviewEvent(),
+        ),
+        GetPage(name: '/createScrapbook', page: () => const ReviewScarpbook()),
       ],
     ),
   );
