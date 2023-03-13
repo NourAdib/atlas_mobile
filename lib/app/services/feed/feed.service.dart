@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:atlas_mobile/app/model/meta.model.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -31,31 +32,4 @@ class FeedResponse {
   factory FeedResponse.fromJson(Map<String, dynamic> json) =>
       _$FeedResponseFromJson(json);
   Map<String, dynamic> toJson() => _$FeedResponseToJson(this);
-}
-
-@JsonSerializable()
-class Meta {
-  @JsonKey(name: 'page')
-  int? page;
-  @JsonKey(name: 'take')
-  int? take;
-  @JsonKey(name: 'itemCount')
-  int? itemCount;
-  @JsonKey(name: 'pageCount')
-  int? pageCount;
-  @JsonKey(name: 'hasPreviousPage')
-  bool? hasPreviousPage;
-  @JsonKey(name: 'hasNextPage')
-  bool? hasNextPage;
-
-  Meta(
-      {this.page,
-      this.take,
-      this.itemCount,
-      this.pageCount,
-      this.hasPreviousPage,
-      this.hasNextPage});
-
-  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
-  Map<String, dynamic> toJson() => _$MetaToJson(this);
 }

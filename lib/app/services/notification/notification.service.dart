@@ -12,7 +12,7 @@ part 'notification.service.g.dart';
 abstract class NotificationService {
   factory NotificationService(Dio dio, {String baseUrl}) = _NotificationService;
 
-  @POST('${Repo.notificationRegisterationPath}/{fcmToken}')
+  @POST('${Repo.notificationRegistrationPath}/{fcmToken}')
   Future<NotificationResponse> signupToNotifications(
       @Header('Authorization') String token, @Path('fcmToken') String fcmToken);
 }

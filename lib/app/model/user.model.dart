@@ -11,6 +11,9 @@ import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
+import 'block.model.dart';
+import 'follow.model.dart';
+
 part 'user.model.g.dart';
 
 @JsonSerializable()
@@ -63,6 +66,10 @@ class User {
   int? followingCount;
   @JsonKey(name: 'bio')
   String? bio;
+  @JsonKey(name: 'followers')
+  List<Follow>? followers;
+  @JsonKey(name: 'blockedBy')
+  List<Block>? blockedBy;
 
   User({
     this.address,

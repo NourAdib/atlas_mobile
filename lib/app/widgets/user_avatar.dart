@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class UserAvatar extends StatelessWidget {
-  final String profilePuictureUrl;
+  final String profilePictureUrl;
   final double height;
   final double width;
-  const UserAvatar(
-      {required this.profilePuictureUrl,
+  double minRadius = 20;
+  UserAvatar(
+      {required this.profilePictureUrl,
       required this.width,
       required this.height,
+      this.minRadius = 20,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return profilePuictureUrl.isNotEmpty
+    return profilePictureUrl.isNotEmpty
         ? CircleAvatar(
             backgroundImage: NetworkImage(
-              profilePuictureUrl,
+              profilePictureUrl,
             ),
+            minRadius: minRadius,
           )
         : Container(
             width: width,

@@ -21,24 +21,6 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'meta': instance.meta,
     };
 
-Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
-      page: json['page'] as int?,
-      take: json['take'] as int?,
-      itemCount: json['itemCount'] as int?,
-      pageCount: json['pageCount'] as int?,
-      hasPreviousPage: json['hasPreviousPage'] as bool?,
-      hasNextPage: json['hasNextPage'] as bool?,
-    );
-
-Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
-      'page': instance.page,
-      'take': instance.take,
-      'itemCount': instance.itemCount,
-      'pageCount': instance.pageCount,
-      'hasPreviousPage': instance.hasPreviousPage,
-      'hasNextPage': instance.hasNextPage,
-    };
-
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -50,7 +32,8 @@ class _FeedService implements FeedService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http:// 10.6.141.64:3000';
+
+    baseUrl ??= 'http://10.6.130.39:3000';
   }
 
   final Dio _dio;
@@ -66,7 +49,7 @@ class _FeedService implements FeedService {
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<FeedResponse>(Options(
       method: 'GET',

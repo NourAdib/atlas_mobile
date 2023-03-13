@@ -27,6 +27,7 @@ class HomeScreenController extends GetxController {
   @override
   void dispose() {
     scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -80,8 +81,8 @@ class HomeScreenController extends GetxController {
   }
 
   void _scrollListener() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+    if (scrollController.positions.last.pixels ==
+        scrollController.positions.last.maxScrollExtent) {
       getMorePosts();
     }
   }
@@ -93,7 +94,7 @@ class HomeScreenController extends GetxController {
 
   getMorePosts() async {
     if (hasNextPage.value) {
-      //toggleLoading();
+      toggleLoading();
       final dio = Dio(); // Provide a dio instance
       final feedService = FeedService(dio);
 
@@ -103,15 +104,10 @@ class HomeScreenController extends GetxController {
       feedService.getFeed('Bearer $accessToken', page).then((response) {
         feedPosts.value.addAll(response.posts!);
         hasNextPage.value = response.meta!.hasNextPage!;
-        log(feedPosts.value.length.toString());
-        log(feedPosts.value.toString());
         if (hasNextPage.value) {
           page++;
         }
-        if (scrollController.hasClients) {
-          scrollController.jumpTo(scrollController.position.maxScrollExtent);
-        }
-        //toggleLoading();
+        toggleLoading();
       }).catchError((error) {
         log(error.toString());
       });
