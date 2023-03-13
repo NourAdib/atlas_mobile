@@ -4,6 +4,7 @@ import 'package:atlas_mobile/app/model/enums/reportReasons.enum.dart';
 import 'package:atlas_mobile/app/model/enums/subscription.enum.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
+import 'package:atlas_mobile/app/pages/view_post_reports_screen/views/view_post_reports_screen.dart';
 import 'package:atlas_mobile/app/services/post/post.service.dart';
 import 'package:atlas_mobile/app/services/report/report.service.dart';
 import 'package:atlas_mobile/app/services/user/user.service.dart';
@@ -134,6 +135,19 @@ class PostDetailsScreenController extends GetxController {
                   title: const Text('Remove from Scrapbook'),
                   onTap: () async {
                     removePostFromScrapbook(post.id ?? '', post.scrapbook!.id!);
+                  },
+                )
+              : const SizedBox(),
+          isOwner.value
+              ? ListTile(
+                  leading: const Icon(
+                    Icons.view_list_outlined,
+                    size: 30,
+                  ),
+                  title: const Text('View Reports'),
+                  onTap: () async {
+                    Get.back();
+                    viewPostReports();
                   },
                 )
               : const SizedBox(),
@@ -366,5 +380,9 @@ class PostDetailsScreenController extends GetxController {
 
   addPostToScrapbook(Post post) {
     Get.to(() => ScrapbooksSelectionScreen(post: post));
+  }
+
+  viewPostReports() {
+    Get.to(() => ViewPostReportsScreen(postId: post.id!));
   }
 }

@@ -1,34 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'subscription.service.dart';
+part of 'appeals.service.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SubscriptionResponse _$SubscriptionResponseFromJson(
-        Map<String, dynamic> json) =>
-    SubscriptionResponse(
-      message: json['message'] as String?,
-      url: json['url'] as String?,
+AppealDto _$AppealDtoFromJson(Map<String, dynamic> json) => AppealDto(
+      postId: json['postId'] as String?,
+      text: json['text'] as String?,
     );
 
-Map<String, dynamic> _$SubscriptionResponseToJson(
-        SubscriptionResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-      'url': instance.url,
+Map<String, dynamic> _$AppealDtoToJson(AppealDto instance) => <String, dynamic>{
+      'postId': instance.postId,
+      'text': instance.text,
     };
 
-UnsubscribeResponse _$UnsubscribeResponseFromJson(Map<String, dynamic> json) =>
-    UnsubscribeResponse(
-      message: json['message'] as String?,
+AppealsResponse _$AppealsResponseFromJson(Map<String, dynamic> json) =>
+    AppealsResponse(
+      appeals: (json['data'] as List<dynamic>?)
+          ?.map((e) => Appeal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      meta: json['meta'] == null
+          ? null
+          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$UnsubscribeResponseToJson(
-        UnsubscribeResponse instance) =>
+Map<String, dynamic> _$AppealsResponseToJson(AppealsResponse instance) =>
     <String, dynamic>{
-      'message': instance.message,
+      'data': instance.appeals,
+      'meta': instance.meta,
     };
 
 // **************************************************************************
@@ -37,8 +38,8 @@ Map<String, dynamic> _$UnsubscribeResponseToJson(
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _SubscriptionService implements SubscriptionService {
-  _SubscriptionService(
+class _AppealsService implements AppealsService {
+  _AppealsService(
     this._dio, {
     this.baseUrl,
   }) {
@@ -50,50 +51,57 @@ class _SubscriptionService implements SubscriptionService {
   String? baseUrl;
 
   @override
-  Future<SubscriptionResponse> subscribe(token) async {
+  Future<Appeal> appealPost(
+    token,
+    appealDto,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<SubscriptionResponse>(Options(
+    final _data = <String, dynamic>{};
+    _data.addAll(appealDto.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Appeal>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/payment/subscribe',
+              '/appeals/appeal-post',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = SubscriptionResponse.fromJson(_result.data!);
+    final value = Appeal.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<UnsubscribeResponse> unsubscribe(token) async {
+  Future<AppealsResponse> getUserAppeals(
+    token,
+    page,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<UnsubscribeResponse>(Options(
-      method: 'POST',
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AppealsResponse>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/payment/unsubscribe',
+              '/appeals/user-appeals',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UnsubscribeResponse.fromJson(_result.data!);
+    final value = AppealsResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -15,7 +15,9 @@ class FollowRequestsScreen extends StatelessWidget {
 
     final FollowRequestsController c = Get.put(FollowRequestsController());
 
-    c.getFollowRequests();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.getFollowRequests();
+    });
 
     return Scaffold(
         appBar: const TopBar(

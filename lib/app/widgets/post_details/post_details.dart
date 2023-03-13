@@ -30,8 +30,10 @@ class PostDetailsScreen extends StatelessWidget {
     final PostDetailsScreenController c =
         Get.put(PostDetailsScreenController());
 
-    c.setPost(post);
-    c.getUserProfile();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.setPost(post);
+      c.getUserProfile();
+    });
 
     return Scaffold(
       appBar: const TopBar(
