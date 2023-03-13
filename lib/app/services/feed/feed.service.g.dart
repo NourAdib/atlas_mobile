@@ -32,6 +32,7 @@ class _FeedService implements FeedService {
     this._dio, {
     this.baseUrl,
   }) {
+
     baseUrl ??= 'http://10.6.130.39:3000';
   }
 
