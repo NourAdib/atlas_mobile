@@ -54,7 +54,7 @@ void main() async {
         ),
         GetPage(
           name: '/maps',
-          page: () => const MapsScreenScreen(),
+          page: () => const MapsScreen(),
         ),
         GetPage(name: '/ar', page: () => const ArScreen()),
         GetPage(

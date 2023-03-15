@@ -1,5 +1,4 @@
-import 'dart:math';
-import 'dart:developer' as dev;
+import 'dart:developer';
 
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
@@ -34,6 +33,17 @@ class ArScreenController extends GetxController {
     super.dispose();
   }
 
+  startUp(isLoading) async {
+    toggleLoading(isLoading);
+    if (memories.value.isNotEmpty) {
+      memories.value.clear();
+    }
+
+    await getCurrentLocation();
+    await getMemories();
+    toggleLoading(isLoading);
+  }
+
   void exitAR() {
     arSessionManager?.dispose();
   }
@@ -43,34 +53,40 @@ class ArScreenController extends GetxController {
   }
 
   Future<void> createNodes() async {
-    for (var i = 0; i < memories.length; i++) {
-      ARNode newNode = ARNode(
-        type: NodeType.webGLB,
-        name: i.toString(),
-        uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
-        scale: Vector3(0.1, 0.1, 0.1),
-        rotation: Vector4(1.0, 0.0, 0.0, 0.0),
-        position: getPosition(double.parse(memories[i].latitude),
-            double.parse(memories[i].longitude)),
-      );
+    // for (var i = 0; i < 10; i++) {
+    //   Vector3 position = getPosition(i);
+    //   ARNode newNode = ARNode(
+    //       type: NodeType.webGLB,
+    //       name: i.toString(),
+    //       uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
+    //       scale: Vector3(0.1, 0.1, 0.1),
+    //       rotation: Vector4(1.0, 1.0, 1.0, 1.0),
+    //       position: position);
 
+    //   log("position: ${newNode.position}");
+
+    //   await arObjectManager!.addNode(newNode);
+    // }
+
+    for (var i = 0; i < 10; i++) {
+      ARNode newNode = ARNode(
+          type: NodeType.webGLB,
+          name: i.toString(),
+          uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
+          scale: Vector3(0.1, 0.1, 0.1),
+          rotation: Vector4(1.0, 0.0, 0.0, 0.0),
+          position: Vector3(i * 0.00001, 0.0, 0.0));
+
+      log("position: ${newNode.position}");
       await arObjectManager!.addNode(newNode);
     }
   }
 
-  Vector3 getPosition(double lat, double long) {
-    double relativeX =
-        (long - currentPosition!.longitude) * (40075.704 / 360.0);
-    double relativeY = log(tan(lat * pi / 180.0)) -
-        log(tan(currentPosition!.latitude * pi / 180.0));
-    relativeY *= (40075.704 / (2 * pi));
-
-    return Vector3(relativeX, relativeY, 0);
+  Vector3 getPosition(int i) {
+    return Vector3(0.0 + i * 0.00000001, 0.0, 0.0);
   }
 
-  Future<void> getMemories(isLoading) async {
-    toggleLoading(isLoading);
-    await getCurrentLocation();
+  Future<void> getMemories() async {
     final dio = Dio();
     final memoriesService = MemoriesService(dio);
 
@@ -78,22 +94,22 @@ class ArScreenController extends GetxController {
     memoriesRequest.latitude = currentPosition!.latitude.toString();
     memoriesRequest.longitude = currentPosition!.longitude.toString();
 
-    dev.log("stuff: ${memoriesRequest.toJson().toString()}");
-
     final accessToken =
         await SharedPreferencesService.getFromShared("accessToken");
 
-    memoriesService
+    await memoriesService
         .getMemories('Bearer $accessToken', memoriesRequest)
         .then((response) {
       memories.value.addAll(response.memories!);
-      toggleLoading(isLoading);
-      if (memories.isEmpty) {
+      if (memories.value.isEmpty) {
         SnackBarService.showErrorSnackbar(
             "Memories not found", "No nearby memories found");
       }
+      log("Memories AR: ${memories.value.length}");
+      log("latitude: ${currentPosition!.latitude}");
+      log("longitude: ${currentPosition!.longitude}");
     }).catchError((error) {
-      dev.log(error.response.toString());
+      log(error.response.toString());
     });
   }
 
@@ -118,7 +134,6 @@ class ArScreenController extends GetxController {
     this.arObjectManager!.onInitialize();
 
     this.arObjectManager!.onNodeTap = (nodes) {
-      exitAR();
       Get.to(() => MemoryDetailsScreen(memory: memories[int.parse(nodes[0])]));
     };
 

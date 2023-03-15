@@ -12,6 +12,7 @@ class NonFilledFormField extends StatelessWidget {
     this.maxLine = 1,
     this.maxLength = 100,
     this.keyboardType = TextInputType.text,
+    this.enabled = true,
   }) : super(key: key);
 
   final double screenWidth;
@@ -23,6 +24,7 @@ class NonFilledFormField extends StatelessWidget {
   final double height;
   final int maxLine;
   final int maxLength;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class NonFilledFormField extends StatelessWidget {
               keyboardType: keyboardType,
               controller: controller,
               obscureText: obscureText,
+              enabled: enabled,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
@@ -59,6 +62,16 @@ class NonFilledFormField extends StatelessWidget {
                 labelStyle: const TextStyle(
                   color: Colors.black,
                 ),
+                disabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 3.0,
+                    style: BorderStyle.solid,
+                  ),
+                ),
               ),
             ))
         : SizedBox(
@@ -69,6 +82,7 @@ class NonFilledFormField extends StatelessWidget {
               obscureText: obscureText,
               maxLines: maxLine,
               maxLength: maxLength,
+              enabled: enabled,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
@@ -81,6 +95,16 @@ class NonFilledFormField extends StatelessWidget {
                   ),
                 ),
                 focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 3.0,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                disabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.0),
                   ),

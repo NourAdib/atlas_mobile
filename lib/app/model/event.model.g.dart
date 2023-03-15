@@ -1,0 +1,58 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'event.model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Event _$EventFromJson(Map<String, dynamic> json) => Event(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      numberOfParticipants: json['numberOfParticipants'] as int?,
+      latitude: json['latitude'] as String?,
+      longitude: json['longitude'] as String?,
+      visibility: $enumDecodeNullable(_$VisibilityEnumMap, json['visibility']),
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      clues: (json['clues'] as List<dynamic>?)
+          ?.map((e) => Clue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      goal: json['goal'] == null
+          ? null
+          : Clue.fromJson(json['goal'] as Map<String, dynamic>),
+      creator: json['creator'] == null
+          ? null
+          : User.fromJson(json['creator'] as Map<String, dynamic>),
+    )..participants = (json['participants'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'numberOfParticipants': instance.numberOfParticipants,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'visibility': _$VisibilityEnumMap[instance.visibility],
+      'date': instance.date?.toIso8601String(),
+      'clues': instance.clues,
+      'goal': instance.goal,
+      'creator': instance.creator,
+      'participants': instance.participants,
+    };
+
+const _$VisibilityEnumMap = {
+  Visibility.public: 'public',
+  Visibility.private: 'private',
+};
