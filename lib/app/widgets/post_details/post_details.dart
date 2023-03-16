@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../model/post.model.dart';
+import '../circle_button.dart';
 import '../navbar.dart';
 import 'comment_preview.dart';
 import 'like_preview.dart';
@@ -39,6 +40,31 @@ class PostDetailsScreen extends StatelessWidget {
       appBar: const TopBar(
         pageTile: 'Scrap',
         hasBackButton: true,
+      ),
+      floatingActionButton: Obx(
+        () => c.isOwner.value
+            ? CircleButton(
+                onPressed: () {
+                  Get.defaultDialog(
+                      title: 'Delete Scrap',
+                      middleText: 'Are you sure you want to delete this scrap?',
+                      textConfirm: 'Yes',
+                      textCancel: 'No',
+                      confirmTextColor: const Color(0xFFFFFFFF),
+                      cancelTextColor: const Color(0xFF182335),
+                      buttonColor: const Color(0xFFEF694D),
+                      onConfirm: () {
+                        c.deletePost();
+                      });
+                },
+                size: 60.0,
+                color: const Color(0xFFEF694D),
+                borderColor: const Color(0xFF182335),
+                icon: "assets/images/trash_delete_icon.svg",
+                iconSize: 40,
+                iconColor: const Color(0xFF182335),
+              )
+            : Container(),
       ),
       bottomNavigationBar: Obx(
         () => Navbar(

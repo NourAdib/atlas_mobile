@@ -1,36 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'memories.service.dart';
+part of 'event.service.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-MemoriesRequest _$MemoriesRequestFromJson(Map<String, dynamic> json) =>
-    MemoriesRequest()
-      ..latitude = json['latitude'] as String?
-      ..longitude = json['longitude'] as String?;
-
-Map<String, dynamic> _$MemoriesRequestToJson(MemoriesRequest instance) =>
-    <String, dynamic>{
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
-    };
-
-MemoriesResponse _$MemoriesResponseFromJson(Map<String, dynamic> json) =>
-    MemoriesResponse(
-      memories: (json['data'] as List<dynamic>?)
-          ?.map((e) => Memory.fromJson(e as Map<String, dynamic>))
+EventsResponse _$EventsResponseFromJson(Map<String, dynamic> json) =>
+    EventsResponse(
+      events: (json['data'] as List<dynamic>?)
+          ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       meta: json['meta'] == null
           ? null
           : Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$MemoriesResponseToJson(MemoriesResponse instance) =>
+Map<String, dynamic> _$EventsResponseToJson(EventsResponse instance) =>
     <String, dynamic>{
-      'data': instance.memories,
+      'data': instance.events,
       'meta': instance.meta,
+    };
+
+Response _$ResponseFromJson(Map<String, dynamic> json) => Response(
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$ResponseToJson(Response instance) => <String, dynamic>{
+      'message': instance.message,
     };
 
 // **************************************************************************
@@ -39,8 +36,8 @@ Map<String, dynamic> _$MemoriesResponseToJson(MemoriesResponse instance) =>
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _MemoriesService implements MemoriesService {
-  _MemoriesService(
+class _EventsService implements EventsService {
+  _EventsService(
     this._dio, {
     this.baseUrl,
   }) {
@@ -52,62 +49,7 @@ class _MemoriesService implements MemoriesService {
   String? baseUrl;
 
   @override
-  Future<MemoriesResponse> getMemories(
-    token,
-    request,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': token};
-    _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<MemoriesResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/memory/proximity-memories',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MemoriesResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<Memory> getMemoryById(
-    token,
-    id,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': token};
-    _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Memory>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/memory/${id}}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = Memory.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<MemoriesResponse> getUserMemories(
+  Future<EventsResponse> getUserEvents(
     token,
     page,
   ) async {
@@ -117,24 +59,24 @@ class _MemoriesService implements MemoriesService {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<MemoriesResponse>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<EventsResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/memory/user-memories',
+              '/event/user-events',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MemoriesResponse.fromJson(_result.data!);
+    final value = EventsResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<void> deleteMemory(
+  Future<Event> getEventById(
     token,
     id,
   ) async {
@@ -143,18 +85,102 @@ class _MemoriesService implements MemoriesService {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    await _dio.fetch<void>(_setStreamType<void>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Event>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Event.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<EventsResponse> getJoinedEvents(
+    token,
+    page,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EventsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/joined-events',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = EventsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Event> joinEvent(
+    token,
+    id,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Event>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/join-event/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Event.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Response> deleteEvent(
+    token,
+    id,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Response>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/memory/${id}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              '/event/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Response.fromJson(_result.data!);
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

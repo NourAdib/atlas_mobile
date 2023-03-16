@@ -5,6 +5,7 @@ import 'package:atlas_mobile/app/model/enums/reportReasons.enum.dart';
 import 'package:atlas_mobile/app/model/enums/subscription.enum.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
+import 'package:atlas_mobile/app/pages/home_screen/views/home_screen.dart';
 import 'package:atlas_mobile/app/pages/view_post_reports_screen/views/view_post_reports_screen.dart';
 import 'package:atlas_mobile/app/services/analytics/analytics.service.dart';
 import 'package:atlas_mobile/app/services/post/post.service.dart';
@@ -411,5 +412,25 @@ class PostDetailsScreenController extends GetxController {
 
   getParsedDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
+  }
+
+  deletePost() async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    postService
+        .deletePostById('Bearer $accessToken', post.id!)
+        .then((response) {
+      SnackBarService.showSuccessSnackbar(
+          'Success', 'Post Deleted Successfully');
+      Get.to(() => const HomeScreen());
+      toggleLoading();
+    }).catchError((error) {
+      log(error.toString());
+    });
   }
 }

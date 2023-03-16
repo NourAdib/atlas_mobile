@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import 'event_preview.dart';
+import 'memory_preview.dart';
 import 'post_preview.dart';
 import 'scrapbook_preview.dart';
 import 'user_details.dart';
@@ -163,6 +165,26 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         )
                       : const SizedBox(),
+                  c.isDisplayingMemories.value
+                      ? Expanded(
+                          child: GridView.builder(
+                            itemCount: c.memoriesList.length,
+                            controller: c.memoriesScrollController,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 2,
+                              mainAxisSpacing: 2,
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            itemBuilder: ((context, index) {
+                              return MemoryPreview(
+                                memory: c.memoriesList[index],
+                              );
+                            }),
+                          ),
+                        )
+                      : const SizedBox(),
                   c.isDisplayingScrapbooks.value
                       ? Expanded(
                           child: GridView.builder(
@@ -180,6 +202,94 @@ class ProfileScreen extends StatelessWidget {
                                 scrapbook: c.scrapbooksList[index],
                               );
                             }),
+                          ),
+                        )
+                      : const SizedBox(),
+                  c.isDisplayingEvents.value
+                      ? Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 7,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(10),
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 5,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFFF6E9),
+                                          border: Border.all(
+                                            color: const Color(0xFF182335),
+                                            width: 3,
+                                            style: BorderStyle.solid,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color:
+                                                  Color.fromRGBO(0, 0, 0, 0.25),
+                                              blurRadius: 4,
+                                              offset: Offset(0,
+                                                  4), // changes position of shadow
+                                            )
+                                          ],
+                                        ),
+                                        child: const Text(
+                                          'Show Joined Event',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      Switch(
+                                          value: c.isJoinedEventsSelected.value,
+                                          activeColor: const Color(0xffEF694D),
+                                          onChanged: (_) {
+                                            c.toggleJoinedEventsSelected();
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                c.isJoinedEventsSelected.value
+                                    ? ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: c.joinedEventsList.length,
+                                        controller:
+                                            c.joinedEventsScrollController,
+                                        padding: const EdgeInsets.all(10),
+                                        itemBuilder: ((context, index) {
+                                          return EventPreview(
+                                            event: c.joinedEventsList[index],
+                                          );
+                                        }),
+                                      )
+                                    : ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: c.eventsList.length,
+                                        controller: c.eventsScrollController,
+                                        padding: const EdgeInsets.all(10),
+                                        itemBuilder: ((context, index) {
+                                          return EventPreview(
+                                            event: c.eventsList[index],
+                                          );
+                                        }),
+                                      ),
+                              ],
+                            ),
                           ),
                         )
                       : const SizedBox(),

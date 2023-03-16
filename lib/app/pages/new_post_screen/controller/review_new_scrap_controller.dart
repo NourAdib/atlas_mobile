@@ -1,7 +1,17 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:atlas_mobile/app/services/post/post.service.dart';
+import 'package:atlas_mobile/app/utility/shared_preferences.dart';
+import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ReviewNewScrapController extends GetxController {
+  ReviewNewScrapController(this.post);
+  XFile? post;
   var height = Get.height;
   var width = Get.width;
   var private = false.obs;
@@ -53,5 +63,22 @@ class ReviewNewScrapController extends GetxController {
       personal.value = false;
       opinion.value = false;
     }
+  }
+
+  createScrap() async {
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    postService
+        .createPost('Bearer $accessToken', 'caption', 'location', 'private',
+            'tag', 'type', File(post!.path))
+        .then((response) {
+      SnackBarService.showSuccessSnackbar('Success', 'Scrap Created');
+    }).catchError((error) {
+      log(error.toString());
+    });
   }
 }

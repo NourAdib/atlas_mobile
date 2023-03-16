@@ -4,7 +4,6 @@ import 'package:atlas_mobile/app/utility/global.dart';
 class Repo {
   static const String url = "http://10.6.130.39:3000";
 
-
   static const String loginPath = "/auth/login";
   static const String registerPath = "/auth/signup";
   static const String notificationRegistrationPath = "/notification/signup";
@@ -54,7 +53,12 @@ class Repo {
   static const String appealPost = "/appeals/appeal-post";
   static const String getUserAppeals = "/appeals/user-appeals";
   static const String analytics = "/analytics/post";
-
+  static const String getUserMemories = "/memory/user-memories";
+  static const String getUserEvents = "/event/user-events";
+  static const String getJoinedEvents = "/event/joined-events";
+  static const String getEventById = "/event";
+  static const String getMemoryById = "/memory";
+  static const String joinEvent = "/event/join-event";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

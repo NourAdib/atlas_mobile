@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 
+import '../controller/new_post_controller.dart';
 import '../controller/review_new_scrap_controller.dart';
 
 class ReviewScrap extends StatelessWidget {
@@ -12,7 +13,10 @@ class ReviewScrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ReviewNewScrapController c = Get.put(ReviewNewScrapController());
+    final NewPostController postController = Get.find<NewPostController>();
+
+    final ReviewNewScrapController c =
+        Get.put(ReviewNewScrapController(postController.scrap));
     return Scaffold(
       appBar: const TopBar(pageTile: 'New Scrap'),
       body: SafeArea(
@@ -227,7 +231,9 @@ class ReviewScrap extends StatelessWidget {
                     ),
                     SizedBox(width: c.width * 0.03),
                     ElevatedButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        c.createScrap();
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF182335),

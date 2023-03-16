@@ -18,6 +18,11 @@ class HomeScreen extends StatelessWidget {
     final HomeScreenController c = Get.put(HomeScreenController());
     final NavigationController navigationController =
         Get.put(NavigationController());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.getFeed(1);
+    });
+
     return Scaffold(
       appBar: const TopBar(
         pageTile: 'Home',

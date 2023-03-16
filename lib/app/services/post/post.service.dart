@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:atlas_mobile/app/model/like.model.dart';
 import 'package:atlas_mobile/app/model/meta.model.dart';
@@ -15,12 +16,28 @@ part 'post.service.g.dart';
 abstract class PostService {
   factory PostService(Dio dio, {String baseUrl}) = _PostService;
 
+  @POST('/post/create')
+  @MultiPart()
+  Future<Post> createPost(
+    @Header('Authorization') String token,
+    @Part() String caption,
+    @Part() String location,
+    @Part() String visibility,
+    @Part() String tag,
+    @Part() String type,
+    @Part() File image,
+  );
+
   @GET(Repo.userPosts)
   Future<UserPostsResponse> getUserPosts(
       @Header('Authorization') String token, @Query('page') int page);
 
   @GET('${Repo.postById}/{postId}')
   Future<Post> getPostById(
+      @Header('Authorization') String token, @Path('postId') String postId);
+
+  @DELETE('${Repo.postById}/{postId}')
+  Future<MessageResponse> deletePostById(
       @Header('Authorization') String token, @Path('postId') String postId);
 
   @GET('${Repo.scrapbook}/{scrapbookId}')
@@ -106,4 +123,16 @@ class CommentDto {
   factory CommentDto.fromJson(Map<String, dynamic> json) =>
       _$CommentDtoFromJson(json);
   Map<String, dynamic> toJson() => _$CommentDtoToJson(this);
+}
+
+@JsonSerializable()
+class MessageResponse {
+  @JsonKey(name: 'message')
+  String? message;
+
+  MessageResponse({this.message});
+
+  factory MessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$MessageResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 }

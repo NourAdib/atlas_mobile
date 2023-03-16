@@ -28,10 +28,14 @@ class MemoryDetailsScreen extends StatelessWidget {
     c.getUserProfile();
 
     return Scaffold(
-        appBar: const TopBar(pageTile: 'Memory'),
+        appBar: const TopBar(
+          pageTile: 'Memory',
+          hasBackButton: true,
+        ),
         bottomNavigationBar: Obx(() => Navbar(
-            currentIndex: navigationController.selectedIndex.value,
-            onItemTap: navigationController.onItemTap)),
+              currentIndex: navigationController.selectedIndex.value,
+              onItemTap: navigationController.onItemTap,
+            )),
         body: SafeArea(
             child: Obx(
           () => Container(
