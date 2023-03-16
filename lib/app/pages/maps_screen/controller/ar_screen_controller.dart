@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as Math;
 
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
@@ -35,10 +36,7 @@ class ArScreenController extends GetxController {
 
   startUp(isLoading) async {
     toggleLoading(isLoading);
-    if (memories.value.isNotEmpty) {
-      memories.value.clear();
-    }
-
+    memories.value.clear();
     await getCurrentLocation();
     await getMemories();
     toggleLoading(isLoading);
@@ -53,37 +51,39 @@ class ArScreenController extends GetxController {
   }
 
   Future<void> createNodes() async {
-    // for (var i = 0; i < 10; i++) {
-    //   Vector3 position = getPosition(i);
-    //   ARNode newNode = ARNode(
-    //       type: NodeType.webGLB,
-    //       name: i.toString(),
-    //       uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
-    //       scale: Vector3(0.1, 0.1, 0.1),
-    //       rotation: Vector4(1.0, 1.0, 1.0, 1.0),
-    //       position: position);
-
-    //   log("position: ${newNode.position}");
-
-    //   await arObjectManager!.addNode(newNode);
-    // }
-
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < memories.length; i++) {
       ARNode newNode = ARNode(
-          type: NodeType.webGLB,
-          name: i.toString(),
-          uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
-          scale: Vector3(0.1, 0.1, 0.1),
-          rotation: Vector4(1.0, 0.0, 0.0, 0.0),
-          position: Vector3(i * 0.00001, 0.0, 0.0));
+        type: NodeType.webGLB,
+        name: i.toString(),
+        uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
+        scale: Vector3(0.1, 0.1, 0.1),
+        rotation: Vector4(1.0, 0.0, 0.0, 0.0),
+        position: getPosition(0.0, 0.0, i),
+      );
 
-      log("position: ${newNode.position}");
+      newNode.rotationFromQuaternion =
+          Quaternion.axisAngle(Vector3(1.0, 0.0, 0.0), radians(-90));
+
       await arObjectManager!.addNode(newNode);
     }
   }
 
-  Vector3 getPosition(int i) {
-    return Vector3(0.0 + i * 0.00000001, 0.0, 0.0);
+  Vector3 getPosition(double lat, double long, i) {
+    final Vector3 earthCenter = Vector3.zero();
+
+    double x = Math.cos(lat) * Math.cos(long);
+    double y = Math.cos(lat) * Math.sin(long);
+    double z = Math.sin(lat);
+
+    Vector3 vectorCoordinates = Vector3(x, y, z);
+    vectorCoordinates.normalize();
+
+    Vector3 finalVector = vectorCoordinates - earthCenter;
+
+    finalVector =
+        i % 2 == 0 ? Vector3(0.0, 0.0, 1.0 * i) : Vector3(1.0 * i, 0.0, 0.0);
+
+    return finalVector;
   }
 
   Future<void> getMemories() async {
@@ -105,9 +105,6 @@ class ArScreenController extends GetxController {
         SnackBarService.showErrorSnackbar(
             "Memories not found", "No nearby memories found");
       }
-      log("Memories AR: ${memories.value.length}");
-      log("latitude: ${currentPosition!.latitude}");
-      log("longitude: ${currentPosition!.longitude}");
     }).catchError((error) {
       log(error.response.toString());
     });
@@ -137,6 +134,7 @@ class ArScreenController extends GetxController {
       Get.to(() => MemoryDetailsScreen(memory: memories[int.parse(nodes[0])]));
     };
 
+    this.arSessionManager!.onPlaneOrPointTap = (nodes) {};
     createNodes();
   }
 }

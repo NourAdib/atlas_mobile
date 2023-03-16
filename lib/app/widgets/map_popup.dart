@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import '../model/clue.model.dart';
 import '../model/event.model.dart';
-import 'event_details/event_details.dart';
 import 'memory_details/memory_details.dart';
+import 'package:atlas_mobile/app/pages/events_screen/views/events_details_screen.dart';
 
 class MemoryMarkerPopup extends StatelessWidget {
   const MemoryMarkerPopup({Key? key, required this.memory}) : super(key: key);
