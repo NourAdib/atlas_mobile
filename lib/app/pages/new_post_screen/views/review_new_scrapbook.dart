@@ -1,5 +1,4 @@
 import 'package:atlas_mobile/app/pages/new_post_screen/controller/review_new_scrapbook_controller.dart';
-import 'package:atlas_mobile/app/pages/new_post_screen/views/review_new_scrap.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +13,66 @@ class ReviewScarpbook extends StatelessWidget {
     final ReviewNewScrapbookController c =
         Get.put(ReviewNewScrapbookController());
     return Scaffold(
-      appBar: const TopBar(pageTile: 'New Scrapbook'),
+      appBar: const TopBar(
+        pageTile: 'New Scrapbook',
+        hasBackButton: true,
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: c.width * 0.02,
+          vertical: c.width * 0.03,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                c.goToPrreviousScreen();
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color(0xFFEFCB68),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(c.width * 0.46, c.height * 0.07),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              child: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(width: c.width * 0.03),
+            ElevatedButton(
+              onPressed: () async {
+                await c.createScrapbook();
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color(0xFF182335),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(c.width * 0.46, c.height * 0.07),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              child: const Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -22,18 +80,13 @@ class ReviewScarpbook extends StatelessWidget {
               SizedBox(height: Get.height * 0.04),
               NonFilledFormField(
                   screenWidth: Get.width,
-                  controller: c.peopleTextFieldController,
-                  labelText: "Name"),
+                  controller: c.captionTextFieldController,
+                  labelText: "Caption"),
               SizedBox(height: Get.height * 0.04),
               NonFilledFormField(
                   screenWidth: Get.width,
                   controller: c.locationTextFieldController,
                   labelText: "Description"),
-              SizedBox(height: Get.height * 0.04),
-              NonFilledFormField(
-                  screenWidth: Get.width,
-                  controller: c.peopleTextFieldController,
-                  labelText: "Location"),
               SizedBox(height: Get.height * 0.04),
               Column(
                 children: [
@@ -101,63 +154,6 @@ class ReviewScarpbook extends StatelessWidget {
                     ],
                   ),
                 ],
-              ),
-              SizedBox(height: Get.height * 0.339),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: c.width * 0.02,
-                  vertical: c.width * 0.03,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        c.goToPrreviousScreen();
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xFFEFCB68),
-                        ),
-                        minimumSize: MaterialStateProperty.all<Size>(
-                          Size(c.width * 0.46, c.height * 0.07),
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(width: c.width * 0.03),
-                    ElevatedButton(
-                      onPressed: () async {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xFF182335),
-                        ),
-                        minimumSize: MaterialStateProperty.all<Size>(
-                          Size(c.width * 0.46, c.height * 0.07),
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),

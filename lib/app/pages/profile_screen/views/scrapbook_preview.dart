@@ -40,7 +40,7 @@ class ScrapbookPreview extends StatelessWidget {
           ],
         ),
         child: ScrapbookImage(
-          imageUrl: scrapbook.posts!.isEmpty
+          imageUrl: scrapbook.posts?.isEmpty ?? true
               ? ''
               : c.getScrapbookThumbnail(scrapbook.posts ?? []),
           caption: scrapbook.caption!,

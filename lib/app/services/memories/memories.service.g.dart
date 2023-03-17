@@ -52,6 +52,61 @@ class _MemoriesService implements MemoriesService {
   String? baseUrl;
 
   @override
+  Future<Memory> createMemory(
+    token,
+    location,
+    visibility,
+    longitude,
+    latitude,
+    image,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'location',
+      location,
+    ));
+    _data.fields.add(MapEntry(
+      'visibility',
+      visibility,
+    ));
+    _data.fields.add(MapEntry(
+      'longitude',
+      longitude,
+    ));
+    _data.fields.add(MapEntry(
+      'latitude',
+      latitude,
+    ));
+    _data.files.add(MapEntry(
+      'image',
+      MultipartFile.fromFileSync(
+        image.path,
+        filename: image.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Memory>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/memory/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Memory.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<MemoriesResponse> getMemories(
     token,
     request,

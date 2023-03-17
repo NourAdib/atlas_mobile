@@ -59,6 +59,20 @@ Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
       'message': instance.message,
     };
 
+CreateScrapbookDto _$CreateScrapbookDtoFromJson(Map<String, dynamic> json) =>
+    CreateScrapbookDto(
+      json['caption'] as String?,
+      json['location'] as String?,
+      json['visibility'] as String?,
+    );
+
+Map<String, dynamic> _$CreateScrapbookDtoToJson(CreateScrapbookDto instance) =>
+    <String, dynamic>{
+      'caption': instance.caption,
+      'location': instance.location,
+      'visibility': instance.visibility,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -76,6 +90,34 @@ class _PostService implements PostService {
   final Dio _dio;
 
   String? baseUrl;
+
+  @override
+  Future<Scrapbook> createScrapbook(
+    token,
+    createScrapbookDto,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(createScrapbookDto.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<Scrapbook>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/scrapbook/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Scrapbook.fromJson(_result.data!);
+    return value;
+  }
 
   @override
   Future<Post> createPost(

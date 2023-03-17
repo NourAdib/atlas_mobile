@@ -15,6 +15,17 @@ part 'memories.service.g.dart';
 abstract class MemoriesService {
   factory MemoriesService(Dio dio, {String baseUrl}) = _MemoriesService;
 
+  @POST('/memory/create')
+  @MultiPart()
+  Future<Memory> createMemory(
+    @Header('Authorization') String token,
+    @Part() String location,
+    @Part() String visibility,
+    @Part() String longitude,
+    @Part() String latitude,
+    @Part() File image,
+  );
+
   @POST(Repo.memoriesPath)
   Future<MemoriesResponse> getMemories(
       @Header('Authorization') String token, @Body() MemoriesRequest request);

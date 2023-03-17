@@ -476,6 +476,8 @@ class ProfileScreenController extends GetxController {
     } else {
       return '';
     }
+
+    return '';
   }
 
   getCurrentEvent(String eventId) async {

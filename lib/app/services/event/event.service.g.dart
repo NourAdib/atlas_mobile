@@ -43,6 +43,58 @@ Map<String, dynamic> _$ProximityEventsRequestToJson(
       'longitude': instance.longitude,
     };
 
+CreateEventDto _$CreateEventDtoFromJson(Map<String, dynamic> json) =>
+    CreateEventDto()
+      ..latitude = json['latitude'] as String?
+      ..longitude = json['longitude'] as String?
+      ..name = json['name'] as String?
+      ..description = json['description'] as String?
+      ..numberOfParticipants = json['numberOfParticipants'] as int?
+      ..visibility = json['visibility'] as String?
+      ..date =
+          json['date'] == null ? null : DateTime.parse(json['date'] as String)
+      ..goal = json['goal'] == null
+          ? null
+          : GoalDto.fromJson(json['goal'] as Map<String, dynamic>)
+      ..clues = (json['clues'] as List<dynamic>?)
+          ?.map((e) => ClueDto.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$CreateEventDtoToJson(CreateEventDto instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'name': instance.name,
+      'description': instance.description,
+      'numberOfParticipants': instance.numberOfParticipants,
+      'visibility': instance.visibility,
+      'date': instance.date?.toIso8601String(),
+      'goal': instance.goal,
+      'clues': instance.clues,
+    };
+
+GoalDto _$GoalDtoFromJson(Map<String, dynamic> json) => GoalDto()
+  ..latitude = json['latitude'] as String?
+  ..longitude = json['longitude'] as String?
+  ..text = json['text'] as String?;
+
+Map<String, dynamic> _$GoalDtoToJson(GoalDto instance) => <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'text': instance.text,
+    };
+
+ClueDto _$ClueDtoFromJson(Map<String, dynamic> json) => ClueDto()
+  ..latitude = json['latitude'] as String?
+  ..longitude = json['longitude'] as String?
+  ..text = json['text'] as String?;
+
+Map<String, dynamic> _$ClueDtoToJson(ClueDto instance) => <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'text': instance.text,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -60,6 +112,34 @@ class _EventsService implements EventsService {
   final Dio _dio;
 
   String? baseUrl;
+
+  @override
+  Future<Event> createEvent(
+    token,
+    request,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Event>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/create-event',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Event.fromJson(_result.data!);
+    return value;
+  }
 
   @override
   Future<List<Event>> getProximityEvents(

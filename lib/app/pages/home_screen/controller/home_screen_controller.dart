@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/services/feed/feed.service.dart';
@@ -72,8 +73,16 @@ class HomeScreenController extends GetxController {
 
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
+  }
+
+  errorHandler(error) {
+    var errorResponse = jsonDecode(error.response.toString());
+    var errorMessage = errorResponse['message'] is List
+        ? errorResponse['message'][0]
+        : errorResponse['message'];
+    SnackBarService.showErrorSnackbar('Error', errorMessage);
   }
 
   toggleLoading() {
@@ -109,7 +118,7 @@ class HomeScreenController extends GetxController {
         }
         toggleLoading();
       }).catchError((error) {
-        log(error.toString());
+        errorHandler(error);
       });
     }
   }

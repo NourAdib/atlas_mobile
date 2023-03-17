@@ -58,8 +58,18 @@ class EditProfileController extends GetxController {
       }
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
+  }
+
+  errorHandler(error) {
+    var errorResponse = jsonDecode(error.response.toString());
+    var errorMessage = errorResponse['message'] is List
+        ? errorResponse['message'][0]
+        : errorResponse['message'];
+    SnackBarService.showErrorSnackbar('Error', errorMessage);
+
+    isLoading.value = false;
   }
 
   updateUserProfile() async {
@@ -117,16 +127,6 @@ class EditProfileController extends GetxController {
     }).catchError((error) {
       errorHandler(error);
     });
-  }
-
-  errorHandler(error) {
-    var errorResponse = jsonDecode(error.response.toString());
-    var errorMessage = errorResponse['message'] is List
-        ? errorResponse['message'][0]
-        : errorResponse['message'];
-    SnackBarService.showErrorSnackbar('Error', errorMessage);
-
-    isLoading.value = false;
   }
 
   pickImage() async {

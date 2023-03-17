@@ -93,7 +93,7 @@ class NewPostScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(style: TextStyle(fontSize: 25), "Memories"),
-                          Text("create a new memorie"),
+                          Text("create a new memory"),
                           Text("to share your special"),
                           Text("moment with the world"),
                         ],
@@ -103,8 +103,8 @@ class NewPostScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () async {
-                  await c.createScrapbook();
+                onTap: () {
+                  c.createScrapbookRoute();
                 },
                 child: Container(
                   width: Get.width * 0.94,
@@ -162,7 +162,7 @@ class NewPostScreen extends StatelessWidget {
                         children: const [
                           Text(style: TextStyle(fontSize: 25), "Events"),
                           Text("create a new event"),
-                          Text("to challange your"),
+                          Text("to challenge your"),
                           Text("friends in a competition"),
                         ],
                       ),

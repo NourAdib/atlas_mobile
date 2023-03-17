@@ -16,6 +16,12 @@ part 'post.service.g.dart';
 abstract class PostService {
   factory PostService(Dio dio, {String baseUrl}) = _PostService;
 
+  @POST('/post/scrapbook/create')
+  Future<Scrapbook> createScrapbook(
+    @Header('Authorization') String token,
+    @Body() CreateScrapbookDto createScrapbookDto,
+  );
+
   @POST('/post/create')
   @MultiPart()
   Future<Post> createPost(
@@ -135,4 +141,18 @@ class MessageResponse {
   factory MessageResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageResponseFromJson(json);
   Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
+}
+
+@JsonSerializable()
+class CreateScrapbookDto {
+  @JsonKey(name: 'caption')
+  String? caption;
+  @JsonKey(name: 'location')
+  String? location;
+  @JsonKey(name: 'visibility')
+  String? visibility;
+  CreateScrapbookDto(this.caption, this.location, this.visibility);
+  factory CreateScrapbookDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateScrapbookDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$CreateScrapbookDtoToJson(this);
 }

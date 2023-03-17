@@ -104,8 +104,18 @@ class UserProfileScreenController extends GetxController {
       user = response;
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
+  }
+
+  errorHandler(error) {
+    var errorResponse = jsonDecode(error.response.toString());
+    var errorMessage = errorResponse['message'] is List
+        ? errorResponse['message'][0]
+        : errorResponse['message'];
+    SnackBarService.showErrorSnackbar('Error', errorMessage);
+
+    isLoading.value = false;
   }
 
   getUserProfileById() async {
@@ -134,7 +144,7 @@ class UserProfileScreenController extends GetxController {
       });
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -157,7 +167,7 @@ class UserProfileScreenController extends GetxController {
       }
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -236,7 +246,7 @@ class UserProfileScreenController extends GetxController {
       }
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -264,7 +274,7 @@ class UserProfileScreenController extends GetxController {
         }
         toggleLoading();
       }).catchError((error) {
-        log(error.toString());
+        errorHandler(error);
       });
     }
   }
@@ -289,7 +299,7 @@ class UserProfileScreenController extends GetxController {
         }
         toggleLoading();
       }).catchError((error) {
-        log(error.toString());
+        errorHandler(error);
       });
     }
   }
@@ -308,7 +318,7 @@ class UserProfileScreenController extends GetxController {
       toggleLoading();
       return response;
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -326,7 +336,7 @@ class UserProfileScreenController extends GetxController {
       toggleLoading();
       return response;
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -388,7 +398,7 @@ class UserProfileScreenController extends GetxController {
 
       toggleLoading();
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -472,7 +482,7 @@ class UserProfileScreenController extends GetxController {
       SnackBarService.showSuccessSnackbar(
           'Success', 'You have unfollowed ${visitedUser.username}');
     }).catchError((error) {
-      log(error.toString());
+      errorHandler(error);
     });
   }
 
@@ -540,14 +550,6 @@ class UserProfileScreenController extends GetxController {
     Get.toNamed('/home');
     SnackBarService.showSuccessSnackbar(
         'Success', 'User Reported Successfully');
-  }
-
-  errorHandler(error) {
-    var errorResponse = jsonDecode(error.response.toString());
-    var errorMessage = errorResponse['message'] is List
-        ? errorResponse['message'][0]
-        : errorResponse['message'];
-    SnackBarService.showErrorSnackbar('Error', errorMessage);
   }
 
   blockUser() async {
