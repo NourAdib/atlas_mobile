@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../services/repo.dart';
 
 class RegistrationScreenController extends GetxController {
   //Get the width of the screen
@@ -217,5 +220,15 @@ class RegistrationScreenController extends GetxController {
 
   sendToLoginScreen() {
     Get.offNamed('/login');
+  }
+
+  captchaTest() {
+    launchURL('http://${Repo.url}/auth/captcha');
+  }
+
+  launchURL(String uri) async {
+    if (!await launchUrl(Uri.parse(uri))) {
+      throw Exception('Could not launch $uri');
+    }
   }
 }

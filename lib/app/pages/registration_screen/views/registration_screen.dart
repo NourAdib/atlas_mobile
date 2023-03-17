@@ -14,6 +14,11 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final RegistrationScreenController c =
         Get.put(RegistrationScreenController());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.captchaTest();
+    });
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -93,7 +98,6 @@ class RegistrationScreen extends StatelessWidget {
                     controller: c.dobTextFieldController,
                     labelText: 'DOB',
                     hintText: 'yyyy-mm-dd',
-                    keyboardType: TextInputType.datetime,
                   ),
                   SizedBox(height: c.height * 0.02),
                   NonFilledFormField(

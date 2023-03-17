@@ -49,6 +49,16 @@ Map<String, dynamic> _$CommentDtoToJson(CommentDto instance) =>
       'text': instance.text,
     };
 
+MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
+    MessageResponse(
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -66,6 +76,66 @@ class _PostService implements PostService {
   final Dio _dio;
 
   String? baseUrl;
+
+  @override
+  Future<Post> createPost(
+    token,
+    caption,
+    location,
+    visibility,
+    tag,
+    type,
+    image,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'caption',
+      caption,
+    ));
+    _data.fields.add(MapEntry(
+      'location',
+      location,
+    ));
+    _data.fields.add(MapEntry(
+      'visibility',
+      visibility,
+    ));
+    _data.fields.add(MapEntry(
+      'tag',
+      tag,
+    ));
+    _data.fields.add(MapEntry(
+      'type',
+      type,
+    ));
+    _data.files.add(MapEntry(
+      'image',
+      MultipartFile.fromFileSync(
+        image.path,
+        filename: image.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/post/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Post.fromJson(_result.data!);
+    return value;
+  }
 
   @override
   Future<UserPostsResponse> getUserPosts(
@@ -118,6 +188,116 @@ class _PostService implements PostService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = Post.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MessageResponse> deletePostById(
+    token,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MessageResponse>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MessageResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Scrapbook> getScrapbookById(
+    token,
+    scrapbookId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<Scrapbook>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/scrapbook/${scrapbookId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Scrapbook.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Scrapbook> addPostToScrapbook(
+    token,
+    scrapbookId,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<Scrapbook>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/scrapbook/${scrapbookId}/add-post/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Scrapbook.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Scrapbook> removePostFromScrapbook(
+    token,
+    scrapbookId,
+    postId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<Scrapbook>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/scrapbook/${scrapbookId}/remove-post/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Scrapbook.fromJson(_result.data!);
     return value;
   }
 

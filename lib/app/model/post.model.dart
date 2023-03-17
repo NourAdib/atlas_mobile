@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 
 import 'comment.model.dart';
 import 'like.model.dart';
+import 'scrapbook.model.dart';
 import 'user.model.dart';
 
 part 'post.model.g.dart';
@@ -47,6 +48,8 @@ class Post {
   List<Like>? likes;
   @JsonKey(name: 'comments')
   List<Comment>? comments;
+  @JsonKey(name: 'scrapbook')
+  Scrapbook? scrapbook;
 
   Post(
       {this.isTakenDown,

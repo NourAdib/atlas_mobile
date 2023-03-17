@@ -17,28 +17,35 @@ class ScrapbookPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF6E9),
-        border: Border.all(
-          color: const Color(0xFF182335),
-          width: 3,
-          style: BorderStyle.solid,
+    return InkWell(
+      onTap: () {
+        c.openScrapbookDetails(scrapbook.id!);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF6E9),
+          border: Border.all(
+            color: const Color(0xFF182335),
+            width: 3,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.25),
+              blurRadius: 4,
+              offset: Offset(0, 4), // changes position of shadow
+            )
+          ],
         ),
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.25),
-            blurRadius: 4,
-            offset: Offset(0, 4), // changes position of shadow
-          )
-        ],
-      ),
-      child: ScrapbookImage(
-        imageUrl: scrapbook.posts!.isEmpty ? '' : scrapbook.posts![0].imageUrl!,
-        caption: scrapbook.caption!,
-        height: c.height,
+        child: ScrapbookImage(
+          imageUrl: scrapbook.posts!.isEmpty
+              ? ''
+              : c.getScrapbookThumbnail(scrapbook.posts ?? []),
+          caption: scrapbook.caption!,
+          height: c.height,
+        ),
       ),
     );
   }

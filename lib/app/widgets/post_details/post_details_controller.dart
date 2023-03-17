@@ -1,15 +1,20 @@
 import 'dart:developer';
 
+import 'package:atlas_mobile/app/model/analytics.model.dart';
 import 'package:atlas_mobile/app/model/enums/reportReasons.enum.dart';
 import 'package:atlas_mobile/app/model/enums/subscription.enum.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/user.model.dart';
+import 'package:atlas_mobile/app/pages/home_screen/views/home_screen.dart';
+import 'package:atlas_mobile/app/pages/view_post_reports_screen/views/view_post_reports_screen.dart';
+import 'package:atlas_mobile/app/services/analytics/analytics.service.dart';
 import 'package:atlas_mobile/app/services/post/post.service.dart';
 import 'package:atlas_mobile/app/services/report/report.service.dart';
 import 'package:atlas_mobile/app/services/user/user.service.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:atlas_mobile/app/widgets/non_filled_form_field.dart';
+import 'package:atlas_mobile/app/widgets/scrapbook_details/scrapbooks_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -33,6 +38,7 @@ class PostDetailsScreenController extends GetxController {
   var post = Post();
 
   User user = User();
+  PostAnalytics postAnalytics = PostAnalytics();
 
   @override
   void onInit() {
@@ -52,7 +58,7 @@ class PostDetailsScreenController extends GetxController {
       user = response;
       setIsLiked();
       setOwnership(post.postedBy!.id!);
-
+      setIsPremium();
       toggleLoading();
     }).catchError((error) {
       log(error.toString());
@@ -82,12 +88,13 @@ class PostDetailsScreenController extends GetxController {
   }
 
   displayAnalytics() {
-    if (isDisplayingLikes.value == false) {
+    if (isDisplayingAnalytics.value == false) {
       isDisplayingComments.value = false;
       isDisplayingAnalytics.value = true;
       isDisplayingLikes.value = false;
       isDisplayingMoreOptions.value = false;
     }
+    getAnalytics();
   }
 
   displayMoreOptions() {
@@ -112,15 +119,40 @@ class PostDetailsScreenController extends GetxController {
               openCommentModal();
             },
           ),
-          isOwner.value
+          isOwner.value && post.scrapbook == null
               ? ListTile(
                   leading: const Icon(
-                    Icons.report_outlined,
+                    Icons.add_circle_outline,
                     color: Color(0xFF9AA0A6),
                   ),
                   title: const Text('Add To Scrapbook'),
                   onTap: () async {
-                    log('Add To Scrapbook');
+                    addPostToScrapbook(post);
+                  },
+                )
+              : const SizedBox(),
+          isOwner.value && post.scrapbook != null
+              ? ListTile(
+                  leading: const Icon(
+                    Icons.remove_circle_outline,
+                    color: Color(0xFF9AA0A6),
+                  ),
+                  title: const Text('Remove from Scrapbook'),
+                  onTap: () async {
+                    removePostFromScrapbook(post.id ?? '', post.scrapbook!.id!);
+                  },
+                )
+              : const SizedBox(),
+          isOwner.value
+              ? ListTile(
+                  leading: const Icon(
+                    Icons.view_list_outlined,
+                    size: 30,
+                  ),
+                  title: const Text('View Reports'),
+                  onTap: () async {
+                    Get.back();
+                    viewPostReports();
                   },
                 )
               : const SizedBox(),
@@ -329,5 +361,76 @@ class PostDetailsScreenController extends GetxController {
     Get.toNamed('/home');
     SnackBarService.showSuccessSnackbar(
         'Success', 'Post Reported Successfully');
+  }
+
+  removePostFromScrapbook(String postId, String scrapbookId) async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    postService
+        .removePostFromScrapbook('Bearer $accessToken', scrapbookId, postId)
+        .then((response) {
+      SnackBarService.showSuccessSnackbar(
+          'Success', 'Post removed from scrapbook');
+      toggleLoading();
+      Get.back();
+    }).catchError((error) {
+      log(error.toString());
+    });
+  }
+
+  addPostToScrapbook(Post post) {
+    Get.to(() => ScrapbooksSelectionScreen(post: post));
+  }
+
+  viewPostReports() {
+    Get.to(() => ViewPostReportsScreen(postId: post.id!));
+  }
+
+  getAnalytics() async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final analyticsService = AnalyticsService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    analyticsService
+        .getPostAnalytics('Bearer $accessToken', post.id!)
+        .then((response) {
+      postAnalytics = response;
+      toggleLoading();
+    }).catchError((error) {
+      log(error.toString());
+      log(error.response.toString());
+    });
+  }
+
+  getParsedDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
+  }
+
+  deletePost() async {
+    toggleLoading();
+    final dio = Dio(); // Provide a dio instance
+    final postService = PostService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    postService
+        .deletePostById('Bearer $accessToken', post.id!)
+        .then((response) {
+      SnackBarService.showSuccessSnackbar(
+          'Success', 'Post Deleted Successfully');
+      Get.to(() => const HomeScreen());
+      toggleLoading();
+    }).catchError((error) {
+      log(error.toString());
+    });
   }
 }

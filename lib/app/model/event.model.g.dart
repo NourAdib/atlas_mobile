@@ -34,6 +34,25 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
     )..participants = (json['participants'] as List<dynamic>?)
         ?.map((e) => User.fromJson(e as Map<String, dynamic>))
         .toList();
+      latitude: json['latitude'] as String?,
+      longitude: json['longitude'] as String?,
+      visibility: $enumDecodeNullable(_$VisibilityEnumMap, json['visibility']),
+      numberOfParticipants: json['numberOfParticipants'] as int?,
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      creator: json['creator'] == null
+          ? null
+          : User.fromJson(json['creator'] as Map<String, dynamic>),
+      participants: (json['participants'] as List<dynamic>?)
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      goal: json['goal'] == null
+          ? null
+          : EventGoal.fromJson(json['goal'] as Map<String, dynamic>),
+      clues: (json['clues'] as List<dynamic>?)
+          ?.map((e) => EventClue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'createdAt': instance.createdAt?.toIso8601String(),
@@ -50,6 +69,15 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'goal': instance.goal,
       'creator': instance.creator,
       'participants': instance.participants,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'visibility': _$VisibilityEnumMap[instance.visibility],
+      'numberOfParticipants': instance.numberOfParticipants,
+      'date': instance.date?.toIso8601String(),
+      'creator': instance.creator,
+      'participants': instance.participants,
+      'goal': instance.goal,
+      'clues': instance.clues,
     };
 
 const _$VisibilityEnumMap = {

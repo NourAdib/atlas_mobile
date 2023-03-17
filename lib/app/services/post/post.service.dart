@@ -4,7 +4,6 @@ import 'package:atlas_mobile/app/model/like.model.dart';
 import 'package:atlas_mobile/app/model/meta.model.dart';
 import 'package:atlas_mobile/app/model/post.model.dart';
 import 'package:atlas_mobile/app/model/scrapbook.model.dart';
-import 'package:atlas_mobile/app/model/user.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/http.dart';
@@ -17,6 +16,18 @@ part 'post.service.g.dart';
 abstract class PostService {
   factory PostService(Dio dio, {String baseUrl}) = _PostService;
 
+  @POST('/post/create')
+  @MultiPart()
+  Future<Post> createPost(
+    @Header('Authorization') String token,
+    @Part() String caption,
+    @Part() String location,
+    @Part() String visibility,
+    @Part() String tag,
+    @Part() String type,
+    @Part() File image,
+  );
+
   @GET(Repo.userPosts)
   Future<UserPostsResponse> getUserPosts(
       @Header('Authorization') String token, @Query('page') int page);
@@ -24,6 +35,24 @@ abstract class PostService {
   @GET('${Repo.postById}/{postId}')
   Future<Post> getPostById(
       @Header('Authorization') String token, @Path('postId') String postId);
+
+  @DELETE('${Repo.postById}/{postId}')
+  Future<MessageResponse> deletePostById(
+      @Header('Authorization') String token, @Path('postId') String postId);
+
+  @GET('${Repo.scrapbook}/{scrapbookId}')
+  Future<Scrapbook> getScrapbookById(@Header('Authorization') String token,
+      @Path('scrapbookId') String scrapbookId);
+
+  @POST('${Repo.scrapbook}/{scrapbookId}/add-post/{postId}')
+  Future<Scrapbook> addPostToScrapbook(@Header('Authorization') String token,
+      @Path('scrapbookId') String scrapbookId, @Path('postId') String postId);
+
+  @PATCH('${Repo.scrapbook}/{scrapbookId}/remove-post/{postId}')
+  Future<Scrapbook> removePostFromScrapbook(
+      @Header('Authorization') String token,
+      @Path('scrapbookId') String scrapbookId,
+      @Path('postId') String postId);
 
   @GET(Repo.userScrapbooks)
   Future<UserScrapbookResponse> getUserScrapbooks(
@@ -94,4 +123,16 @@ class CommentDto {
   factory CommentDto.fromJson(Map<String, dynamic> json) =>
       _$CommentDtoFromJson(json);
   Map<String, dynamic> toJson() => _$CommentDtoToJson(this);
+}
+
+@JsonSerializable()
+class MessageResponse {
+  @JsonKey(name: 'message')
+  String? message;
+
+  MessageResponse({this.message});
+
+  factory MessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$MessageResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 }

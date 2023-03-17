@@ -9,6 +9,7 @@ class Repo {
   static const String notificationRegistrationPath = "/notification/signup";
   static const String feedPath = "/feed";
   static const String userProfile = "/user/profile";
+
   static const String userPosts = "/post/user-posts";
   static const String memoriesPath = "/memory/proximity-memories";
   static const String userScrapbooks = "/post/scrapbook/user-scrapbooks";
@@ -49,6 +50,17 @@ class Repo {
   static const String postAvatar = "/user/avatar";
   static const String proximityClues = "/event/proximity-clues";
   static const String proximityEvents = "/event/proximity-events";
+  static const String scrapbook = "/post/scrapbook";
+  static const String postReports = "/report/post-reports";
+  static const String appealPost = "/appeals/appeal-post";
+  static const String getUserAppeals = "/appeals/user-appeals";
+  static const String analytics = "/analytics/post";
+  static const String getUserMemories = "/memory/user-memories";
+  static const String getUserEvents = "/event/user-events";
+  static const String getJoinedEvents = "/event/joined-events";
+  static const String getEventById = "/event";
+  static const String getMemoryById = "/memory";
+  static const String joinEvent = "/event/join-event";
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

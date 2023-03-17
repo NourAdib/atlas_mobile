@@ -32,8 +32,9 @@ class MemoryDetailsScreen extends StatelessWidget {
           hasBackButton: true,
         ),
         bottomNavigationBar: Obx(() => Navbar(
-            currentIndex: navigationController.selectedIndex.value,
-            onItemTap: navigationController.onItemTap)),
+              currentIndex: navigationController.selectedIndex.value,
+              onItemTap: navigationController.onItemTap,
+            )),
         body: SafeArea(
             child: Obx(
           () => Container(
