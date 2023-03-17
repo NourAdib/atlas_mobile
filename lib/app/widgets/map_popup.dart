@@ -1,9 +1,9 @@
+import 'package:atlas_mobile/app/model/event_clue.model.dart';
 import 'package:atlas_mobile/app/model/memory.model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../model/clue.model.dart';
 import '../model/event.model.dart';
 import 'memory_details/memory_details.dart';
 import 'package:atlas_mobile/app/pages/events_screen/views/events_details_screen.dart';
@@ -35,7 +35,7 @@ class MemoryMarkerPopup extends StatelessWidget {
 
 class ClueMarkerPopup extends StatelessWidget {
   const ClueMarkerPopup({Key? key, required this.clue}) : super(key: key);
-  final Clue clue;
+  final EventClue clue;
 
   @override
   Widget build(BuildContext context) {

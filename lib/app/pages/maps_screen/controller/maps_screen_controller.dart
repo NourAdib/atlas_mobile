@@ -73,6 +73,7 @@ class MapsScreenController extends GetxController {
 
   locationService() async {
     var tmp = await LocationService.getCurrentLocation();
+    log('${tmp?.latitude.toString()} ${tmp?.longitude.toString()}');
     currentPosition.value = LatLng(tmp!.latitude, tmp.longitude);
   }
 

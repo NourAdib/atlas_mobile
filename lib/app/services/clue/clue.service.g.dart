@@ -38,7 +38,7 @@ class _CluesService implements CluesService {
   String? baseUrl;
 
   @override
-  Future<List<Clue>> getProximityClues(
+  Future<List<EventClue>> getProximityClues(
     token,
     request,
   ) async {
@@ -49,7 +49,7 @@ class _CluesService implements CluesService {
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Clue>>(Options(
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<EventClue>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -62,7 +62,7 @@ class _CluesService implements CluesService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => Clue.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => EventClue.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }

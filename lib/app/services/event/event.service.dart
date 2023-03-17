@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:atlas_mobile/app/model/event.model.dart';
 import 'package:atlas_mobile/app/model/meta.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -21,12 +20,6 @@ abstract class EventsService {
   Future<List<Event>> getProximityEvents(@Header('Authorization') String token,
       @Body() ProximityEventsRequest request);
 
-  @DELETE("/event/{id}")
-  Future<void> deleteEvent(
-      @Header('Authorization') String token, @Path('id') String id);
-
-  @POST("/event/join-event/{id}")
-  Future<void> joinEvent(
   @GET(Repo.getUserEvents)
   Future<EventsResponse> getUserEvents(
       @Header('Authorization') String token, @Query('page') int page);
@@ -49,16 +42,6 @@ abstract class EventsService {
 }
 
 @JsonSerializable()
-class ProximityEventsRequest {
-  @JsonKey(name: 'latitude')
-  String? latitude;
-  @JsonKey(name: 'longitude')
-  String? longitude;
-
-  ProximityEventsRequest();
-  factory ProximityEventsRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProximityEventsRequestFromJson(json);
-  Map<String, dynamic> toJson() => _$ProximityEventsRequestToJson(this);
 class EventsResponse {
   @JsonKey(name: 'data')
   List<Event>? events;
@@ -83,4 +66,17 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) =>
       _$ResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ResponseToJson(this);
+}
+
+@JsonSerializable()
+class ProximityEventsRequest {
+  @JsonKey(name: 'latitude')
+  String? latitude;
+  @JsonKey(name: 'longitude')
+  String? longitude;
+
+  ProximityEventsRequest();
+  factory ProximityEventsRequest.fromJson(Map<String, dynamic> json) =>
+      _$ProximityEventsRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$ProximityEventsRequestToJson(this);
 }

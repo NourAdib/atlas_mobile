@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:atlas_mobile/app/model/clue.model.dart';
+import 'package:atlas_mobile/app/model/event_clue.model.dart';
 import 'package:atlas_mobile/app/services/repo.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/http.dart';
@@ -15,7 +15,8 @@ abstract class CluesService {
   factory CluesService(Dio dio, {String baseUrl}) = _CluesService;
 
   @POST(Repo.proximityClues)
-  Future<List<Clue>> getProximityClues(@Header('Authorization') String token,
+  Future<List<EventClue>> getProximityClues(
+      @Header('Authorization') String token,
       @Body() ProximityCluesRequest request);
 }
 

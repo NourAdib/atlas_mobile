@@ -6,18 +6,6 @@ part of 'event.service.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProximityEventsRequest _$ProximityEventsRequestFromJson(
-        Map<String, dynamic> json) =>
-    ProximityEventsRequest()
-      ..latitude = json['latitude'] as String?
-      ..longitude = json['longitude'] as String?;
-
-Map<String, dynamic> _$ProximityEventsRequestToJson(
-        ProximityEventsRequest instance) =>
-    <String, dynamic>{
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
-
 EventsResponse _$EventsResponseFromJson(Map<String, dynamic> json) =>
     EventsResponse(
       events: (json['data'] as List<dynamic>?)
@@ -42,6 +30,19 @@ Map<String, dynamic> _$ResponseToJson(Response instance) => <String, dynamic>{
       'message': instance.message,
     };
 
+ProximityEventsRequest _$ProximityEventsRequestFromJson(
+        Map<String, dynamic> json) =>
+    ProximityEventsRequest()
+      ..latitude = json['latitude'] as String?
+      ..longitude = json['longitude'] as String?;
+
+Map<String, dynamic> _$ProximityEventsRequestToJson(
+        ProximityEventsRequest instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -64,6 +65,33 @@ class _EventsService implements EventsService {
   Future<List<Event>> getProximityEvents(
     token,
     request,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Event>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/proximity-events',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => Event.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
   Future<EventsResponse> getUserEvents(
     token,
     page,
@@ -99,11 +127,6 @@ class _EventsService implements EventsService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Event>>(Options(
-      method: 'POST',
     final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<Event>(Options(
@@ -113,21 +136,16 @@ class _EventsService implements EventsService {
     )
             .compose(
               _dio.options,
-              '/event/proximity-events',
               '/event/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => Event.fromJson(i as Map<String, dynamic>))
-        .toList();
     final value = Event.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<void> deleteEvent(
   Future<EventsResponse> getJoinedEvents(
     token,
     page,
@@ -164,22 +182,6 @@ class _EventsService implements EventsService {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'DELETE',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/event/${id}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-  }
-
-  @override
-  Future<void> joinEvent(
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<Event>(Options(
       method: 'POST',
@@ -207,18 +209,6 @@ class _EventsService implements EventsService {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/event/join-event/${id}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<Response>(Options(
       method: 'DELETE',
