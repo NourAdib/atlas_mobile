@@ -14,6 +14,11 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final RegistrationScreenController c =
         Get.put(RegistrationScreenController());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.captchaTest();
+    });
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
