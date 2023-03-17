@@ -23,7 +23,7 @@ class _ArScreen extends State<ArScreen> {
     final NavigationController navigationController =
         Get.find<NavigationController>();
 
-    c.getMemories(isLoading);
+    c.startUp(isLoading);
     return Scaffold(
       appBar: const TopBar(
         pageTile: 'AR',

@@ -29,6 +29,10 @@ dependencies:
   geolocator: ^9.0.2
   vector_math: ^2.1.4
   url_launcher: ^6.1.10
+  flutter_map: ^3.1.0
+  latlong2: ^0.8.1
+  flutter_map_marker_popup: ^4.0.1
+  dropdown_button2: ^2.0.0
 
 dev_dependencies:
   flutter_test:

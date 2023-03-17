@@ -1,5 +1,5 @@
-import 'dart:math';
-import 'dart:developer' as dev;
+import 'dart:developer';
+import 'dart:math' as Math;
 
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
@@ -7,8 +7,8 @@ import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
-import 'package:atlas_mobile/app/model/memory.model.dart';
 import 'package:atlas_mobile/app/services/memories/memories.service.dart';
+import 'package:atlas_mobile/app/utility/get_location.dart';
 import 'package:atlas_mobile/app/utility/shared_preferences.dart';
 import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:atlas_mobile/app/widgets/memory_details/memory_details.dart';
@@ -34,34 +34,20 @@ class ArScreenController extends GetxController {
     super.dispose();
   }
 
+  startUp(isLoading) async {
+    toggleLoading(isLoading);
+    memories.value.clear();
+    await getCurrentLocation();
+    await getMemories();
+    toggleLoading(isLoading);
+  }
+
   void exitAR() {
     arSessionManager?.dispose();
   }
 
   Future<void> getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = await LocationService.getCurrentLocation();
   }
 
   Future<void> createNodes() async {
@@ -72,27 +58,35 @@ class ArScreenController extends GetxController {
         uri: "https://github.com/xzodia1000/test-glb-gltf/raw/master/pin.glb",
         scale: Vector3(0.1, 0.1, 0.1),
         rotation: Vector4(1.0, 0.0, 0.0, 0.0),
-        position: getPosition(double.parse(memories[i].latitude),
-            double.parse(memories[i].longitude)),
+        position: getPosition(0.0, 0.0, i),
       );
+
+      newNode.rotationFromQuaternion =
+          Quaternion.axisAngle(Vector3(1.0, 0.0, 0.0), radians(-90));
 
       await arObjectManager!.addNode(newNode);
     }
   }
 
-  Vector3 getPosition(double lat, double long) {
-    double relativeX =
-        (long - currentPosition!.longitude) * (40075.704 / 360.0);
-    double relativeY = log(tan(lat * pi / 180.0)) -
-        log(tan(currentPosition!.latitude * pi / 180.0));
-    relativeY *= (40075.704 / (2 * pi));
+  Vector3 getPosition(double lat, double long, i) {
+    final Vector3 earthCenter = Vector3.zero();
 
-    return Vector3(relativeX, relativeY, 0);
+    double x = Math.cos(lat) * Math.cos(long);
+    double y = Math.cos(lat) * Math.sin(long);
+    double z = Math.sin(lat);
+
+    Vector3 vectorCoordinates = Vector3(x, y, z);
+    vectorCoordinates.normalize();
+
+    Vector3 finalVector = vectorCoordinates - earthCenter;
+
+    finalVector =
+        i % 2 == 0 ? Vector3(0.0, 0.0, 1.0 * i) : Vector3(1.0 * i, 0.0, 0.0);
+
+    return finalVector;
   }
 
-  Future<void> getMemories(isLoading) async {
-    toggleLoading(isLoading);
-    await getCurrentLocation();
+  Future<void> getMemories() async {
     final dio = Dio();
     final memoriesService = MemoriesService(dio);
 
@@ -100,22 +94,19 @@ class ArScreenController extends GetxController {
     memoriesRequest.latitude = currentPosition!.latitude.toString();
     memoriesRequest.longitude = currentPosition!.longitude.toString();
 
-    dev.log("stuff: ${memoriesRequest.toJson().toString()}");
-
     final accessToken =
         await SharedPreferencesService.getFromShared("accessToken");
 
-    memoriesService
+    await memoriesService
         .getMemories('Bearer $accessToken', memoriesRequest)
         .then((response) {
       memories.value.addAll(response.memories!);
-      toggleLoading(isLoading);
-      if (memories.isEmpty) {
+      if (memories.value.isEmpty) {
         SnackBarService.showErrorSnackbar(
             "Memories not found", "No nearby memories found");
       }
     }).catchError((error) {
-      dev.log(error.response.toString());
+      log(error.response.toString());
     });
   }
 
@@ -140,10 +131,10 @@ class ArScreenController extends GetxController {
     this.arObjectManager!.onInitialize();
 
     this.arObjectManager!.onNodeTap = (nodes) {
-      exitAR();
       Get.to(() => MemoryDetailsScreen(memory: memories[int.parse(nodes[0])]));
     };
 
+    this.arSessionManager!.onPlaneOrPointTap = (nodes) {};
     createNodes();
   }
 }

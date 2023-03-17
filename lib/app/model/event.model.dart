@@ -25,14 +25,14 @@ class Event {
   String? name;
   @JsonKey(name: 'description')
   String? description;
+  @JsonKey(name: 'numberOfParticipants')
+  int? numberOfParticipants;
   @JsonKey(name: 'latitude')
   String? latitude;
   @JsonKey(name: 'longitude')
   String? longitude;
   @JsonKey(name: 'visibility')
   Visibility? visibility;
-  @JsonKey(name: 'numberOfParticipants')
-  int? numberOfParticipants;
   @JsonKey(name: 'date')
   DateTime? date;
   @JsonKey(name: 'creator')
@@ -50,15 +50,14 @@ class Event {
       this.id,
       this.name,
       this.description,
+      this.numberOfParticipants,
       this.latitude,
       this.longitude,
       this.visibility,
-      this.numberOfParticipants,
       this.date,
-      this.creator,
-      this.participants,
+      this.clues,
       this.goal,
-      this.clues});
+      this.creator});
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
   Map<String, dynamic> toJson() => _$EventToJson(this);

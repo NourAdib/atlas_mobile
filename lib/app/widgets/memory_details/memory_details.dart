@@ -25,7 +25,6 @@ class MemoryDetailsScreen extends StatelessWidget {
         Get.put(NavigationController());
 
     c.setMemory(memory);
-    c.getUserProfile();
 
     return Scaffold(
         appBar: const TopBar(
@@ -68,8 +67,8 @@ class MemoryDetailsScreen extends StatelessWidget {
                           UserAvatar(
                               profilePictureUrl:
                                   memory.user?.profilePictureUrl ?? '',
-                              width: c.width * 0.1,
-                              height: c.height * 0.1),
+                              width: c.width * 0.05,
+                              height: c.height * 0.05),
                           const SizedBox(
                             width: 10,
                           ),

@@ -48,6 +48,8 @@ class Repo {
   static const String updateAvatar = "/user/avatar";
   static const String deleteAvatar = "/user/avatar";
   static const String postAvatar = "/user/avatar";
+  static const String proximityClues = "/event/proximity-clues";
+  static const String proximityEvents = "/event/proximity-events";
   static const String scrapbook = "/post/scrapbook";
   static const String postReports = "/report/post-reports";
   static const String appealPost = "/appeals/appeal-post";
