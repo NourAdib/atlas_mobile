@@ -1,3 +1,4 @@
+import 'package:atlas_mobile/app/pages/new_post_screen/controller/new_post_controller.dart';
 import 'package:atlas_mobile/app/pages/new_post_screen/controller/review_new_scrapbook_controller.dart';
 import 'package:atlas_mobile/app/pages/new_post_screen/views/review_new_scrap.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,7 @@ class ReviewScarpbook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ReviewNewScrapbookController c =
-        Get.put(ReviewNewScrapbookController());
+    final NewPostController c = Get.put(NewPostController());
     return Scaffold(
       appBar: const TopBar(pageTile: 'New Scrapbook'),
       body: SafeArea(
@@ -22,17 +22,17 @@ class ReviewScarpbook extends StatelessWidget {
               SizedBox(height: Get.height * 0.04),
               NonFilledFormField(
                   screenWidth: Get.width,
-                  controller: c.peopleTextFieldController,
+                  controller: c.nameTextFieldController,
                   labelText: "Name"),
               SizedBox(height: Get.height * 0.04),
               NonFilledFormField(
                   screenWidth: Get.width,
-                  controller: c.locationTextFieldController,
+                  controller: c.descriptionTextFieldController,
                   labelText: "Description"),
               SizedBox(height: Get.height * 0.04),
               NonFilledFormField(
                   screenWidth: Get.width,
-                  controller: c.peopleTextFieldController,
+                  controller: c.locationTextFieldController,
                   labelText: "Location"),
               SizedBox(height: Get.height * 0.04),
               Column(
@@ -136,7 +136,9 @@ class ReviewScarpbook extends StatelessWidget {
                     ),
                     SizedBox(width: c.width * 0.03),
                     ElevatedButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        await c.createScrapbook();
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF182335),

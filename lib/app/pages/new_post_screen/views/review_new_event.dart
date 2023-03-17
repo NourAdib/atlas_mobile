@@ -1,3 +1,4 @@
+import 'package:atlas_mobile/app/pages/new_post_screen/controller/new_post_controller.dart';
 import 'package:atlas_mobile/app/pages/new_post_screen/controller/review_new_event_controller.dart';
 import 'package:atlas_mobile/app/widgets/non_filled_form_field.dart';
 import 'package:atlas_mobile/app/widgets/topBar/topbar.dart';
@@ -11,7 +12,7 @@ class ReviewEvent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ReviewNewEventController c = Get.put(ReviewNewEventController());
+    final NewPostController c = Get.put(NewPostController());
     return Scaffold(
       appBar: const TopBar(pageTile: 'Treasure Hunt'),
       body: SafeArea(

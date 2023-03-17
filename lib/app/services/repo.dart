@@ -2,8 +2,7 @@
 import 'package:atlas_mobile/app/utility/global.dart';
 
 class Repo {
-  static const String url = "http://10.6.130.39:3000";
-
+  static const String url = "http://10.6.141.64:3000";
 
   static const String loginPath = "/auth/login";
   static const String registerPath = "/auth/signup";
@@ -54,7 +53,6 @@ class Repo {
   static const String appealPost = "/appeals/appeal-post";
   static const String getUserAppeals = "/appeals/user-appeals";
   static const String analytics = "/analytics/post";
-
 
   static var headers = {
     'Authorization': 'Bearer $accessToken',

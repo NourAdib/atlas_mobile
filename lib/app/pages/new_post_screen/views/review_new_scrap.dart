@@ -1,3 +1,4 @@
+import 'package:atlas_mobile/app/pages/new_post_screen/controller/new_post_controller.dart';
 import 'package:atlas_mobile/app/widgets/non_filled_form_field.dart';
 import 'package:atlas_mobile/app/widgets/topBar/topbar.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class ReviewScrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ReviewNewScrapController c = Get.put(ReviewNewScrapController());
+    final NewPostController c = Get.put(NewPostController());
     return Scaffold(
       appBar: const TopBar(pageTile: 'New Scrap'),
       body: SafeArea(
@@ -227,7 +228,9 @@ class ReviewScrap extends StatelessWidget {
                     ),
                     SizedBox(width: c.width * 0.03),
                     ElevatedButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        c.createScrap();
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xFF182335),

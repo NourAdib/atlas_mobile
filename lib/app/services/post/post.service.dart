@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:atlas_mobile/app/model/like.model.dart';
 import 'package:atlas_mobile/app/model/meta.model.dart';
@@ -14,6 +15,23 @@ part 'post.service.g.dart';
 @RestApi(baseUrl: Repo.url)
 abstract class PostService {
   factory PostService(Dio dio, {String baseUrl}) = _PostService;
+  @POST('/post/scrapbook/create')
+  Future<Scrapbook> createScrapbook(
+    @Header('Authorization') String token,
+    @Body() CreateScrapbookDto createScrapbookDto,
+  );
+
+  @POST('/post/create')
+  @MultiPart()
+  Future<Post> createPost(
+    @Header('Authorization') String token,
+    @Part() String caption,
+    @Part() String location,
+    @Part() String visibility,
+    @Part() String tag,
+    @Part() String type,
+    @Part() File image,
+  );
 
   @GET(Repo.userPosts)
   Future<UserPostsResponse> getUserPosts(
@@ -64,6 +82,20 @@ abstract class PostService {
       @Header('Authorization') String token,
       @Path('userId') String userId,
       @Query('page') int page);
+}
+
+@JsonSerializable()
+class CreateScrapbookDto {
+  @JsonKey(name: 'caption')
+  String? caption;
+  @JsonKey(name: 'location')
+  String? location;
+  @JsonKey(name: 'visibility')
+  String? visibility;
+  CreateScrapbookDto(this.caption, this.location, this.visibility);
+  factory CreateScrapbookDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateScrapbookDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$CreateScrapbookDtoToJson(this);
 }
 
 @JsonSerializable()

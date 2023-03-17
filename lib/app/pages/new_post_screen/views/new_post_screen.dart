@@ -104,7 +104,7 @@ class NewPostScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  await c.createScrapbook();
+                  await c.createScrapbookRoute();
                 },
                 child: Container(
                   width: Get.width * 0.94,

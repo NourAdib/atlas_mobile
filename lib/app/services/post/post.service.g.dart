@@ -6,6 +6,20 @@ part of 'post.service.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+CreateScrapbookDto _$CreateScrapbookDtoFromJson(Map<String, dynamic> json) =>
+    CreateScrapbookDto(
+      json['caption'] as String?,
+      json['location'] as String?,
+      json['visibility'] as String?,
+    );
+
+Map<String, dynamic> _$CreateScrapbookDtoToJson(CreateScrapbookDto instance) =>
+    <String, dynamic>{
+      'caption': instance.caption,
+      'location': instance.location,
+      'visibility': instance.visibility,
+    };
+
 UserPostsResponse _$UserPostsResponseFromJson(Map<String, dynamic> json) =>
     UserPostsResponse(
       posts: (json['data'] as List<dynamic>?)
@@ -60,12 +74,100 @@ class _PostService implements PostService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.6.130.39:3000';
+    baseUrl ??= 'http://10.6.141.64:3000';
   }
 
   final Dio _dio;
 
   String? baseUrl;
+
+  @override
+  Future<Scrapbook> createScrapbook(
+    token,
+    createScrapbookDto,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(createScrapbookDto.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<Scrapbook>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/post/scrapbook/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Scrapbook.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Post> createPost(
+    token,
+    caption,
+    location,
+    visibility,
+    tag,
+    type,
+    image,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'caption',
+      caption,
+    ));
+    _data.fields.add(MapEntry(
+      'location',
+      location,
+    ));
+    _data.fields.add(MapEntry(
+      'visibility',
+      visibility,
+    ));
+    _data.fields.add(MapEntry(
+      'tag',
+      tag,
+    ));
+    _data.fields.add(MapEntry(
+      'type',
+      type,
+    ));
+    _data.files.add(MapEntry(
+      'image',
+      MultipartFile.fromFileSync(
+        image.path,
+        filename: image.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/post/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Post.fromJson(_result.data!);
+    return value;
+  }
 
   @override
   Future<UserPostsResponse> getUserPosts(
