@@ -364,6 +364,7 @@ class ProfileScreenController extends GetxController {
         if (memoryHasNextPage.value) {
           memoryPage++;
         }
+        toggleLoading();
       }).catchError((error) {
         log(error.toString());
       });

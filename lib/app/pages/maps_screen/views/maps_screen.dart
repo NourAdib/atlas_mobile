@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
-
-import '../../../widgets/map_popup.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({Key? key}) : super(key: key);
@@ -81,23 +78,7 @@ class _MapsScreen extends State<MapsScreen> {
                                               .rotationAlignmentFor(
                                                   AnchorAlign.top),
                                       popupBuilder: (_, Marker marker) {
-                                        if (c.selectedValue.value ==
-                                            'memories') {
-                                          return MemoryMarkerPopup(
-                                              memory: c.data.value[c
-                                                  .markers.value
-                                                  .indexOf(marker)]);
-                                        } else if (c.selectedValue.value ==
-                                            'clues') {
-                                          return ClueMarkerPopup(
-                                              clue: c.data.value[c.markers.value
-                                                  .indexOf(marker)]);
-                                        } else {
-                                          return EventMarkerPopup(
-                                              event: c.data.value[c
-                                                  .markers.value
-                                                  .indexOf(marker)]);
-                                        }
+                                        return c.onTapMarker(marker);
                                       }),
                                 )
                               ],
@@ -148,10 +129,7 @@ class _MapsScreen extends State<MapsScreen> {
                                   ),
                                 ),
                                 onChanged: (String? value) {
-                                  if (c.selectedValue.value != value) {
-                                    c.selectedValue.value = value!;
-                                    c.startUp(isLoading);
-                                  }
+                                  c.onDropdownChanged(value, isLoading);
                                 },
                               ),
                             ),

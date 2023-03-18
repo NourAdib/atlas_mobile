@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../main/controller/navigation_controller.dart';
 import '../../../services/post/post.service.dart';
 import '../../../utility/shared_preferences.dart';
 import '../../../utility/snackbar.dart';
@@ -17,6 +18,8 @@ import '../../home_screen/views/home_screen.dart';
 import '../views/add_clues_screen.dart';
 
 class NewPostController extends GetxController {
+  final navigationC = Get.find<NavigationController>();
+
   var width = Get.width;
   var height = Get.height;
   XFile? scrap;
@@ -79,7 +82,7 @@ class NewPostController extends GetxController {
         .then((response) {
       SnackBarService.showSuccessSnackbar('Success', 'Scrap Created');
       toggleLoading();
-      Get.to(() => const HomeScreen());
+      navigationC.onItemTap(2);
     }).catchError((error) {
       errorHandler(error);
       toggleLoading();
@@ -281,7 +284,7 @@ class NewPostController extends GetxController {
     eventsResponse.createEvent('Bearer $accessToken', dto).then((response) {
       SnackBarService.showSuccessSnackbar('Success', 'Event Created');
       toggleLoading();
-      Get.to(() => const HomeScreen());
+      navigationC.onItemTap(2);
     }).catchError((error) {
       errorHandler(error);
       toggleLoading();

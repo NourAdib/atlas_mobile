@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:atlas_mobile/app/model/event_goal.model.dart';
 import 'package:atlas_mobile/app/services/clue/clue.service.dart';
 import 'package:atlas_mobile/app/services/event/event.service.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +11,19 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:dio/dio.dart';
 
+import '../../../model/event.model.dart';
 import '../../../services/memories/memories.service.dart';
 import '../../../utility/get_location.dart';
 import '../../../utility/shared_preferences.dart';
 import '../../../utility/snackbar.dart';
+import '../../../widgets/map_popup.dart';
 
 class MapsScreenController extends GetxController {
   var currentPosition = LatLng(0, 0).obs;
   var markers = <Marker>[].obs;
   var currentMarker = <Marker>[].obs;
   var data = [].obs;
+  var goalEventName = <String>[].obs;
 
   var selectedValue = "memories".obs;
 
@@ -36,6 +40,10 @@ class MapsScreenController extends GetxController {
       value: "events",
       child: Text("Events"),
     ),
+    const DropdownMenuItem<String>(
+      value: "goals",
+      child: Text("Goals"),
+    ),
   ];
 
   late final MapController mapController;
@@ -51,9 +59,11 @@ class MapsScreenController extends GetxController {
   void startUp(isLoading) async {
     toggleLoading(isLoading);
 
+    popupLayerController.hideAllPopups();
     data.value.clear();
     currentMarker.value.clear();
     markers.value.clear();
+    goalEventName.value.clear();
 
     await locationService();
 
@@ -63,6 +73,8 @@ class MapsScreenController extends GetxController {
       await getClues();
     } else if (selectedValue.value == "events") {
       await getEvents();
+    } else if (selectedValue.value == "goals") {
+      await getGoals();
     }
 
     await addMarkers();
@@ -73,7 +85,6 @@ class MapsScreenController extends GetxController {
 
   locationService() async {
     var tmp = await LocationService.getCurrentLocation();
-    log('${tmp?.latitude.toString()} ${tmp?.longitude.toString()}');
     currentPosition.value = LatLng(tmp!.latitude, tmp.longitude);
   }
 
@@ -156,6 +167,42 @@ class MapsScreenController extends GetxController {
     });
   }
 
+  Future<void> getGoals() async {
+    final dio = Dio(); // Provide a dio instance
+    final eventsService = EventsService(dio);
+
+    final accessToken =
+        await SharedPreferencesService.getFromShared('accessToken');
+
+    await eventsService
+        .getJoinedEvents('Bearer $accessToken', 1)
+        .then((response) {
+      setGoals(response.events!);
+    }).catchError((error) {
+      log(error.toString());
+    });
+  }
+
+  Future<void> setGoals(List<Event> events) async {
+    for (Event event in events) {
+      // distance between device and goal less than 10
+      if (Geolocator.distanceBetween(
+              currentPosition.value.latitude,
+              currentPosition.value.longitude,
+              double.parse(event.goal!.latitude!),
+              double.parse(event.goal!.longitude!)) <
+          10.0) {
+        data.value.add(event.goal!);
+        goalEventName.value.add(event!.name!);
+      }
+    }
+
+    if (data.value.isEmpty) {
+      SnackBarService.showErrorSnackbar(
+          "Goals not found", "No nearby goals found");
+    }
+  }
+
   addMarkers() async {
     currentMarker.value.add(
       Marker(
@@ -165,7 +212,7 @@ class MapsScreenController extends GetxController {
         builder: (ctx) => const Icon(
           Icons.location_on,
           color: Colors.red,
-          size: 40,
+          size: 50,
         ),
         anchorPos: AnchorPos.align(AnchorAlign.top),
       ),
@@ -226,6 +273,29 @@ class MapsScreenController extends GetxController {
       }
       pairs.add(Pair(
           markers.value[i].point.latitude, markers.value[i].point.longitude));
+    }
+  }
+
+  Widget onTapMarker(Marker marker) {
+    if (selectedValue.value == 'memories') {
+      return MemoryMarkerPopup(
+          memory: data.value[markers.value.indexOf(marker)]);
+    } else if (selectedValue.value == 'clues') {
+      return ClueMarkerPopup(clue: data.value[markers.value.indexOf(marker)]);
+    } else if (selectedValue.value == 'events') {
+      return EventMarkerPopup(event: data.value[markers.value.indexOf(marker)]);
+    } else {
+      return GoalMarkerPopup(
+          goal: data.value[markers.value.indexOf(marker)],
+          eventName: goalEventName.value[markers.value.indexOf(marker)]);
+    }
+  }
+
+  onDropdownChanged(String? value, isLoading) {
+    if (selectedValue.value != value) {
+      popupLayerController.hideAllPopups();
+      selectedValue.value = value!;
+      startUp(isLoading);
     }
   }
 
