@@ -9,12 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../main/controller/navigation_controller.dart';
 import '../../../model/event.model.dart';
 import '../../../model/user.model.dart';
 import '../../../services/event/event.service.dart';
 import '../views/clues_list_screen.dart';
 
 class EventDetailsController extends GetxController {
+  final navigationC = Get.find<NavigationController>();
+
   var width = Get.width;
   var height = Get.height;
   var isLoading = false.obs;
@@ -123,7 +126,7 @@ class EventDetailsController extends GetxController {
         .deleteEvent('Bearer $accessToken', event.id!)
         .then((response) {
       SnackBarService.showSuccessSnackbar('Success', 'Deleted event');
-      Get.to(() => const HomeScreen());
+      navigationC.onItemTap(2);
       toggleLoading();
     }).catchError((error) {
       errorHandler(error);

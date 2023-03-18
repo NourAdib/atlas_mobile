@@ -185,7 +185,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         )
                       : const SizedBox(),
-                  c.isDisplayingScrapbooks.value
+                  c.isDisplayingScrapbooks.value && c.scrapbooksList.isNotEmpty
                       ? Expanded(
                           child: GridView.builder(
                             itemCount: c.scrapbooksList.length,

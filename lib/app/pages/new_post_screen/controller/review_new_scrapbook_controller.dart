@@ -9,7 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../main/controller/navigation_controller.dart';
+
 class ReviewNewScrapbookController extends GetxController {
+  final navigationC = Get.find<NavigationController>();
+
   var height = Get.height;
   var width = Get.width;
   var private = false.obs;
@@ -56,7 +60,7 @@ class ReviewNewScrapbookController extends GetxController {
         locationTextFieldController.text, private.value ? 'private' : 'public');
     postService.createScrapbook('Bearer $accessToken', dto).then((response) {
       SnackBarService.showSuccessSnackbar('Success', 'Scrap Created');
-      Get.to(() => const HomeScreen());
+      navigationC.onItemTap(2);
     }).catchError((error) {
       errorHandler(error);
     });

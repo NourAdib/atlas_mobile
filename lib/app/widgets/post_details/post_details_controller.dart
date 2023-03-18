@@ -20,7 +20,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
+import '../../../main/controller/navigation_controller.dart';
+
 class PostDetailsScreenController extends GetxController {
+  final navigationC = Get.find<NavigationController>();
+
   var isLoading = false.obs;
   var isDisplayingLikes = true.obs;
   var isDisplayingComments = false.obs;
@@ -427,7 +431,7 @@ class PostDetailsScreenController extends GetxController {
         .then((response) {
       SnackBarService.showSuccessSnackbar(
           'Success', 'Post Deleted Successfully');
-      Get.to(() => const HomeScreen());
+      navigationC.onItemTap(2);
       toggleLoading();
     }).catchError((error) {
       log(error.toString());

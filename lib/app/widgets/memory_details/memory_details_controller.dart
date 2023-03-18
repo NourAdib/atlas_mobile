@@ -6,11 +6,14 @@ import 'package:atlas_mobile/app/utility/snackbar.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
+import '../../../main/controller/navigation_controller.dart';
 import '../../services/memories/memories.service.dart';
 import '../../services/user/user.service.dart';
 import '../../utility/shared_preferences.dart';
 
 class MemoryDetailsScreenController extends GetxController {
+  final navigationC = Get.find<NavigationController>();
+
   var isLoading = false.obs;
   var isOwner = false.obs;
   var height = Get.height;
@@ -53,7 +56,7 @@ class MemoryDetailsScreenController extends GetxController {
     memoriesService.deleteMemory('Bearer $accessToken', id).then((response) {
       SnackBarService.showSuccessSnackbar(
           "Memory deleted", "Memory deleted successfully");
-      Get.toNamed('/home');
+      navigationC.onItemTap(2);
     }).catchError((error) {
       log(error.toString());
       SnackBarService.showErrorSnackbar(

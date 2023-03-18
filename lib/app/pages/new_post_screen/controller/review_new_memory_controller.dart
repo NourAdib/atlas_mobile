@@ -9,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../main/controller/navigation_controller.dart';
 import '../../../utility/shared_preferences.dart';
 
 class ReviewNewMemoryController extends GetxController {
+  final navigationC = Get.find<NavigationController>();
+
   var memory = '';
   var height = Get.height;
   var width = Get.width;
@@ -62,7 +65,7 @@ class ReviewNewMemoryController extends GetxController {
         .then((response) {
       SnackBarService.showSuccessSnackbar('Success', 'Scrap Created');
       toggleLoading();
-      Get.to(() => const HomeScreen());
+      navigationC.onItemTap(2);
     }).catchError((error) {
       errorHandler(error);
       toggleLoading();
