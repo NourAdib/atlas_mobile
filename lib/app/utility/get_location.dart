@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 
+import 'snackbar.dart';
+
 class LocationService {
   static final LocationService _singleton = LocationService._internal();
 
@@ -15,7 +17,8 @@ class LocationService {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      SnackBarService.showErrorSnackbar(
+          'Error', 'Location services are disabled');
     }
 
     permission = await Geolocator.checkPermission();
@@ -27,7 +30,7 @@ class LocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
+      SnackBarService.showErrorSnackbar('Error',
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
