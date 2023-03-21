@@ -44,7 +44,7 @@ class _ReportService implements ReportService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.6.130.39:3000';
+    baseUrl ??= 'https://atlas-backend-xtkhgxenvq-el.a.run.app:443';
   }
 
   final Dio _dio;

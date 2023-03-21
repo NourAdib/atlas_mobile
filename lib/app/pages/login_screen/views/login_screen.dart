@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                         style: BorderStyle.solid,
                       ),
                     ),
-                    labelText: 'password',
+                    labelText: 'Password',
                     labelStyle: TextStyle(
                       color: Colors.black,
                     ),
