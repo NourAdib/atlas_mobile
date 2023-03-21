@@ -223,7 +223,7 @@ class RegistrationScreenController extends GetxController {
   }
 
   captchaTest() {
-    launchURL('http://${Repo.url}/auth/captcha');
+    launchURL('${Repo.url}/auth/captcha');
   }
 
   launchURL(String uri) async {
