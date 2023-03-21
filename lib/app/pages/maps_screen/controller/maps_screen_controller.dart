@@ -193,7 +193,7 @@ class MapsScreenController extends GetxController {
               double.parse(event.goal!.longitude!)) <
           10.0) {
         data.value.add(event.goal!);
-        goalEventName.value.add(event!.name!);
+        goalEventName.value.add(event.name!);
       }
     }
 
