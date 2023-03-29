@@ -43,6 +43,7 @@ dev_dependencies:
   json_serializable: ">4.4.0"
   flutter_lints: ^2.0.0
   flutter_launcher_icons: ^0.12.0
+  mockito: ^5.4.0
 
 flutter_icons:
   android: "launcher_icon"
